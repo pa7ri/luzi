@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="blue_charcoal_400">#FF506d86</color>
+    <color name="blue_charcoal_700">#FF244259</color>
+    <color name="blue_charcoal_900">#FF001c30</color>
+
+
+    <color name="yellow_300">#FFffff94</color>
+    <color name="yellow_400">#FFffce64</color>
+    <color name="yellow_600">#FFc99d34</color>
+
+    <color name="purple_700">#FF9d1649</color>
+
+    <color name="teal_200">#FF27DCA3</color>
+    <color name="teal_700">#FF169D69</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

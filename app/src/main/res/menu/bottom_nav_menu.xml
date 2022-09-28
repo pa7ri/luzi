@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_electricity"
+        android:icon="@drawable/ic_bulb"
+        android:title="@string/title_electricity"/>
+
+    <item
+        android:id="@+id/navigation_gas"
+        android:icon="@drawable/ic_flame"
+        android:title="@string/title_gas" />
+
+    <item
+        android:id="@+id/navigation_petrol"
+        android:icon="@drawable/ic_petrol"
+        android:title="@string/title_petrol" />
+
+    <item
+        android:id="@+id/navigation_rewards"
+        android:icon="@drawable/ic_reward"
+        android:title="@string/title_rewards" />
+
+</menu>

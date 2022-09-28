@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_electricity">
+
+    <fragment
+        android:id="@+id/navigation_electricity"
+        android:name="com.master.iot.luzi.ui.electricity.ElectricityFragment"
+        android:label="@string/title_electricity"
+        tools:layout="@layout/fragment_electricity" />
+
+    <fragment
+        android:id="@+id/navigation_gas"
+        android:name="com.master.iot.luzi.ui.gas.GasFragment"
+        android:label="@string/title_gas"
+        tools:layout="@layout/fragment_gas" />
+
+    <fragment
+        android:id="@+id/navigation_petrol"
+        android:name="com.master.iot.luzi.ui.rewards.RewardsFragment"
+        android:label="@string/title_petrol"
+        tools:layout="@layout/fragment_petrol" />
+
+    <fragment
+        android:id="@+id/navigation_rewards"
+        android:name="com.master.iot.luzi.ui.rewards.RewardsFragment"
+        android:label="@string/title_rewards"
+        tools:layout="@layout/fragment_rewards" />
+</navigation>

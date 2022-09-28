@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">luzi</string>
+
+    <string name="title_electricity">Electricity</string>
+    <string name="title_gas">Gas</string>
+    <string name="title_petrol">Petrol</string>
+    <string name="title_rewards">Rewards</string>
+</resources>
