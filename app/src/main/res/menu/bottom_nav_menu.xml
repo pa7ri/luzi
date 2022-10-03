@@ -4,7 +4,7 @@
     <item
         android:id="@+id/navigation_electricity"
         android:icon="@drawable/ic_bulb"
-        android:title="@string/title_electricity"/>
+        android:title="@string/title_electricity" />
 
     <item
         android:id="@+id/navigation_gas"

@@ -7,14 +7,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.master.iot.luzi.databinding.FragmentElectricityBinding
 
 class ElectricityFragment : Fragment() {
 
     private var _binding: FragmentElectricityBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -32,6 +31,11 @@ class ElectricityFragment : Fragment() {
         electricityViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
+
+
+        val fabButton: FloatingActionButton = binding.fab
+        fabButton.setOnClickListener { electricityViewModel.getReeApiData() }
+
         return root
     }
 
