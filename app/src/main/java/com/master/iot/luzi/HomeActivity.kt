@@ -34,7 +34,5 @@ class HomeActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         bottomNavigationView.setupWithNavController(navController)
-        bottomNavigationView.background = null
-        bottomNavigationView.menu.getItem(2).isEnabled = false
     }
 }

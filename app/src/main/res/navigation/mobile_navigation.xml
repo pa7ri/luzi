@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_petrol"
-        android:name="com.master.iot.luzi.ui.rewards.RewardsFragment"
+        android:name="com.master.iot.luzi.ui.petrol.PetrolFragment"
         android:label="@string/title_petrol"
         tools:layout="@layout/fragment_petrol" />
 
