@@ -24,10 +24,14 @@ class ElectricityFragment : Fragment() {
 
         setUpListeners()
         setUpObservers()
-
-        electricityViewModel.getReeApiData()
+        updateData()
 
         return binding.root
+    }
+
+    override fun onDestroy() {
+        electricityViewModel.clearDisposables()
+        super.onDestroy()
     }
 
     private fun setUpListeners() {
@@ -38,5 +42,29 @@ class ElectricityFragment : Fragment() {
         electricityViewModel.viewMode.observe(viewLifecycleOwner) {
             binding.fab.setImageResource(electricityViewModel.getFabImageResource())
         }
+
+        electricityViewModel.dataPrices.observe(viewLifecycleOwner) {
+            when (it) {
+                is EMPPricesLoading -> renderLoading(it)
+                is EMPPricesReady -> renderData(it)
+                is EMPPricesError -> renderError(it)
+            }
+        }
+    }
+
+    private fun renderData(data: EMPPricesReady) {
+        //TODO : render data
+    }
+
+    private fun renderError(error: EMPPricesError) {
+        //TODO : render error
+    }
+
+    private fun renderLoading(loading: EMPPricesLoading) {
+        //TODO : render loading
+    }
+
+    private fun updateData() {
+        electricityViewModel.getReeApiData()
     }
 }

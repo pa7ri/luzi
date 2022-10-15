@@ -1,5 +1,6 @@
 package com.master.iot.luzi.data.ree
 
+import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -30,6 +31,6 @@ interface ReeAPI {
         @Query("time_trunc") timeTrunc: String = "hour",
         @Query("start_date") startDate: String,
         @Query("end_date") endDate: String
-    ): Call<EMPPerHourJson>
+    ): Single<EMPPerHourResponse>
 
 }

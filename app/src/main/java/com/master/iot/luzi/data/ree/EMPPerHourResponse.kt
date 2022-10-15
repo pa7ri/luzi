@@ -1,6 +1,6 @@
 package com.master.iot.luzi.data.ree
 
-data class EMPPerHourJson(
+data class EMPPerHourResponse(
     val `data`: Data,
     val included: List<Included>
 )
@@ -36,11 +36,11 @@ data class CacheControl(
 data class AttributesX(
     val color: String,
     val composite: Boolean,
-    val description: Any,
+    val description: String?,
     val `last-update`: String,
     val magnitude: String,
     val title: String,
-    val type: Any,
+    val type: String?,
     val values: List<Value>
 )
 
