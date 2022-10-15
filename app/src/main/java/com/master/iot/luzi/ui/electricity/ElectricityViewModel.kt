@@ -5,9 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.master.iot.luzi.R
 import com.master.iot.luzi.data.NetworkService
-import com.master.iot.luzi.data.ree.Post
+import com.master.iot.luzi.data.ree.EMPPerHourJson
 import com.master.iot.luzi.ui.electricity.ElectricityViewMode.CHART_VIEW
 import com.master.iot.luzi.ui.electricity.ElectricityViewMode.LIST_VIEW
+import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
@@ -26,17 +27,23 @@ class ElectricityViewModel : ViewModel() {
     fun getReeApiData() {
         NetworkService.instance
             .getReeApi()
-            .getPostWithID(1)
-            .enqueue(object : Callback<Post> {
-                override fun onResponse(call: retrofit2.Call<Post>, response: Response<Post>) {
+            .getElectricityMarketPriceByHour(
+                startDate = "2022-10-15T00:00",
+                endDate = "2022-10-16T00:00"
+            )
+            .enqueue(object : Callback<EMPPerHourJson> {
+                override fun onResponse(
+                    call: Call<EMPPerHourJson>,
+                    response: Response<EMPPerHourJson>
+                ) {
                     val post = response.body()
                     post?.let {
-                        _text.value = it.title.toString() + it.body.toString()
+                        it.included[0].attributes.values[0].toString()
                     }
                 }
 
-                override fun onFailure(call: retrofit2.Call<Post>, t: Throwable) {
-                    _text.value = "Fallito :)"
+                override fun onFailure(call: Call<EMPPerHourJson>, throwable: Throwable) {
+                    //_text.value = "Fallito :)"
                 }
 
             })

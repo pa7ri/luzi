@@ -9,7 +9,7 @@ class NetworkService {
         val instance: NetworkService = NetworkService()
     }
 
-    private val BASE_URL = "https://jsonplaceholder.typicode.com"
+    private val BASE_URL = "https://apidatos.ree.es"
 
     private val retrofitInstance: Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)

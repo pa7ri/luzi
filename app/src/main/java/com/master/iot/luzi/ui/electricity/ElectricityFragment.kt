@@ -25,6 +25,8 @@ class ElectricityFragment : Fragment() {
         setUpListeners()
         setUpObservers()
 
+        electricityViewModel.getReeApiData()
+
         return binding.root
     }
 
