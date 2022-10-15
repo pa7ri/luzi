@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextAppearance.HeaderText.Price.Value" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="android:textSize">28sp</item>
+        <item name="android:letterSpacing">0.002</item>
+    </style>
+    <style name="TextAppearance.HeaderText.Price.Description" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="android:textSize">10sp</item>
+        <item name="android:letterSpacing">0.001</item>
+    </style>
+</resources>

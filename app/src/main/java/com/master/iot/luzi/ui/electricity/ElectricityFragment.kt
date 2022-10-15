@@ -4,43 +4,37 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.master.iot.luzi.databinding.FragmentElectricityBinding
 
 class ElectricityFragment : Fragment() {
 
-    private var _binding: FragmentElectricityBinding? = null
+    private lateinit var binding: FragmentElectricityBinding
 
-    private val binding get() = _binding!!
+    private lateinit var electricityViewModel: ElectricityViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val electricityViewModel =
-            ViewModelProvider(this)[ElectricityViewModel::class.java]
+        binding = FragmentElectricityBinding.inflate(inflater, container, false)
+        electricityViewModel = ViewModelProvider(this)[ElectricityViewModel::class.java]
 
-        _binding = FragmentElectricityBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        setUpListeners()
+        setUpObservers()
 
-        val textView: TextView = binding.textElectricity
-        electricityViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-
-
-        val fabButton: FloatingActionButton = binding.fab
-        fabButton.setOnClickListener { electricityViewModel.getReeApiData() }
-
-        return root
+        return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun setUpListeners() {
+        binding.fab.setOnClickListener { electricityViewModel.switchRenderData() }
+    }
+
+    private fun setUpObservers() {
+        electricityViewModel.viewMode.observe(viewLifecycleOwner) {
+            binding.fab.setImageResource(electricityViewModel.getFabImageResource())
+        }
     }
 }
