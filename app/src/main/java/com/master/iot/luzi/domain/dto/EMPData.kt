@@ -1,5 +1,7 @@
 package com.master.iot.luzi.domain.dto
 
+import java.util.*
+
 class EMPData(
     val title: String,
     val description: String,
@@ -10,5 +12,10 @@ class EMPData(
 data class EMPItem(
     val value: Double,
     val percentage: Double,
-    val dateTime: String //TODO change to Date
+    val dateTime: Date,
+    var indicator: EMPItemIndicator = EMPItemIndicator.NORMAL
 )
+
+enum class EMPItemIndicator {
+    CHEAP, NORMAL, EXPENSIVE
+}

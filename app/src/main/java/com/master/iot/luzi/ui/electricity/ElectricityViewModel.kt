@@ -19,7 +19,7 @@ class ElectricityViewModel : ViewModel() {
     }
 
     val dataPrices = MutableLiveData<EMPPrices>().apply {
-        value = EMPPricesLoading("Loading data")
+        value = EMPPricesLoading("")
     }
 
     private val repository: REERepository = REERepository()

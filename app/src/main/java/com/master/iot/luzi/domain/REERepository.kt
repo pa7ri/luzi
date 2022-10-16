@@ -30,7 +30,7 @@ class REERepository {
             .map {
                     response -> EMPPricesReady(data = response.toEMPData()) as EMPPrices
             }
-            .onErrorReturnItem(EMPPricesError("NETWORK ISSUE", "404"))
+            .onErrorReturnItem(EMPPricesError("NETWORK ISSUE", 404, "Couldn't reach any data"))
     }
 
 

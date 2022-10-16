@@ -21,7 +21,7 @@
         style="@style/TextAppearance.MaterialComponents.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_regular"
+        android:layout_marginStart="@dimen/margin_huge"
         android:text="En la peninsula"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/tvMinPriceValue"
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_regular"
         android:layout_marginEnd="@dimen/margin_regular"
-        android:text="Precio minimo"
+        android:text="@string/price_minimum"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -44,19 +44,19 @@
         style="@style/TextAppearance.HeaderText.Price.Value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_xsmall"
+        android:layout_marginEnd="@dimen/margin_tiny"
         android:text="0.23"
         android:textColor="@color/white"
-        app:layout_constraintEnd_toStartOf="@+id/tvMinPriceMeasure"
+        app:layout_constraintEnd_toStartOf="@+id/tvMinPriceMagnitude"
         app:layout_constraintTop_toBottomOf="@+id/tvMinPriceLabel" />
 
     <TextView
-        android:id="@+id/tvMinPriceMeasure"
+        android:id="@+id/tvMinPriceMagnitude"
         style="@style/TextAppearance.HeaderText.Price.Description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_small"
-        android:text="kW/h"
+        android:text="@string/price_magnitude"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/tvMinPriceValue"
         app:layout_constraintEnd_toEndOf="@+id/tvMinPriceLabel" />
@@ -79,7 +79,6 @@
         app:layout_constraintTop_toBottomOf="@+id/view"
         tools:layout_editor_absoluteX="0dp" />
 
-    <!--    TODO render loading status and error-->
     <include
         android:id="@+id/ltLoading"
         layout="@layout/layout_loading"
