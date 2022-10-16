@@ -7,6 +7,7 @@
     tools:context=".ui.electricity.ElectricityFragment">
 
     <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="?attr/colorPrimary"
@@ -21,10 +22,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_regular"
+        android:text="En la peninsula"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/tvMinPriceValue"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="En la peninsula" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tvMinPriceLabel"
@@ -44,10 +45,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_xsmall"
+        android:text="0.23"
         android:textColor="@color/white"
         app:layout_constraintEnd_toStartOf="@+id/tvMinPriceMeasure"
-        app:layout_constraintTop_toBottomOf="@+id/tvMinPriceLabel"
-        android:text="0.23" />
+        app:layout_constraintTop_toBottomOf="@+id/tvMinPriceLabel" />
 
     <TextView
         android:id="@+id/tvMinPriceMeasure"
@@ -55,10 +56,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_small"
+        android:text="kW/h"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/tvMinPriceValue"
-        app:layout_constraintEnd_toEndOf="@+id/tvMinPriceLabel"
-        android:text="kW/h" />
+        app:layout_constraintEnd_toEndOf="@+id/tvMinPriceLabel" />
 
     <View
         android:id="@+id/view"
@@ -69,15 +70,31 @@
         app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv"
+        android:id="@+id/rvPrices"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scrollbars="vertical"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.0"
         tools:layout_editor_absoluteX="0dp" />
+
+    <!--    TODO render loading status and error-->
+    <include
+        android:id="@+id/ltLoading"
+        layout="@layout/layout_loading"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+    <include
+        android:id="@+id/ltError"
+        layout="@layout/layout_error"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

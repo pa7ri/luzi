@@ -44,6 +44,7 @@ class ElectricityFragment : Fragment() {
         }
 
         electricityViewModel.dataPrices.observe(viewLifecycleOwner) {
+            resetVisibilityItems()
             when (it) {
                 is EMPPricesLoading -> renderLoading(it)
                 is EMPPricesReady -> renderData(it)
@@ -53,15 +54,23 @@ class ElectricityFragment : Fragment() {
     }
 
     private fun renderData(data: EMPPricesReady) {
+        binding.rvPrices.visibility = View.VISIBLE
         //TODO : render data
     }
 
     private fun renderError(error: EMPPricesError) {
-        //TODO : render error
+        binding.ltError.group.visibility = View.VISIBLE
     }
 
     private fun renderLoading(loading: EMPPricesLoading) {
-        //TODO : render loading
+        binding.ltLoading.group.visibility = View.VISIBLE
+        binding.ltLoading.tvLoading.text = loading.title
+    }
+
+    private fun resetVisibilityItems() {
+        binding.rvPrices.visibility = View.GONE
+        binding.ltLoading.group.visibility = View.GONE
+        binding.ltError.group.visibility = View.GONE
     }
 
     private fun updateData() {
