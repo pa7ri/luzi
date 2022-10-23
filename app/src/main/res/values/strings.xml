@@ -5,8 +5,10 @@
     <string name="title_gas">Gas</string>
     <string name="title_petrol">Petrol</string>
     <string name="title_rewards">Rewards</string>
-    <string name="price_magnitude">kW/h</string>
+    <string name="price_magnitude">€/kWh</string>
     <string name="price_minimum">Precio mínimo</string>
+    <string name="price_max">Precio maximo</string>
+    <string name="price_average">Precio medio</string>
 
 
     <string name="loading_data_title">Loading data…</string>

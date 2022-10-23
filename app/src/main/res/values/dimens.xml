@@ -4,6 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="loading_height">100dp</dimen>
+    <dimen name="error_anim_height">180dp</dimen>
     <dimen name="price_item_height">60dp</dimen>
     <dimen name="price_item_indicator_width">10dp</dimen>
 

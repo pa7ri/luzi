@@ -1,7 +1,6 @@
 package com.master.iot.luzi.data.ree
 
-import io.reactivex.Single
-import retrofit2.Call
+import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -12,9 +11,6 @@ import retrofit2.http.Query
  * GET /{lang}/datos/{category}/{widget}?[query]
  **/
 interface ReeAPI {
-    @GET("/posts/{id}")
-    fun getPostWithID(@Path("id") id: Int): Call<Post>
-
     /**
      * Get electricity market prices in real time
      * with customize parameters:
@@ -31,6 +27,6 @@ interface ReeAPI {
         @Query("time_trunc") timeTrunc: String = "hour",
         @Query("start_date") startDate: String,
         @Query("end_date") endDate: String
-    ): Single<EMPPerHourResponse>
+    ): Observable<EMPPerHourResponse>
 
 }

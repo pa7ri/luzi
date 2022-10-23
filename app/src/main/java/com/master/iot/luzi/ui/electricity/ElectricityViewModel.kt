@@ -6,24 +6,30 @@ import com.master.iot.luzi.R
 import com.master.iot.luzi.domain.REERepository
 import com.master.iot.luzi.ui.electricity.ElectricityViewMode.CHART_VIEW
 import com.master.iot.luzi.ui.electricity.ElectricityViewMode.LIST_VIEW
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-
-class ElectricityViewModel : ViewModel() {
+@HiltViewModel
+class ElectricityViewModel @Inject constructor(
+    private val repository: REERepository
+) : ViewModel() {
 
     val viewMode = MutableLiveData<ElectricityViewMode>().apply {
         value = LIST_VIEW
     }
-
     val dataPrices = MutableLiveData<EMPPrices>().apply {
-        value = EMPPricesLoading("")
+        value = EMPPricesLoading()
     }
 
-    private val repository: REERepository = REERepository()
     private val compositeDisposable = CompositeDisposable()
+
+    init {
+        getReeApiData()
+    }
+
 
     fun clearDisposables() = compositeDisposable.clear()
 
@@ -32,7 +38,7 @@ class ElectricityViewModel : ViewModel() {
             repository.getEMPPerHour()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(Consumer { dataPrices.value = it })
+                .subscribe { dataPrices.value = it }
         )
     }
 
