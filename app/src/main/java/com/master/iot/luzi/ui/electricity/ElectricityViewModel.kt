@@ -39,12 +39,17 @@ class ElectricityViewModel @Inject constructor(
             else -> R.drawable.ic_list
         }
 
-    fun initData(selectedDate: Calendar) {
+    fun updateData(selectedDate: Calendar) {
         compositeDisposable.add(
             repository.getEMPPerHour(selectedDate)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { dataPrices.value = it }
+                .subscribe({ dataPrices.value = it },
+                    {
+                        dataPrices.value =
+                            EMPPricesError(it.message ?: "", it.localizedMessage ?: "")
+                    }
+                )
         )
     }
 }

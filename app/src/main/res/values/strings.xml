@@ -15,4 +15,6 @@
     <string name="price_empty">-.-</string>
     <string name="hour_empty">A las —:—</string>
     <string name="hour_format">A las %s</string>
+    <string name="date_selection">Select a date</string>
+    <string name="date_today">Hoy</string>
 </resources>

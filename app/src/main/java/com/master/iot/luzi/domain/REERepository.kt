@@ -14,11 +14,12 @@ class REERepository {
 
     private val networkService = NetworkService.instance
 
-    fun getEMPPerHour(selectedDate: Calendar): io.reactivex.Observable<EMPPrices> {
+    fun getEMPPerHour(selectedDate: Calendar): io.reactivex.Single<EMPPrices> {
+        val localDate = Calendar.getInstance().apply { time = selectedDate.time }
         return networkService.getReeApi()
             .getElectricityMarketPriceByHour(
-                startDate = getStartDate(selectedDate),
-                endDate = getEndDate(selectedDate)
+                startDate = getStartDate(localDate),
+                endDate = getEndDate(localDate)
             ).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map { response -> EMPPricesReady(data = response.toEMPData()) as EMPPrices }

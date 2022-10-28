@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.components.XAxis.XAxisPosition
-import com.master.iot.luzi.EXTRA_SELECTED_DATE
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.master.iot.luzi.R
+import com.master.iot.luzi.TAG
 import com.master.iot.luzi.databinding.FragmentElectricityBinding
 import com.master.iot.luzi.domain.mapper.REEChartMapper.Companion.toBarData
 import com.master.iot.luzi.domain.utils.*
@@ -25,7 +27,7 @@ class ElectricityFragment : Fragment() {
     private lateinit var binding: FragmentElectricityBinding
     private lateinit var adapter: EMPPricesAdapter
 
-    private var selectedDate = Calendar.getInstance().apply { time = Date() }
+    private val selectedDate = MutableLiveData<Calendar>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,20 +36,17 @@ class ElectricityFragment : Fragment() {
     ): View {
         binding = FragmentElectricityBinding.inflate(inflater, container, false)
 
-        arguments?.let {
-            val selectedDateExtra = it.getLong(EXTRA_SELECTED_DATE)
-            selectedDate = Calendar.getInstance().apply {
-                if (selectedDateExtra != 0L) timeInMillis = selectedDateExtra else time = Date()
-            }
-        }
-
+        initDate()
         setUpAdapter()
         setUpChart()
         setUpListeners()
         setUpObservers()
-        electricityViewModel.initData(selectedDate)
 
         return binding.root
+    }
+
+    private fun initDate() {
+        selectedDate.value = Calendar.getInstance().apply { time = Date() }
     }
 
     private fun setUpAdapter() {
@@ -77,6 +76,18 @@ class ElectricityFragment : Fragment() {
 
     private fun setUpListeners() {
         binding.fab.setOnClickListener { electricityViewModel.switchRenderData() }
+        val materialDatePicker = MaterialDatePicker.Builder.datePicker().apply {
+            setTitleText(getString(R.string.date_selection))
+        }.build()
+        binding.tvDate.setOnClickListener {
+            materialDatePicker.addOnPositiveButtonClickListener {
+                binding.tvDate.text = materialDatePicker.headerText
+                materialDatePicker.selection?.let {
+                    selectedDate.value = Calendar.getInstance().apply { timeInMillis = it }
+                }
+            }
+            materialDatePicker.show(parentFragmentManager, TAG)
+        }
     }
 
     private fun setUpObservers() {
@@ -94,7 +105,9 @@ class ElectricityFragment : Fragment() {
                 }
             }
         }
-
+        selectedDate.observe(viewLifecycleOwner) {
+            electricityViewModel.updateData(it)
+        }
         electricityViewModel.dataPrices.observe(viewLifecycleOwner) {
             resetVisibilityItems()
             when (it) {
