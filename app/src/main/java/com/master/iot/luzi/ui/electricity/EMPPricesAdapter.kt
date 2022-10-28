@@ -9,6 +9,7 @@ import com.master.iot.luzi.databinding.EmpPriceItemBinding
 import com.master.iot.luzi.domain.dto.EMPItem
 import com.master.iot.luzi.domain.dto.EMPItemIndicator
 import com.master.iot.luzi.domain.utils.DateFormatterUtils.Companion.getHourFromDate
+import com.master.iot.luzi.domain.utils.toPriceString
 
 
 class EMPPricesAdapter(private var pricesList: List<EMPItem>) :
@@ -24,7 +25,7 @@ class EMPPricesAdapter(private var pricesList: List<EMPItem>) :
         with(holder) {
             with(pricesList[position]) {
                 binding.tvHour.text = dateTime.getHourFromDate()
-                binding.tvPriceValue.text = value.toBigDecimal().toPlainString()
+                binding.tvPriceValue.text = value.toPriceString()
                 binding.vIndicator.setBackgroundColor(
                     ContextCompat.getColor(
                         holder.binding.vIndicator.context,
@@ -45,8 +46,8 @@ class EMPPricesAdapter(private var pricesList: List<EMPItem>) :
     private fun getIndicatorColor(indicator: EMPItemIndicator): Int =
         when (indicator) {
             EMPItemIndicator.CHEAP -> R.color.green_200
-            EMPItemIndicator.EXPENSIVE -> R.color.red_200
-            else -> R.color.orange_200
+            EMPItemIndicator.EXPENSIVE -> R.color.orange_400
+            else -> R.color.yellow_400
         }
 
     inner class ViewHolder(val binding: EmpPriceItemBinding) : RecyclerView.ViewHolder(binding.root)

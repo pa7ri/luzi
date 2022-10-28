@@ -10,6 +10,5 @@ class EMPPricesReady(val data: EMPData) : EMPPrices()
 class EMPPricesError(
     val title: String,
     val description: String,
-    val code: Int,
     val imageId: Int = R.raw.anim_empty
 ) : EMPPrices()

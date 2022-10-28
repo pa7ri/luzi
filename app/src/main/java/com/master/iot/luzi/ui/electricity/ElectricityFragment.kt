@@ -9,10 +9,13 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.components.XAxis.XAxisPosition
+import com.master.iot.luzi.EXTRA_SELECTED_DATE
+import com.master.iot.luzi.R
 import com.master.iot.luzi.databinding.FragmentElectricityBinding
 import com.master.iot.luzi.domain.mapper.REEChartMapper.Companion.toBarData
-import com.master.iot.luzi.domain.utils.getMinPrice
+import com.master.iot.luzi.domain.utils.*
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class ElectricityFragment : Fragment() {
@@ -22,6 +25,8 @@ class ElectricityFragment : Fragment() {
     private lateinit var binding: FragmentElectricityBinding
     private lateinit var adapter: EMPPricesAdapter
 
+    private var selectedDate = Calendar.getInstance().apply { time = Date() }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,15 +34,23 @@ class ElectricityFragment : Fragment() {
     ): View {
         binding = FragmentElectricityBinding.inflate(inflater, container, false)
 
+        arguments?.let {
+            val selectedDateExtra = it.getLong(EXTRA_SELECTED_DATE)
+            selectedDate = Calendar.getInstance().apply {
+                if (selectedDateExtra != 0L) timeInMillis = selectedDateExtra else time = Date()
+            }
+        }
+
         setUpAdapter()
         setUpChart()
         setUpListeners()
         setUpObservers()
+        electricityViewModel.initData(selectedDate)
 
         return binding.root
     }
 
-    private fun setUpAdapter() { // create  layoutManager
+    private fun setUpAdapter() {
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(requireContext())
         binding.rvPrices.layoutManager = layoutManager
         adapter = EMPPricesAdapter(emptyList())
@@ -93,10 +106,24 @@ class ElectricityFragment : Fragment() {
     }
 
     private fun renderData(prices: EMPPricesReady) {
+        // Render header
+        binding.layoutMaxPrice.root.visibility = View.VISIBLE
+        binding.layoutAveragePrice.root.visibility = View.VISIBLE
+        binding.layoutMaxPrice.apply {
+            tvTitle.text = getString(R.string.price_maximum)
+            tvPriceValue.text = prices.data.items.getMaxPrice().toPriceString()
+            tvPriceHour.text = getString(R.string.hour_format, prices.data.items.getMaxHour())
+        }
+        binding.layoutAveragePrice.apply {
+            tvTitle.text = getString(R.string.price_average)
+            tvPriceValue.text = prices.data.items.getAveragePrice().toPriceString()
+            tvPriceHour.visibility = View.GONE
+        }
+        binding.tvMinPriceValue.text = prices.data.items.getMinPrice().toPriceString()
+        binding.tvMinPriceHour.text =
+            getString(R.string.hour_format, prices.data.items.getMinHour())
         // Render list
         binding.rvPrices.visibility = View.VISIBLE
-        binding.tvMinPriceValue.text =
-            prices.data.items.getMinPrice().toBigDecimal().toPlainString()
         adapter.updateData(prices.data.items)
         // Render chart
         binding.chartPrices.data = prices.toBarData()
@@ -115,6 +142,8 @@ class ElectricityFragment : Fragment() {
     }
 
     private fun resetVisibilityItems() {
+        binding.layoutMaxPrice.root.visibility = View.GONE
+        binding.layoutAveragePrice.root.visibility = View.GONE
         binding.chartPrices.visibility = View.GONE
         binding.rvPrices.visibility = View.GONE
         binding.ltLoading.group.visibility = View.GONE

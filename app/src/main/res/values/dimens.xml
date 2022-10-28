@@ -3,10 +3,13 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="loading_height">100dp</dimen>
+    <dimen name="loading_height">80dp</dimen>
     <dimen name="error_anim_height">180dp</dimen>
+    <dimen name="price_item_width">60dp</dimen>
     <dimen name="price_item_height">60dp</dimen>
     <dimen name="price_item_indicator_width">10dp</dimen>
+
+    <dimen name="elevation_normal">3dp</dimen>
 
     <dimen name="margin_tiny">4dp</dimen>
     <dimen name="margin_small">8dp</dimen>

@@ -10,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,21 +27,7 @@ class ElectricityViewModel @Inject constructor(
 
     private val compositeDisposable = CompositeDisposable()
 
-    init {
-        getReeApiData()
-    }
-
-
     fun clearDisposables() = compositeDisposable.clear()
-
-    fun getReeApiData() {
-        compositeDisposable.add(
-            repository.getEMPPerHour()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { dataPrices.value = it }
-        )
-    }
 
     fun switchRenderData() {
         viewMode.value = if (viewMode.value == LIST_VIEW) CHART_VIEW else LIST_VIEW
@@ -51,4 +38,13 @@ class ElectricityViewModel @Inject constructor(
             LIST_VIEW -> R.drawable.ic_chart
             else -> R.drawable.ic_list
         }
+
+    fun initData(selectedDate: Calendar) {
+        compositeDisposable.add(
+            repository.getEMPPerHour(selectedDate)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { dataPrices.value = it }
+        )
+    }
 }

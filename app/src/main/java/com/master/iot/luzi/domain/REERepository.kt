@@ -3,7 +3,6 @@ package com.master.iot.luzi.domain
 import com.master.iot.luzi.data.NetworkService
 import com.master.iot.luzi.domain.mapper.REEMapper.Companion.toEMPData
 import com.master.iot.luzi.domain.utils.DateFormatterUtils
-import com.master.iot.luzi.domain.utils.DateType
 import com.master.iot.luzi.ui.electricity.EMPPrices
 import com.master.iot.luzi.ui.electricity.EMPPricesError
 import com.master.iot.luzi.ui.electricity.EMPPricesReady
@@ -15,31 +14,36 @@ class REERepository {
 
     private val networkService = NetworkService.instance
 
-    fun getEMPPerHour(dateType: DateType = DateType.TODAY): io.reactivex.Observable<EMPPrices> {
+    fun getEMPPerHour(selectedDate: Calendar): io.reactivex.Observable<EMPPrices> {
         return networkService.getReeApi()
             .getElectricityMarketPriceByHour(
-                startDate = "2022-10-15T00:00",
-                endDate = "2022-10-16T00:00"
+                startDate = getStartDate(selectedDate),
+                endDate = getEndDate(selectedDate)
             ).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .map { response ->
-                EMPPricesReady(data = response.toEMPData()) as EMPPrices
+            .map { response -> EMPPricesReady(data = response.toEMPData()) as EMPPrices }
+            .onErrorReturn {
+                EMPPricesError(
+                    it.message ?: "Network issue",
+                    it.localizedMessage ?: ""
+                )
             }
-            .onErrorReturnItem(EMPPricesError("NETWORK ISSUE", "Couldn't reach any data", 404))
     }
 
 
-    private fun getStartDate(dateType: DateType): String {
-        val calendar = Calendar.getInstance().apply {
-            time = Date()
+    private fun getStartDate(calendar: Calendar): String {
+        calendar.apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
         }
         return DateFormatterUtils.getStringFromDate(calendar.time)
     }
 
-    private fun getEndDate(dateType: DateType): String {
-        val calendar = Calendar.getInstance().apply {
-            time = Date()
+    private fun getEndDate(calendar: Calendar): String {
+        calendar.apply {
             add(Calendar.DATE, 1)
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
         }
         return DateFormatterUtils.getStringFromDate(calendar.time)
     }

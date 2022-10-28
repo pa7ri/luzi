@@ -10,7 +10,7 @@
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="?attr/colorPrimary"
+        android:background="@drawable/bg_header_gradient"
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +32,6 @@
         style="@style/TextAppearance.MaterialComponents.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_regular"
         android:layout_marginEnd="@dimen/margin_regular"
         android:text="@string/price_minimum"
         android:textColor="@color/white"
@@ -45,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_tiny"
-        android:text="0.23"
+        android:text="@string/price_empty"
         android:textColor="@color/white"
         app:layout_constraintEnd_toStartOf="@+id/tvMinPriceMagnitude"
         app:layout_constraintTop_toBottomOf="@+id/tvMinPriceLabel" />
@@ -61,13 +60,52 @@
         app:layout_constraintBottom_toBottomOf="@+id/tvMinPriceValue"
         app:layout_constraintEnd_toEndOf="@+id/tvMinPriceLabel" />
 
+    <TextView
+        android:id="@+id/tvMinPriceHour"
+        style="@style/TextAppearance.HeaderText.Price.Description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hour_empty"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/tvMinPriceLabel"
+        app:layout_constraintStart_toStartOf="@+id/tvMinPriceValue"
+        app:layout_constraintTop_toBottomOf="@+id/tvMinPriceValue" />
+
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/margin_small"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
+        app:layout_constraintTop_toBottomOf="@+id/tvMinPriceHour" />
+
+    <include
+        android:id="@+id/layoutMaxPrice"
+        layout="@layout/emp_price_header_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_tiny"
+        android:layout_marginStart="@dimen/margin_large"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+
+
+    <include
+        android:id="@+id/layoutAveragePrice"
+        layout="@layout/emp_price_header_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_tiny"
+        android:layout_marginEnd="@dimen/margin_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutMaxPrice" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPrices"
@@ -76,15 +114,16 @@
         android:scrollbars="vertical"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintTop_toBottomOf="@+id/divider"
         tools:layout_editor_absoluteX="0dp" />
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/chartPrices"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/rvPrices"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+        android:layout_marginVertical="@dimen/margin_regular"
+        app:layout_constraintBottom_toTopOf="@+id/fab"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
 
     <include
         android:id="@+id/ltLoading"
@@ -99,6 +138,7 @@
         layout="@layout/layout_error"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
@@ -107,7 +147,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/margin_regular"
         android:src="@drawable/ic_chart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

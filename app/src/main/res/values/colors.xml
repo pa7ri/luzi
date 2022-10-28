@@ -9,15 +9,14 @@
     <color name="yellow_400">#FFffce64</color>
     <color name="yellow_600">#FFc99d34</color>
 
-    <color name="orange_200">#FFE0BEAC</color>
-    <color name="orange_400">#FFE08D79</color>
-    <color name="orange_600">#FFEE7674</color>
+    <color name="orange_200">#FFFCB0AD</color>
+    <color name="orange_400">#FFFA8984</color>
+    <color name="orange_600">#FFF8615A</color>
 
-    <color name="red_200">#FFffb6af</color>
-    <color name="red_700">#FF9d1649</color>
-
-    <color name="purple_300">#FFA882DD</color>
-    <color name="purple_700">#FF49416D</color>
+    <color name="purple_300">#FFB80D57</color>
+    <color name="purple_500">#FF900e51</color>
+    <color name="purple_700">#FF680e4b</color>
+    <color name="purple_900">#FF42033d</color>
 
     <color name="green_200">#FFc7f6d4</color>
     <color name="green_400">#FF27DCA3</color>
