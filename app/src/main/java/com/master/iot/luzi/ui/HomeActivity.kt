@@ -1,4 +1,4 @@
-package com.master.iot.luzi
+package com.master.iot.luzi.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -7,9 +7,9 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.master.iot.luzi.R
 import com.master.iot.luzi.databinding.ActivityHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {

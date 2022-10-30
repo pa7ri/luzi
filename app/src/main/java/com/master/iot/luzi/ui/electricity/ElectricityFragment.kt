@@ -1,5 +1,6 @@
 package com.master.iot.luzi.ui.electricity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.components.XAxis.XAxisPosition
@@ -16,8 +18,12 @@ import com.master.iot.luzi.TAG
 import com.master.iot.luzi.databinding.FragmentElectricityBinding
 import com.master.iot.luzi.domain.mapper.REEChartMapper.Companion.toBarData
 import com.master.iot.luzi.domain.utils.*
+import com.master.iot.luzi.ui.ElectricityPreferences
+import com.master.iot.luzi.ui.SettingsActivity
+import com.master.iot.luzi.ui.getElectricityPreferences
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+
 
 @AndroidEntryPoint
 class ElectricityFragment : Fragment() {
@@ -28,6 +34,7 @@ class ElectricityFragment : Fragment() {
     private lateinit var adapter: EMPPricesAdapter
 
     private val selectedDate = MutableLiveData<Calendar>()
+    private lateinit var preferences: ElectricityPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,14 +42,22 @@ class ElectricityFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentElectricityBinding.inflate(inflater, container, false)
-
-        initDate()
         setUpAdapter()
         setUpChart()
+        return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initDate()
+        initPreferences()
         setUpListeners()
         setUpObservers()
+    }
 
-        return binding.root
+    private fun initPreferences() {
+        preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+            .getElectricityPreferences()
     }
 
     private fun initDate() {
@@ -69,9 +84,9 @@ class ElectricityFragment : Fragment() {
         binding.chartPrices.axisLeft.setDrawGridLines(false)
     }
 
-    override fun onDestroy() {
+    override fun onStop() {
         electricityViewModel.clearDisposables()
-        super.onDestroy()
+        super.onStop()
     }
 
     private fun setUpListeners() {
@@ -79,9 +94,13 @@ class ElectricityFragment : Fragment() {
         val materialDatePicker = MaterialDatePicker.Builder.datePicker().apply {
             setTitleText(getString(R.string.date_selection))
         }.build()
-        binding.tvDate.setOnClickListener {
+        binding.tvLocation.text = getString(R.string.location_at, preferences.location)
+        binding.toolbar.ivMore.setOnClickListener {
+            startActivity(Intent(requireContext(), SettingsActivity::class.java))
+        }
+        binding.toolbar.tvTitle.setOnClickListener {
             materialDatePicker.addOnPositiveButtonClickListener {
-                binding.tvDate.text = materialDatePicker.headerText
+                binding.toolbar.tvTitle.text = materialDatePicker.headerText
                 materialDatePicker.selection?.let {
                     selectedDate.value = Calendar.getInstance().apply { timeInMillis = it }
                 }
@@ -93,20 +112,10 @@ class ElectricityFragment : Fragment() {
     private fun setUpObservers() {
         electricityViewModel.viewMode.observe(viewLifecycleOwner) {
             binding.fab.setImageResource(electricityViewModel.getFabImageResource())
-            when (it) {
-                ElectricityViewMode.LIST_VIEW -> {
-                    binding.rvPrices.visibility = View.VISIBLE
-                    binding.chartPrices.visibility = View.GONE
-                }
-                else -> {
-                    binding.rvPrices.visibility = View.GONE
-                    binding.chartPrices.visibility = View.VISIBLE
-                    binding.chartPrices.animateY(1500)
-                }
-            }
+            setUpDataVisibility(it)
         }
         selectedDate.observe(viewLifecycleOwner) {
-            electricityViewModel.updateData(it)
+            electricityViewModel.updateData(it, preferences)
         }
         electricityViewModel.dataPrices.observe(viewLifecycleOwner) {
             resetVisibilityItems()
@@ -114,6 +123,20 @@ class ElectricityFragment : Fragment() {
                 is EMPPricesLoading -> renderLoading(it)
                 is EMPPricesReady -> renderData(it)
                 is EMPPricesError -> renderError(it)
+            }
+        }
+    }
+
+    private fun setUpDataVisibility(viewMode: ElectricityViewMode) {
+        when (viewMode) {
+            ElectricityViewMode.LIST_VIEW -> {
+                binding.rvPrices.visibility = View.VISIBLE
+                binding.chartPrices.visibility = View.GONE
+            }
+            else -> {
+                binding.rvPrices.visibility = View.GONE
+                binding.chartPrices.visibility = View.VISIBLE
+                binding.chartPrices.animateY(1500)
             }
         }
     }
@@ -136,12 +159,10 @@ class ElectricityFragment : Fragment() {
         binding.tvMinPriceHour.text =
             getString(R.string.hour_format, prices.data.items.getMinHour())
         // Render list
-        binding.rvPrices.visibility = View.VISIBLE
         adapter.updateData(prices.data.items)
         // Render chart
         binding.chartPrices.data = prices.toBarData()
-        binding.chartPrices.animateY(1500)
-
+        setUpDataVisibility(electricityViewModel.viewMode.value ?: ElectricityViewMode.LIST_VIEW)
     }
 
     private fun renderError(error: EMPPricesError) {

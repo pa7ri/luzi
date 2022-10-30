@@ -1,0 +1,27 @@
+<resources>
+    <string-array name="geo_limit_entries">
+        <item>Peninsula</item>
+        <item>Islas Canarias</item>
+        <item>Islas Baleares</item>
+        <item>Ceuta</item>
+        <item>Melilla</item>
+    </string-array>
+
+    <string-array name="geo_limit_values">
+        <item>peninsula</item>
+        <item>canarias</item>
+        <item>caleares</item>
+        <item>ceuta</item>
+        <item>melilla</item>
+    </string-array>
+
+    <string-array name="fee_entries">
+        <item>PVPC 2.0</item>
+        <item>Autoconsumo</item>
+    </string-array>
+
+    <string-array name="fee_values">
+        <item>pvpc</item>
+        <item>autoconsumo</item>
+    </string-array>
+</resources>

@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.master.iot.luzi.R
 import com.master.iot.luzi.domain.REERepository
+import com.master.iot.luzi.ui.ElectricityPreferences
 import com.master.iot.luzi.ui.electricity.ElectricityViewMode.CHART_VIEW
 import com.master.iot.luzi.ui.electricity.ElectricityViewMode.LIST_VIEW
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -39,9 +40,10 @@ class ElectricityViewModel @Inject constructor(
             else -> R.drawable.ic_list
         }
 
-    fun updateData(selectedDate: Calendar) {
+    fun updateData(selectedDate: Calendar, preferences: ElectricityPreferences) {
+        dataPrices.value = EMPPricesLoading()
         compositeDisposable.add(
-            repository.getEMPPerHour(selectedDate)
+            repository.getEMPPerHour(selectedDate, preferences)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ dataPrices.value = it },

@@ -3,6 +3,7 @@ package com.master.iot.luzi.domain
 import com.master.iot.luzi.data.NetworkService
 import com.master.iot.luzi.domain.mapper.REEMapper.Companion.toEMPData
 import com.master.iot.luzi.domain.utils.DateFormatterUtils
+import com.master.iot.luzi.ui.ElectricityPreferences
 import com.master.iot.luzi.ui.electricity.EMPPrices
 import com.master.iot.luzi.ui.electricity.EMPPricesError
 import com.master.iot.luzi.ui.electricity.EMPPricesReady
@@ -14,15 +15,19 @@ class REERepository {
 
     private val networkService = NetworkService.instance
 
-    fun getEMPPerHour(selectedDate: Calendar): io.reactivex.Single<EMPPrices> {
+    fun getEMPPerHour(
+        selectedDate: Calendar,
+        preferences: ElectricityPreferences
+    ): io.reactivex.Single<EMPPrices> {
         val localDate = Calendar.getInstance().apply { time = selectedDate.time }
         return networkService.getReeApi()
             .getElectricityMarketPriceByHour(
+                geoLimit = preferences.location,
                 startDate = getStartDate(localDate),
                 endDate = getEndDate(localDate)
             ).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .map { response -> EMPPricesReady(data = response.toEMPData()) as EMPPrices }
+            .map { response -> EMPPricesReady(data = response.toEMPData(preferences.feeType)) as EMPPrices }
             .onErrorReturn {
                 EMPPricesError(
                     it.message ?: "Network issue",

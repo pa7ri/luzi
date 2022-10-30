@@ -9,7 +9,7 @@
 
     <string name="price_magnitude">€/kWh</string>
     <string name="price_minimum">Precio mínimo</string>
-    <string name="price_maximum">Precio maximo</string>
+    <string name="price_maximum">Precio máximo</string>
     <string name="price_average">Precio medio</string>
     <string name="price_empty">-.-</string>
 
