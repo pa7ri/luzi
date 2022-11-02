@@ -4,6 +4,23 @@
         <item name="android:textSize">28sp</item>
         <item name="android:letterSpacing">0.002</item>
     </style>
+
+    <style name="TextAppearance.HeaderText.Rewards.Percentage" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="android:textSize">18sp</item>
+        <item name="android:letterSpacing">0.001</item>
+    </style>
+
+    <style name="TextAppearance.HeaderText.Rewards.Tag" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">0.001</item>
+        <item name="android:background">@drawable/bg_round</item>
+        <item name="android:textColor">@color/orange_400</item>
+        <item name="android:paddingStart">@dimen/margin_small</item>
+        <item name="android:paddingEnd">@dimen/margin_small</item>
+        <item name="android:paddingTop">@dimen/margin_tiny</item>
+        <item name="android:paddingBottom">@dimen/margin_tiny</item>
+    </style>
+
     <style name="TextAppearance.HeaderText.Price.Description" parent="TextAppearance.MaterialComponents.Headline4">
         <item name="android:textSize">10sp</item>
         <item name="android:letterSpacing">0.001</item>

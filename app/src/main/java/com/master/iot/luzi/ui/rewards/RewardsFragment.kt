@@ -1,42 +1,36 @@
 package com.master.iot.luzi.ui.rewards
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.master.iot.luzi.databinding.FragmentRewardsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RewardsFragment : Fragment() {
 
-    private var _binding: FragmentRewardsBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private val rewardsViewModel: RewardsViewModel by viewModels()
+    private lateinit var binding: FragmentRewardsBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val rewardsViewModel =
-            ViewModelProvider(this)[RewardsViewModel::class.java]
+        binding = FragmentRewardsBinding.inflate(inflater, container, false)
 
-        _binding = FragmentRewardsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        setUpListeners()
 
-        val textView: TextView = binding.textRewards
-        rewardsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
+        return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun setUpListeners() {
+        binding.fabAdd.setOnClickListener {
+            startActivity(Intent(requireContext(), VerifierActivity::class.java))
+        }
     }
 }

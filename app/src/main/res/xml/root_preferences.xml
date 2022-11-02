@@ -28,15 +28,10 @@
 
     <PreferenceCategory app:title="@string/title_gas">
 
-        <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
-
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:title="@string/attachment_title" />
-
+        <EditTextPreference
+            app:defaultValue="none"
+            app:key="geolocation_city"
+            app:title="@string/title_city" />
     </PreferenceCategory>
 
 </PreferenceScreen>

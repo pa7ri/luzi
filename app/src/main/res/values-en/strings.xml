@@ -4,7 +4,8 @@
     <string name="title_electricity">Electricity</string>
     <string name="title_gas">Gas</string>
     <string name="title_petrol">Petrol</string>
-    <string name="title_rewards">"One daily notification will be sent with "</string>
+    <string name="title_rewards">Rewards</string>
+    <string name="title_city">City</string>
     <string name="price_magnitude">€/kWh</string>
     <string name="price_empty">-.-</string>
     <string name="hour_empty">At —:—</string>
@@ -26,4 +27,5 @@
     <string name="price_average">Average price</string>
     <string name="loading_data_title">Loading data…</string>
     <string name="title_fee">Fee</string>
+    <string name="rewards_progress_empty">0/0</string>
 </resources>

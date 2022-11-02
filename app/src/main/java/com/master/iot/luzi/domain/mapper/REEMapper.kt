@@ -8,6 +8,7 @@ import com.master.iot.luzi.domain.dto.EMPItemIndicator
 import com.master.iot.luzi.domain.utils.DateFormatterUtils.Companion.getDateFromString
 import com.master.iot.luzi.domain.utils.getAveragePrice
 import com.master.iot.luzi.ui.FeeType
+import kotlin.math.roundToLong
 
 class REEMapper {
     companion object {
@@ -27,7 +28,7 @@ class REEMapper {
 
         private fun Value.toEMPItem(): EMPItem =
             EMPItem(
-                value = String.format("%.3f", value / 1000).toDouble(),
+                value = value.roundToLong() / 1000.0,
                 percentage = percentage,
                 dateTime = getDateFromString(datetime)
             )

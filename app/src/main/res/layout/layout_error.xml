@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/group"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:visibility="gone">
+    android:layout_height="match_parent">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/avError"
@@ -23,8 +22,9 @@
         android:id="@+id/tvError"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/avError"
-        app:layout_constraintStart_toStartOf="@+id/avError"
+        android:layout_marginHorizontal="@dimen/margin_regular"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/avError"
         tools:text="No data found..." />
 

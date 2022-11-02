@@ -6,6 +6,7 @@
     <string name="title_petrol">Gasolina</string>
     <string name="title_rewards">Recompensas</string>
     <string name="title_settings">Ajustes</string>
+    <string name="title_city">Ciudad</string>
 
     <string name="price_magnitude">€/kWh</string>
     <string name="price_minimum">Precio mínimo</string>
@@ -32,4 +33,6 @@
     <string name="attachment_title">any on</string>
     <string name="attachment_summary_on">"Automatically download attachments for incoming emails"</string>
     <string name="title_fee">Tarifa</string>
+    <string name="rewards_progress_empty">0/0</string>
+    <string name="rewards_level_tag">Nivel 0</string>
 </resources>

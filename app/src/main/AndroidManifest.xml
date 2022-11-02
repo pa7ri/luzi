@@ -4,6 +4,8 @@
     package="com.master.iot.luzi">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
 
     <application
         android:name=".BaseApplication"
@@ -17,14 +19,6 @@
         android:theme="@style/Theme.Luzi"
         tools:targetApi="31">
         <activity
-            android:name=".ui.SettingsActivity"
-            android:exported="false"
-            android:label="@string/title_settings">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".ui.HomeActivity"
             android:exported="true">
             <intent-filter>
@@ -33,6 +27,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:exported="false"
+            android:label="@string/title_settings" />
+        <activity
+            android:name=".ui.rewards.VerifierActivity"
+            android:exported="false"
+            android:label="@string/title_rewards" />
     </application>
 
 </manifest>
