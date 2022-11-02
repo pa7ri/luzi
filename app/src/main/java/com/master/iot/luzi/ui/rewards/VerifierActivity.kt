@@ -2,33 +2,47 @@ package com.master.iot.luzi.ui.rewards
 
 import android.Manifest.permission.CAMERA
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.MutableLiveData
+import com.google.mlkit.vision.common.InputImage
 import com.master.iot.luzi.PERMISSION_CAMERA_REQUEST_CODE
 import com.master.iot.luzi.R
+import com.master.iot.luzi.domain.ImageVerificationError
+import com.master.iot.luzi.domain.ImageVerificationProcessing
+import com.master.iot.luzi.domain.ImageVerificationSuccess
 
 
 class VerifierActivity : AppCompatActivity() {
 
-    val imageLiveData = MutableLiveData<Bitmap>()
+    private lateinit var imageData: InputImage
 
-    val takePicturePreviewResult = registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
-        Log.e("BITMAP", "Got picture: $bitmap")
-    }
+    private val verifierViewModel: VerifierViewModel by viewModels()
+
+
+    private val takePicturePreviewResult =
+        registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
+            bitmap?.let {
+                Log.e("BITMAP", "Captured picture: $bitmap")
+                imageData = InputImage.fromBitmap(it, 0)
+                verifierViewModel.processImage(imageData)
+            }
+
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_verifier)
         setUpToolbar()
+        setUpObservers()
         requestCameraPermissions()
     }
 
@@ -42,10 +56,6 @@ class VerifierActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpToolbar() {
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -57,6 +67,26 @@ class VerifierActivity : AppCompatActivity() {
             onBackPressed()
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    private fun setUpToolbar() {
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    private fun setUpObservers() {
+        verifierViewModel.verificationStatus.observe(this) {
+            when (it) {
+                is ImageVerificationProcessing -> {}
+                is ImageVerificationError -> {}
+                is ImageVerificationSuccess -> {
+                    Toast.makeText(
+                        this,
+                        it.label + " " + it.confidence.toString(),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
     }
 
     private fun requestCameraPermissions() {
