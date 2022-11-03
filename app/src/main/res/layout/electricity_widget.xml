@@ -2,20 +2,16 @@
     style="@style/Widget.Luzi.AppWidget.Container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/orange_400"
     android:theme="@style/Theme.Luzi.AppWidgetContainer">
 
     <TextView
         android:id="@+id/tvMinPriceLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="@dimen/margin_tiny"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="@dimen/margin_tiny"
+        android:layout_above="@+id/tvMinPriceValue"
+        android:layout_alignStart="@+id/tvMinPriceValue"
+        android:layout_alignEnd="@+id/tvMinPriceMagnitude"
         android:text="@string/price_minimum"
         android:textSize="10sp" />
 
@@ -23,13 +19,12 @@
         android:id="@+id/tvMinPriceValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/margin_small"
-        android:layout_marginTop="@dimen/margin_tiny"
         android:layout_marginBottom="@dimen/margin_tiny"
-        android:layout_toEndOf="@+id/tvMinPriceLabel"
         android:text="0.203"
-        android:textSize="11sp"
+        android:textSize="12sp"
         android:textStyle="bold" />
 
     <TextView
@@ -38,11 +33,10 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/tvMinPriceValue"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="2dp"
+        android:layout_marginBottom="1dp"
         android:layout_toEndOf="@+id/tvMinPriceValue"
         android:text="@string/price_magnitude"
-        android:textSize="6sp"
-        android:textStyle="bold" />
+        android:textSize="6sp" />
 
     <TextView
         android:id="@+id/tvMinPriceHour"
@@ -51,7 +45,7 @@
         android:layout_below="@+id/tvMinPriceValue"
         android:layout_alignStart="@+id/tvMinPriceValue"
         android:layout_alignEnd="@+id/tvMinPriceMagnitude"
-        android:text="@string/hour_empty"
+        android:text="At 01:00"
         android:textSize="9sp"
         android:gravity="center" />
 </RelativeLayout>
