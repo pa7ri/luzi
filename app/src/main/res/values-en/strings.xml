@@ -28,4 +28,8 @@
     <string name="loading_data_title">Loading data…</string>
     <string name="title_fee">Fee</string>
     <string name="rewards_progress_empty">0/0</string>
+    <string name="rewards_level_tag">Nivel 0</string>
+
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">This is an app widget description</string>
 </resources>

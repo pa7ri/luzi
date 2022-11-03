@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="TextAppearance.HeaderText.Price.Value" parent="TextAppearance.MaterialComponents.Headline4">
         <item name="android:textSize">28sp</item>
         <item name="android:letterSpacing">0.002</item>
@@ -35,5 +36,15 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:letterSpacing">0.0001</item>
+    </style>
+
+    <style name="Widget.Luzi.AppWidget.Container" parent="android:Widget">
+        <item name="android:id">@android:id/background</item>
+        <item name="android:background">?android:attr/colorBackground</item>
+    </style>
+
+    <style name="Widget.Luzi.AppWidget.InnerView" parent="android:Widget">
+        <item name="android:background">?android:attr/colorBackground</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 </resources>

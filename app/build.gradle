@@ -28,6 +28,9 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
     }
+    aaptOptions {
+        noCompress "tflite"
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -70,7 +73,7 @@ dependencies {
 
     /* ML kit */
     implementation 'com.google.mlkit:object-detection:17.0.0'
-    // implementation 'com.google.mlkit:object-detection-custom:17.0.0' - custom model
+    implementation 'com.google.mlkit:object-detection-custom:17.0.0'
 
     /* Network calls */
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
