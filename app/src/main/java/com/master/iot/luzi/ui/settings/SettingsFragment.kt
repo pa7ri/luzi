@@ -26,6 +26,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onResume() {
         super.onResume()
         initPreferences()
+        setUpListeners()
         setUpObservers()
         renderPetrolListPreferences()
     }
@@ -44,7 +45,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             findPreference<ListPreference>(PREFERENCES_PETROL_MUNICIPALITY) as ListPreference
     }
 
-    private fun setUpObservers() {
+    private fun setUpListeners() {
         ccaaPreference.setOnPreferenceChangeListener { preference, newValue ->
             ccaaPreference.value = newValue.toString()
             preference.summary = ccaaPreference.entry
@@ -63,6 +64,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
             preference.summary = municipalitiesPreference.entry
             false
         }
+    }
+
+    private fun setUpObservers() {
+
         settingsViewModel.ccaaData.observe(viewLifecycleOwner) { list ->
             ccaaPreference.apply {
                 entries = list.map { it.ccaa }.toTypedArray()

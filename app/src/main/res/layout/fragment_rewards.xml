@@ -48,15 +48,15 @@
         android:id="@+id/pbRewards"
         android:layout_width="0dp"
         android:layout_height="@dimen/rewards_height"
-        android:layout_marginTop="@dimen/margin_regular"
         android:layout_marginHorizontal="@dimen/margin_large"
+        android:layout_marginTop="@dimen/margin_regular"
         android:max="100"
         android:progress="65"
-        app:trackColor="@color/orange_100"
         app:indicatorColor="@color/orange_600"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvProgressRewards" />
+        app:layout_constraintTop_toBottomOf="@+id/tvProgressRewards"
+        app:trackColor="@color/orange_100" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAdd"
@@ -67,6 +67,7 @@
         android:src="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:fabCustomSize="@dimen/fab_width"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.FloatingActionButton"
         app:tint="@color/white" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -45,7 +45,7 @@ class SettingsViewModel @Inject constructor(
 
     fun getProvincePreferences(idCCAA: String = PREFERENCES_PETROL_ID_CCAA_DEFAULT) {
         compositeDisposable.add(
-            repository.getProvinceByCCAAList(Integer.valueOf(idCCAA))
+            repository.getProvinceListByCCAA(Integer.valueOf(idCCAA))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ provincesData.value = it.data },
@@ -56,7 +56,7 @@ class SettingsViewModel @Inject constructor(
 
     fun getMunicipalityPreferences(idProvince: String = PREFERENCES_PETROL_ID_PROVINCE_DEFAULT) {
         compositeDisposable.add(
-            repository.getMunicipalityByProvinceList(Integer.valueOf(idProvince))
+            repository.getMunicipalityListByProvince(Integer.valueOf(idProvince))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ municipalitiesData.value = it.data },

@@ -155,6 +155,8 @@
         android:src="@drawable/ic_chart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:fabCustomSize="@dimen/fab_width"
+        app:maxImageSize="@dimen/fab_icon_width"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.FloatingActionButton"
         app:tint="@color/white" />
 

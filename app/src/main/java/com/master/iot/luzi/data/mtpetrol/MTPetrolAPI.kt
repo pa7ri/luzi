@@ -32,4 +32,12 @@ interface MTPetrolAPI {
         @Path("idProvince") idProvince: Int = 28
     ): Single<MTPetrolMunicipalitiesResponse>
 
+    /**
+     * Get list of prices for petrol filtered by province
+     **/
+    @GET("/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/FiltroProvincia/{idProvince}")
+    fun getPetrolPricesFilterByProvince(
+        @Path("idProvince") idProvince: Int = 28
+    ): Single<MTPetrolPricesResponse>
+
 }

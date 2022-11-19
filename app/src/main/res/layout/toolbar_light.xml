@@ -15,7 +15,7 @@
 
         <TextView
             android:id="@+id/tvTitle"
-            style="@style/TextAppearance.MaterialComponents.Headline5"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/title_rewards"/>
@@ -23,6 +23,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivMore"
             android:src="@drawable/ic_more"
+            android:tint="?attr/colorPrimary"
             android:layout_width="@dimen/icon_width"
             android:layout_height="@dimen/icon_width"
             android:layout_margin="@dimen/margin_regular"
