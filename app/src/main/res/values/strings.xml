@@ -2,7 +2,6 @@
     <string name="app_name">luzi</string>
 
     <string name="title_electricity">Luz</string>
-    <string name="title_gas">Gas</string>
     <string name="title_petrol">Gasolina</string>
     <string name="title_rewards">Recompensas</string>
     <string name="title_settings">Ajustes</string>
@@ -27,11 +26,12 @@
     <string name="title_notifications">Enviar notificaciones</string>
     <string name="summary_off_notifications">No recibiras notificaciones</string>
     <string name="summary_on_notifications">Recibiras una notificacion diaria el precio mínimo de la luz</string>
+    <string name="title_ccaa">CCAA</string>
+    <string name="title_province">Province</string>
+    <string name="title_municipality">Municipality</string>
+    <string name="title_petrol_type">Product type</string>
 
     <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">any on</string>
-    <string name="attachment_summary_on">"Automatically download attachments for incoming emails"</string>
     <string name="title_fee">Tarifa</string>
     <string name="rewards_progress_empty">0/0</string>
     <string name="rewards_level_tag">Nivel 0</string>

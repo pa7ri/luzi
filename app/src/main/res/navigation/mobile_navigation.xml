@@ -12,12 +12,6 @@
         tools:layout="@layout/fragment_electricity" />
 
     <fragment
-        android:id="@+id/navigation_gas"
-        android:name="com.master.iot.luzi.ui.gas.GasFragment"
-        android:label="@string/title_gas"
-        tools:layout="@layout/fragment_gas" />
-
-    <fragment
         android:id="@+id/navigation_petrol"
         android:name="com.master.iot.luzi.ui.petrol.PetrolFragment"
         android:label="@string/title_petrol"

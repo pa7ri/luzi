@@ -19,8 +19,8 @@ import com.master.iot.luzi.databinding.FragmentElectricityBinding
 import com.master.iot.luzi.domain.mapper.REEChartMapper.Companion.toBarData
 import com.master.iot.luzi.domain.utils.*
 import com.master.iot.luzi.ui.ElectricityPreferences
-import com.master.iot.luzi.ui.SettingsActivity
 import com.master.iot.luzi.ui.getElectricityPreferences
+import com.master.iot.luzi.ui.settings.SettingsActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 

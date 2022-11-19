@@ -26,12 +26,27 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/title_gas">
+    <PreferenceCategory app:title="@string/title_petrol">
+        <ListPreference
+            app:key="petrol_location_ccaa"
+            app:title="@string/title_ccaa"
+            app:summary="%s" />
 
-        <EditTextPreference
-            app:defaultValue="none"
-            app:key="geolocation_city"
-            app:title="@string/title_city" />
+        <ListPreference
+            app:key="petrol_location_province"
+            app:title="@string/title_province"
+            app:summary="%s"/>
+
+        <ListPreference
+            app:key="petrol_location_municipality"
+            app:title="@string/title_municipality"
+            app:summary="%s" />
+
+        <ListPreference
+            app:key="petrol_product_type"
+            app:title="@string/title_petrol_type"
+            app:useSimpleSummaryProvider="true"
+            app:isPreferenceVisible="false"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

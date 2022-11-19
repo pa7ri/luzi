@@ -1,11 +1,12 @@
-package com.master.iot.luzi.ui
+package com.master.iot.luzi.ui.settings
 
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.preference.PreferenceFragmentCompat
 import com.master.iot.luzi.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,11 +26,5 @@ class SettingsActivity : AppCompatActivity() {
             android.R.id.home -> onBackPressedDispatcher.onBackPressed()
         }
         return true
-    }
-
-    class SettingsFragment : PreferenceFragmentCompat() {
-        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-            setPreferencesFromResource(R.xml.root_preferences, rootKey)
-        }
     }
 }

@@ -7,11 +7,6 @@
         android:title="@string/title_electricity" />
 
     <item
-        android:id="@+id/navigation_gas"
-        android:icon="@drawable/ic_flame"
-        android:title="@string/title_gas" />
-
-    <item
         android:id="@+id/navigation_petrol"
         android:icon="@drawable/ic_petrol"
         android:title="@string/title_petrol" />

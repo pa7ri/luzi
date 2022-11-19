@@ -32,7 +32,6 @@ class HomeActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_electricity,
-                R.id.navigation_gas,
                 R.id.navigation_petrol,
                 R.id.navigation_rewards
             )

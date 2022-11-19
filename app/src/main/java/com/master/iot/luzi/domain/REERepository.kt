@@ -7,25 +7,25 @@ import com.master.iot.luzi.ui.ElectricityPreferences
 import com.master.iot.luzi.ui.electricity.EMPPrices
 import com.master.iot.luzi.ui.electricity.EMPPricesError
 import com.master.iot.luzi.ui.electricity.EMPPricesReady
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 class REERepository {
 
-    private val networkService = NetworkService.instance
+    private val reeAPI = NetworkService.instance.getReeApi()
 
     fun getEMPPerHour(
         selectedDate: Calendar,
         preferences: ElectricityPreferences
-    ): io.reactivex.Single<EMPPrices> {
+    ): Single<EMPPrices> {
         val localDate = Calendar.getInstance().apply { time = selectedDate.time }
-        return networkService.getReeApi()
-            .getElectricityMarketPriceByHour(
-                geoLimit = preferences.location,
-                startDate = getStartDate(localDate),
-                endDate = getEndDate(localDate)
-            ).subscribeOn(Schedulers.io())
+        return reeAPI.getElectricityMarketPriceByHour(
+            geoLimit = preferences.location,
+            startDate = getStartDate(localDate),
+            endDate = getEndDate(localDate)
+        ).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map { response -> EMPPricesReady(data = response.toEMPData(preferences.feeType)) as EMPPrices }
             .onErrorReturn {
@@ -35,7 +35,6 @@ class REERepository {
                 )
             }
     }
-
 
     private fun getStartDate(calendar: Calendar): String {
         calendar.apply {
