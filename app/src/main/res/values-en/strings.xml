@@ -3,9 +3,11 @@
     <string name="app_name">luzi</string>
     <string name="title_electricity">Electricity</string>
     <string name="title_petrol">Petrol</string>
+    <string name="title_petrol_station">Petrol station</string>
     <string name="title_rewards">Rewards</string>
     <string name="title_city">City</string>
     <string name="price_magnitude">€/kWh</string>
+    <string name="price_petrol_magnitude">€/l</string>
     <string name="price_empty">-.-</string>
     <string name="hour_empty">At —:—</string>
     <string name="hour_format">At %s</string>

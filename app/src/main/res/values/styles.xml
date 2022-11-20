@@ -38,6 +38,16 @@
         <item name="android:letterSpacing">0.0001</item>
     </style>
 
+    <style name="TextAppearance.PetrolPrice" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">0.00001</item>
+    </style>
+
+    <style name="TextAppearance.PetrolPriceTag" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textSize">10sp</item>
+        <item name="android:letterSpacing">0.0001</item>
+    </style>
+
     <style name="Widget.Luzi.AppWidget.Container" parent="android:Widget">
         <item name="android:id">@android:id/background</item>
         <item name="android:background">?android:attr/colorBackground</item>

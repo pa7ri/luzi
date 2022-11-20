@@ -3,22 +3,34 @@ package com.master.iot.luzi.ui.petrol
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.preference.PreferenceManager
+import com.google.gson.Gson
 import com.mapbox.maps.Style
-import com.mapbox.maps.plugin.animation.camera
+import com.mapbox.maps.plugin.annotation.annotations
+import com.mapbox.maps.plugin.annotation.generated.*
+import com.master.iot.luzi.PREFERENCES_PETROL_ID_PROVINCE_DEFAULT
+import com.master.iot.luzi.PREFERENCES_PETROL_PROVINCE
 import com.master.iot.luzi.databinding.FragmentPetrolBinding
+import com.master.iot.luzi.domain.dto.MTPetrolPricesData
 import com.master.iot.luzi.ui.settings.SettingsActivity
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class PetrolFragment : Fragment() {
     private val petrolViewModel: PetrolViewModel by viewModels()
 
     private lateinit var binding: FragmentPetrolBinding
+
+    private lateinit var pointAnnotation: PointAnnotation
+    private lateinit var pointAnnotationManager: PointAnnotationManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,23 +58,74 @@ class PetrolFragment : Fragment() {
     }
 
     private fun setUpObservables() {
-        petrolViewModel.petrolPrices.observe(viewLifecycleOwner) { list ->
-            //TODO: handle list
+        petrolViewModel.petrolPrices.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is MTPetrolPricesLoading -> {
+                    renderLoading()
+                }
+                is MTPetrolPricesError -> {
+                    renderError(response.description)
+                }
+                is MTPetrolPricesReady -> {
+                    addAnnotationsLayer(response.prices)
+                }
+            }
+        }
+    }
+
+    private fun renderLoading() {
+        Log.e("ANNOTATIONS", "Loading")
+    }
+
+    private fun renderError(description: String) {
+        Log.e("ANNOTATIONS", "Error $description")
+    }
+
+    private fun addAnnotationsLayer(prices: List<MTPetrolPricesData>) {
+        val pointAnnotationManager =
+            binding.mvPetrol.annotations.createCircleAnnotationManager(binding.mvPetrol)
+
+        prices.forEach { item ->
+            val pointAnnotationOptions: CircleAnnotationOptions = CircleAnnotationOptions()
+                .withPoint(item.point)
+                .withCircleColor("#ee4e8b")
+                .withData(Gson().toJsonTree(item))
+
+            pointAnnotationManager.create(pointAnnotationOptions)
+        }
+
+        pointAnnotationManager.apply {
+            addClickListener(
+                OnCircleAnnotationClickListener {
+                    val pricesData = Gson().fromJson(it.getData(), MTPetrolPricesData::class.java)
+                    Toast.makeText(
+                        requireContext(),
+                        "id: ${pricesData.petrolStationName}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    false
+                }
+            )
         }
     }
 
     private fun setUpMap() {
         binding.mvPetrol.apply {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && resources.configuration.isNightModeActive) {
-                getMapboxMap().loadStyleUri(Style.DARK)
-            } else {
-                getMapboxMap().loadStyleUri(Style.LIGHT)
-            }
+            val style =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && resources.configuration.isNightModeActive) {
+                    Style.DARK
+                } else {
+                    Style.LIGHT
+                }
+            getMapboxMap().loadStyleUri(style)
             //TODO: set initial location
         }
     }
 
     private fun setUpData() {
-        petrolViewModel.getPetrolPricesByProvince()
+        val idProvince = PreferenceManager.getDefaultSharedPreferences(requireContext())
+            .getString(PREFERENCES_PETROL_PROVINCE, PREFERENCES_PETROL_ID_PROVINCE_DEFAULT)
+            .toString().toInt()
+        petrolViewModel.updateData(idProvince)
     }
 }

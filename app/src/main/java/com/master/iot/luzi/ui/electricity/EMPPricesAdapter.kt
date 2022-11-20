@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.master.iot.luzi.R
 import com.master.iot.luzi.databinding.EmpPriceItemBinding
 import com.master.iot.luzi.domain.dto.EMPItem
-import com.master.iot.luzi.domain.dto.EMPItemIndicator
+import com.master.iot.luzi.domain.dto.PriceIndicator
 import com.master.iot.luzi.domain.utils.DateFormatterUtils.Companion.getHourFromDate
 import com.master.iot.luzi.domain.utils.toPriceString
 
@@ -43,10 +43,10 @@ class EMPPricesAdapter(private var pricesList: List<EMPItem>) :
         notifyDataSetChanged()
     }
 
-    private fun getIndicatorColor(indicator: EMPItemIndicator): Int =
+    private fun getIndicatorColor(indicator: PriceIndicator): Int =
         when (indicator) {
-            EMPItemIndicator.CHEAP -> R.color.green_200
-            EMPItemIndicator.EXPENSIVE -> R.color.orange_400
+            PriceIndicator.CHEAP -> R.color.green_200
+            PriceIndicator.EXPENSIVE -> R.color.orange_400
             else -> R.color.yellow_400
         }
 

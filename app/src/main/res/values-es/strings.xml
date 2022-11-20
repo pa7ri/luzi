@@ -3,10 +3,12 @@
 
     <string name="title_electricity">Luz</string>
     <string name="title_petrol">Gasolina</string>
+    <string name="title_petrol_station">Gasolinera</string>
     <string name="title_rewards">Recompensas</string>
     <string name="title_settings">Ajustes</string>
     <string name="title_city">Ciudad</string>
 
+    <string name="price_petrol_magnitude">€/l</string>
     <string name="price_magnitude">€/kWh</string>
     <string name="price_minimum">Precio mínimo</string>
     <string name="price_maximum">Precio máximo</string>

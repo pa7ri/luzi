@@ -5,10 +5,12 @@
 
     <string name="title_electricity">Luz</string>
     <string name="title_petrol">Gasolina</string>
+    <string name="title_petrol_station">Gasolinera</string>
     <string name="title_rewards">Recompensas</string>
     <string name="title_settings">Ajustes</string>
     <string name="title_city">Ciudad</string>
 
+    <string name="price_petrol_magnitude">€/l</string>
     <string name="price_magnitude">€/kWh</string>
     <string name="price_minimum">Precio mínimo</string>
     <string name="price_maximum">Precio maximo</string>
@@ -28,10 +30,10 @@
     <string name="title_notifications">Enviar notificaciones</string>
     <string name="summary_off_notifications">No recibiras notificaciones</string>
     <string name="summary_on_notifications">Recibiras una notificacion diaria el precio mínimo de la luz</string>
-    <string name="title_ccaa">CCAA</string>
-    <string name="title_province">Province</string>
-    <string name="title_municipality">Municipality</string>
-    <string name="title_petrol_type">Product type</string>
+    <string name="title_ccaa">Comunidad autonoma</string>
+    <string name="title_province">Provincia</string>
+    <string name="title_municipality">Municipio</string>
+    <string name="title_petrol_type">Tipo de producto</string>
 
     <!-- Sync Preferences -->
     <string name="title_fee">Tarifa</string>
