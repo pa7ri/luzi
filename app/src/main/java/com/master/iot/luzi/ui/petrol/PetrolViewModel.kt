@@ -23,7 +23,7 @@ class PetrolViewModel @Inject constructor(
 
     fun clearDisposables() = compositeDisposable.clear()
 
-    fun updateData(idProvince: Int) {
+    fun updateData(idProvince: String) {
         petrolPrices.value = MTPetrolPricesLoading()
         compositeDisposable.add(
             repository.getPetrolPricesByProvince(idProvince).subscribeOn(Schedulers.newThread())

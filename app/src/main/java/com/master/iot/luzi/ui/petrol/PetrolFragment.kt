@@ -7,18 +7,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.preference.PreferenceManager
 import com.google.gson.Gson
 import com.mapbox.maps.Style
 import com.mapbox.maps.plugin.annotation.annotations
-import com.mapbox.maps.plugin.annotation.generated.*
+import com.mapbox.maps.plugin.annotation.generated.CircleAnnotationOptions
+import com.mapbox.maps.plugin.annotation.generated.OnCircleAnnotationClickListener
+import com.mapbox.maps.plugin.annotation.generated.createCircleAnnotationManager
 import com.master.iot.luzi.PREFERENCES_PETROL_ID_PROVINCE_DEFAULT
 import com.master.iot.luzi.PREFERENCES_PETROL_PROVINCE
 import com.master.iot.luzi.databinding.FragmentPetrolBinding
 import com.master.iot.luzi.domain.dto.MTPetrolPricesData
+import com.master.iot.luzi.domain.utils.PriceIndicatorUtils
 import com.master.iot.luzi.ui.settings.SettingsActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,9 +30,6 @@ class PetrolFragment : Fragment() {
     private val petrolViewModel: PetrolViewModel by viewModels()
 
     private lateinit var binding: FragmentPetrolBinding
-
-    private lateinit var pointAnnotation: PointAnnotation
-    private lateinit var pointAnnotationManager: PointAnnotationManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,12 +41,16 @@ class PetrolFragment : Fragment() {
         setUpListeners()
         setUpObservables()
         setUpMap()
-        setUpData()
         return binding.root
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onResume() {
+        super.onResume()
+        setUpData()
+    }
+
+    override fun onStop() {
+        super.onStop()
         petrolViewModel.clearDisposables()
     }
 
@@ -88,7 +91,12 @@ class PetrolFragment : Fragment() {
         prices.forEach { item ->
             val pointAnnotationOptions: CircleAnnotationOptions = CircleAnnotationOptions()
                 .withPoint(item.point)
-                .withCircleColor("#ee4e8b")
+                .withCircleColor(
+                    PriceIndicatorUtils.getStringColor(
+                        requireContext(),
+                        PriceIndicatorUtils.getIndicatorColor(item.indicator)
+                    )
+                )
                 .withData(Gson().toJsonTree(item))
 
             pointAnnotationManager.create(pointAnnotationOptions)
@@ -98,11 +106,7 @@ class PetrolFragment : Fragment() {
             addClickListener(
                 OnCircleAnnotationClickListener {
                     val pricesData = Gson().fromJson(it.getData(), MTPetrolPricesData::class.java)
-                    Toast.makeText(
-                        requireContext(),
-                        "id: ${pricesData.petrolStationName}",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    PetrolItemDialog(requireContext(), pricesData).show()
                     false
                 }
             )
@@ -125,7 +129,7 @@ class PetrolFragment : Fragment() {
     private fun setUpData() {
         val idProvince = PreferenceManager.getDefaultSharedPreferences(requireContext())
             .getString(PREFERENCES_PETROL_PROVINCE, PREFERENCES_PETROL_ID_PROVINCE_DEFAULT)
-            .toString().toInt()
+            .toString()
         petrolViewModel.updateData(idProvince)
     }
 }

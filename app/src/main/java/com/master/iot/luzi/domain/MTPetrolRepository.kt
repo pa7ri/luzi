@@ -22,7 +22,7 @@ class MTPetrolRepository {
             .onErrorReturn { MTPetrolLocation(emptyList()) }
     }
 
-    fun getProvinceListByCCAA(idCcaa: Int): Single<MTPetrolLocation> {
+    fun getProvinceListByCCAA(idCcaa: String): Single<MTPetrolLocation> {
         return mtPetrolAPI.getProvinceListFilterByCCAA(idCCAA = idCcaa)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -30,7 +30,7 @@ class MTPetrolRepository {
             .onErrorReturn { MTPetrolLocation(emptyList()) }
     }
 
-    fun getMunicipalityListByProvince(idProvince: Int): Single<MTPetrolLocation> {
+    fun getMunicipalityListByProvince(idProvince: String): Single<MTPetrolLocation> {
         return mtPetrolAPI.getMunicipalityListFilterByProvince(idProvince = idProvince)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -38,7 +38,7 @@ class MTPetrolRepository {
             .onErrorReturn { MTPetrolLocation(emptyList()) }
     }
 
-    fun getPetrolPricesByProvince(idProvince: Int): Single<MTPetrolPrices> {
+    fun getPetrolPricesByProvince(idProvince: String): Single<MTPetrolPrices> {
         return mtPetrolAPI.getPetrolPricesFilterByProvince(idProvince = idProvince)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
