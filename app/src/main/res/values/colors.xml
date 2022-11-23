@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="blue_charcoal_200">#FFA8B6C3</color>
     <color name="blue_charcoal_400">#FF506d86</color>
     <color name="blue_charcoal_700">#FF244259</color>
     <color name="blue_charcoal_900">#FF001c30</color>

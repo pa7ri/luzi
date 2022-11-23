@@ -19,7 +19,7 @@ import com.mapbox.maps.plugin.annotation.generated.createCircleAnnotationManager
 import com.master.iot.luzi.PREFERENCES_PETROL_ID_PROVINCE_DEFAULT
 import com.master.iot.luzi.PREFERENCES_PETROL_PROVINCE
 import com.master.iot.luzi.databinding.FragmentPetrolBinding
-import com.master.iot.luzi.domain.dto.MTPetrolPricesData
+import com.master.iot.luzi.domain.dto.MTPetrolStationData
 import com.master.iot.luzi.domain.utils.PriceIndicatorUtils
 import com.master.iot.luzi.ui.settings.SettingsActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -84,7 +84,7 @@ class PetrolFragment : Fragment() {
         Log.e("ANNOTATIONS", "Error $description")
     }
 
-    private fun addAnnotationsLayer(prices: List<MTPetrolPricesData>) {
+    private fun addAnnotationsLayer(prices: List<MTPetrolStationData>) {
         val pointAnnotationManager =
             binding.mvPetrol.annotations.createCircleAnnotationManager(binding.mvPetrol)
 
@@ -105,7 +105,7 @@ class PetrolFragment : Fragment() {
         pointAnnotationManager.apply {
             addClickListener(
                 OnCircleAnnotationClickListener {
-                    val pricesData = Gson().fromJson(it.getData(), MTPetrolPricesData::class.java)
+                    val pricesData = Gson().fromJson(it.getData(), MTPetrolStationData::class.java)
                     PetrolItemDialog(requireContext(), pricesData).show()
                     false
                 }

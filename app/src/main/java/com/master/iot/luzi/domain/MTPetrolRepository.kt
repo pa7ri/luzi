@@ -42,7 +42,7 @@ class MTPetrolRepository {
         return mtPetrolAPI.getPetrolPricesFilterByProvince(idProvince = idProvince)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .map { response -> MTPetrolPricesReady(prices = response.toMTPetrolPricesData()) as MTPetrolPrices }
+            .map { response -> MTPetrolPricesReady(prices = response.toMTPetrolPricesData("1")) as MTPetrolPrices }
             .onErrorReturn { MTPetrolPricesError(it.localizedMessage ?: "") }
     }
 }
