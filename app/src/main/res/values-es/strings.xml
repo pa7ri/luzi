@@ -16,11 +16,13 @@
     <string name="price_empty">-.-</string>
 
     <string name="loading_data_title">Cargando datos…</string>
+    <string name="loading_petrol_data_title">Buscando gasolineras…</string>
     <string name="hour_empty">A las —:—</string>
     <string name="hour_format">A las %s</string>
     <string name="date_selection">Selecciona una fecha</string>
     <string name="date_today">Hoy</string>
     <string name="location_at">En %s</string>
+    <string name="no_gas_station_found">No se ha encontrado ninguna gasolinera en el municipio seleccionado</string>
 
     <!--  Preferences -->
     <string name="signature_title">Your signature</string>
@@ -41,4 +43,5 @@
     <!-- Widget -->
     <string name="add_widget">Add widget</string>
     <string name="app_widget_description">This is an app widget description</string>
+    <string name="title_hours">Horario</string>
 </resources>

@@ -15,8 +15,8 @@ import com.github.mikephil.charting.components.XAxis.XAxisPosition
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.master.iot.luzi.R
 import com.master.iot.luzi.TAG
+import com.master.iot.luzi.data.mtpetrol.mapper.REEChartMapper.Companion.toBarData
 import com.master.iot.luzi.databinding.FragmentElectricityBinding
-import com.master.iot.luzi.domain.mapper.REEChartMapper.Companion.toBarData
 import com.master.iot.luzi.domain.utils.*
 import com.master.iot.luzi.ui.ElectricityPreferences
 import com.master.iot.luzi.ui.getElectricityPreferences
@@ -91,22 +91,29 @@ class ElectricityFragment : Fragment() {
 
     private fun setUpListeners() {
         binding.fab.setOnClickListener { electricityViewModel.switchRenderData() }
-        val materialDatePicker = MaterialDatePicker.Builder.datePicker().apply {
-            setTitleText(getString(R.string.date_selection))
-        }.build()
         binding.tvLocation.text = getString(R.string.location_at, preferences.location)
         binding.toolbar.ivMore.setOnClickListener {
             startActivity(Intent(requireContext(), SettingsActivity::class.java))
         }
-        binding.toolbar.tvTitle.setOnClickListener {
-            materialDatePicker.addOnPositiveButtonClickListener {
-                binding.toolbar.tvTitle.text = materialDatePicker.headerText
-                materialDatePicker.selection?.let {
-                    selectedDate.value = Calendar.getInstance().apply { timeInMillis = it }
-                }
-            }
-            materialDatePicker.show(parentFragmentManager, TAG)
+        binding.toolbar.ivCalendar.setOnClickListener {
+            showCalendar()
         }
+        binding.toolbar.tvTitle.setOnClickListener {
+            showCalendar()
+        }
+    }
+
+    private fun showCalendar() {
+        val materialDatePicker = MaterialDatePicker.Builder.datePicker().apply {
+            setTitleText(getString(R.string.date_selection))
+        }.build()
+        materialDatePicker.addOnPositiveButtonClickListener {
+            binding.toolbar.tvTitle.text = materialDatePicker.headerText
+            materialDatePicker.selection?.let {
+                selectedDate.value = Calendar.getInstance().apply { timeInMillis = it }
+            }
+        }
+        materialDatePicker.show(parentFragmentManager, TAG)
     }
 
     private fun setUpObservers() {

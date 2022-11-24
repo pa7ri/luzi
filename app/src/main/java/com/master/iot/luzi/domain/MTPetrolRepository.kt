@@ -1,9 +1,10 @@
 package com.master.iot.luzi.domain
 
 import com.master.iot.luzi.data.NetworkService
+import com.master.iot.luzi.data.mtpetrol.mapper.MTPetrolMapper.Companion.toMTPetrolLocationData
+import com.master.iot.luzi.data.mtpetrol.mapper.MTPetrolMapper.Companion.toMTPetrolPricesData
 import com.master.iot.luzi.domain.dto.MTPetrolLocation
-import com.master.iot.luzi.domain.mapper.MTPetrolMapper.Companion.toMTPetrolLocationData
-import com.master.iot.luzi.domain.mapper.MTPetrolMapper.Companion.toMTPetrolPricesData
+import com.master.iot.luzi.domain.dto.MTPetrolProductItem
 import com.master.iot.luzi.ui.petrol.MTPetrolPrices
 import com.master.iot.luzi.ui.petrol.MTPetrolPricesError
 import com.master.iot.luzi.ui.petrol.MTPetrolPricesReady
@@ -38,11 +39,19 @@ class MTPetrolRepository {
             .onErrorReturn { MTPetrolLocation(emptyList()) }
     }
 
-    fun getPetrolPricesByProvince(idProvince: String): Single<MTPetrolPrices> {
+    fun getPetrolPricesByProvince(idProvince: String, idProduct: String): Single<MTPetrolPrices> {
         return mtPetrolAPI.getPetrolPricesFilterByProvince(idProvince = idProvince)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .map { response -> MTPetrolPricesReady(prices = response.toMTPetrolPricesData("1")) as MTPetrolPrices }
+            .map { response -> MTPetrolPricesReady(prices = response.toMTPetrolPricesData(idProduct)) as MTPetrolPrices }
             .onErrorReturn { MTPetrolPricesError(it.localizedMessage ?: "") }
+    }
+
+    fun getPetrolProducts(): Single<List<MTPetrolProductItem>> {
+        return mtPetrolAPI.getPetrolProducts()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map { it.map { MTPetrolProductItem(it.NombreProducto, it.IDProducto) } }
+            .onErrorReturn { emptyList() }
     }
 }

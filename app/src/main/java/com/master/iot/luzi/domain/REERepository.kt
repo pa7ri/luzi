@@ -1,7 +1,7 @@
 package com.master.iot.luzi.domain
 
 import com.master.iot.luzi.data.NetworkService
-import com.master.iot.luzi.domain.mapper.REEMapper.Companion.toEMPData
+import com.master.iot.luzi.data.mtpetrol.mapper.REEMapper.Companion.toEMPData
 import com.master.iot.luzi.domain.utils.DateFormatterUtils
 import com.master.iot.luzi.ui.ElectricityPreferences
 import com.master.iot.luzi.ui.electricity.EMPPrices

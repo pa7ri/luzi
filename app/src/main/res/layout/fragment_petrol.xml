@@ -10,9 +10,24 @@
         android:id="@+id/mvPetrol"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:mapbox_cameraTargetLat="40.2238"
-        app:mapbox_cameraTargetLng="-3.58"
-        app:mapbox_cameraZoom="12.0" />
+        app:mapbox_cameraTargetLat="40.4168"
+        app:mapbox_cameraTargetLng="-3.7038"
+        app:mapbox_cameraZoom="4.0" />
+
+    <include
+        android:id="@+id/ltLoading"
+        layout="@layout/layout_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <include
+        android:id="@+id/ltError"
+        layout="@layout/layout_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabSettings"

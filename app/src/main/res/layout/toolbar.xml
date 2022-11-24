@@ -25,7 +25,15 @@
             android:src="@drawable/ic_settings_sliders"
             android:layout_width="@dimen/icon_width"
             android:layout_height="@dimen/icon_width"
-            android:layout_margin="@dimen/margin_regular"
+            android:layout_marginEnd="@dimen/margin_regular"
+            android:layout_gravity="end"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivCalendar"
+            android:src="@drawable/ic_calendar"
+            android:layout_width="@dimen/icon_large_width"
+            android:layout_height="@dimen/icon_large_width"
+            android:layout_marginEnd="@dimen/margin_regular"
             android:layout_gravity="end"/>
 
     </com.google.android.material.appbar.MaterialToolbar>

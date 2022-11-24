@@ -1,4 +1,4 @@
-package com.master.iot.luzi.domain.mapper
+package com.master.iot.luzi.data.mtpetrol.mapper
 
 import android.graphics.Color
 import com.github.mikephil.charting.data.BarData

@@ -18,6 +18,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     lateinit var ccaaPreference: ListPreference
     lateinit var provincesPreference: ListPreference
     lateinit var municipalitiesPreference: ListPreference
+    lateinit var productsPreference: ListPreference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
@@ -43,6 +44,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
             findPreference<ListPreference>(PREFERENCES_PETROL_PROVINCE) as ListPreference
         municipalitiesPreference =
             findPreference<ListPreference>(PREFERENCES_PETROL_MUNICIPALITY) as ListPreference
+        productsPreference =
+            findPreference<ListPreference>(PREFERENCES_PETROL_PRODUCT_TYPE) as ListPreference
     }
 
     private fun setUpListeners() {
@@ -64,10 +67,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
             preference.summary = municipalitiesPreference.entry
             false
         }
+        productsPreference.setOnPreferenceChangeListener { preference, newValue ->
+            productsPreference.value = newValue.toString()
+            preference.summary = productsPreference.entry
+            false
+        }
     }
 
     private fun setUpObservers() {
-
         settingsViewModel.ccaaData.observe(viewLifecycleOwner) { list ->
             ccaaPreference.apply {
                 entries = list.map { it.ccaa }.toTypedArray()
@@ -89,6 +96,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 summary = municipalitiesPreference.entry
             }
         }
+        settingsViewModel.productsData.observe(viewLifecycleOwner) { list ->
+            productsPreference.apply {
+                entries = list.map { it.name }.toTypedArray()
+                entryValues = list.map { it.id }.toTypedArray()
+                summary = productsPreference.entry
+            }
+        }
     }
 
     private fun renderPetrolListPreferences() {
@@ -102,6 +116,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         settingsViewModel.getCCAAPreferences()
         settingsViewModel.getProvincePreferences(idCCAA = idCcaa)
         settingsViewModel.getMunicipalityPreferences(idProvince = idProvince)
+        settingsViewModel.getProductsPreferences()
     }
 
 }

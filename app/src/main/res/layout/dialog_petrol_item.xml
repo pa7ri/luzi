@@ -12,16 +12,52 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/title_petrol_station"
+        app:layout_constraintBottom_toBottomOf="@+id/tvPetrolStation"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/tvPetrolStation" />
 
     <TextView
         android:id="@+id/tvPetrolStation"
         style="@style/TextAppearance.MaterialComponents.Subtitle1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:ellipsize="end"
+        android:gravity="end"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/tvPetrolStationLabel"
         app:layout_constraintTop_toTopOf="parent"
+        tools:text="Repsol" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/subdivider"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_small"
+        app:layout_constraintTop_toBottomOf="@+id/tvPetrolStation" />
+
+    <TextView
+        android:id="@+id/tvPetrolStationHoursLabel"
+        style="@style/TextAppearance.MaterialComponents.Caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_hours"
+        app:layout_constraintBottom_toBottomOf="@+id/tvPetrolStationHours"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvPetrolStationHours" />
+
+    <TextView
+        android:id="@+id/tvPetrolStationHours"
+        style="@style/TextAppearance.MaterialComponents.Caption"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_small"
+        android:ellipsize="end"
+        android:gravity="end"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subdivider"
         tools:text="Repsol" />
 
     <com.google.android.material.divider.MaterialDivider
@@ -29,7 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="@dimen/margin_small"
-        app:layout_constraintTop_toBottomOf="@+id/tvPetrolStation" />
+        app:layout_constraintTop_toBottomOf="@+id/tvPetrolStationHours" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPrices"

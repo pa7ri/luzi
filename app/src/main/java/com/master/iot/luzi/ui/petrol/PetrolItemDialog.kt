@@ -13,6 +13,7 @@ class PetrolItemDialog(context: Context, private val items: MTPetrolStationData)
     View.OnClickListener {
 
     private lateinit var petrolStationTV: TextView
+    private lateinit var petrolStationHoursTV: TextView
     private lateinit var pricesRV: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,9 +25,11 @@ class PetrolItemDialog(context: Context, private val items: MTPetrolStationData)
 
     private fun setUpAdapter() {
         petrolStationTV = findViewById(R.id.tvPetrolStation)
+        petrolStationHoursTV = findViewById(R.id.tvPetrolStationHours)
         pricesRV = findViewById(R.id.rvPrices)
 
         petrolStationTV.text = items.petrolStationName
+        petrolStationHoursTV.text = items.hours
         pricesRV.adapter = MTPricesAdapter(items.products)
     }
 

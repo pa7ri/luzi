@@ -3,24 +3,29 @@ package com.master.iot.luzi.ui.petrol
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.preference.PreferenceManager
 import com.google.gson.Gson
 import com.mapbox.maps.Style
+import com.mapbox.maps.dsl.cameraOptions
+import com.mapbox.maps.plugin.animation.MapAnimationOptions.Companion.mapAnimationOptions
+import com.mapbox.maps.plugin.animation.flyTo
 import com.mapbox.maps.plugin.annotation.annotations
+import com.mapbox.maps.plugin.annotation.generated.CircleAnnotationManager
 import com.mapbox.maps.plugin.annotation.generated.CircleAnnotationOptions
 import com.mapbox.maps.plugin.annotation.generated.OnCircleAnnotationClickListener
 import com.mapbox.maps.plugin.annotation.generated.createCircleAnnotationManager
-import com.master.iot.luzi.PREFERENCES_PETROL_ID_PROVINCE_DEFAULT
-import com.master.iot.luzi.PREFERENCES_PETROL_PROVINCE
+import com.master.iot.luzi.*
 import com.master.iot.luzi.databinding.FragmentPetrolBinding
 import com.master.iot.luzi.domain.dto.MTPetrolStationData
 import com.master.iot.luzi.domain.utils.PriceIndicatorUtils
+import com.master.iot.luzi.domain.utils.getCheapestGasStation
+import com.master.iot.luzi.domain.utils.getGasStationsByMunicipality
 import com.master.iot.luzi.ui.settings.SettingsActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,6 +36,10 @@ class PetrolFragment : Fragment() {
 
     private lateinit var binding: FragmentPetrolBinding
 
+    private lateinit var pointAnnotationManager: CircleAnnotationManager
+    private var idSelectedProduct: String = PREFERENCES_PETROL_ID_PRODUCT_TYPE_DEFAULT
+    private var idMunicipality: String = PREFERENCES_PETROL_ID_MUNICIPALITY_DEFAULT
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,12 +49,12 @@ class PetrolFragment : Fragment() {
 
         setUpListeners()
         setUpObservables()
-        setUpMap()
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
+        setUpMap()
         setUpData()
     }
 
@@ -62,9 +71,10 @@ class PetrolFragment : Fragment() {
 
     private fun setUpObservables() {
         petrolViewModel.petrolPrices.observe(viewLifecycleOwner) { response ->
+            resetVisibilityItems()
             when (response) {
                 is MTPetrolPricesLoading -> {
-                    renderLoading()
+                    renderLoading(response.title)
                 }
                 is MTPetrolPricesError -> {
                     renderError(response.description)
@@ -76,21 +86,33 @@ class PetrolFragment : Fragment() {
         }
     }
 
-    private fun renderLoading() {
-        Log.e("ANNOTATIONS", "Loading")
+    private fun renderLoading(description: Int) {
+        binding.ltLoading.group.visibility = View.VISIBLE
+        binding.ltLoading.tvLoading.text = getString(description)
     }
 
     private fun renderError(description: String) {
-        Log.e("ANNOTATIONS", "Error $description")
+        binding.ltError.group.visibility = View.VISIBLE
+        binding.ltError.tvError.text = description
+    }
+
+    private fun resetVisibilityItems() {
+        binding.ltLoading.group.visibility = View.GONE
+        binding.ltError.group.visibility = View.GONE
     }
 
     private fun addAnnotationsLayer(prices: List<MTPetrolStationData>) {
-        val pointAnnotationManager =
+        binding.mvPetrol.annotations.cleanup()
+        binding.mvPetrol.visibility = View.VISIBLE
+
+        // render annotations with gas station
+        pointAnnotationManager =
             binding.mvPetrol.annotations.createCircleAnnotationManager(binding.mvPetrol)
 
         prices.forEach { item ->
             val pointAnnotationOptions: CircleAnnotationOptions = CircleAnnotationOptions()
                 .withPoint(item.point)
+                .withCircleRadius(7.0)
                 .withCircleColor(
                     PriceIndicatorUtils.getStringColor(
                         requireContext(),
@@ -111,7 +133,27 @@ class PetrolFragment : Fragment() {
                 }
             )
         }
+
+        // move camera to cheapest gas station in selected municipality
+        val desiredGasStation = prices.getGasStationsByMunicipality(idMunicipality)
+            .getCheapestGasStation(idSelectedProduct)
+        if (desiredGasStation == null) {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.no_gas_station_found),
+                Toast.LENGTH_LONG
+            ).show()
+        } else {
+            binding.mvPetrol.getMapboxMap().flyTo(cameraOptions {
+                zoom(12.0)
+                center(desiredGasStation.point)
+                bearing(10.0)
+            }, mapAnimationOptions {
+                duration(7000)
+            })
+        }
     }
+
 
     private fun setUpMap() {
         binding.mvPetrol.apply {
@@ -122,7 +164,6 @@ class PetrolFragment : Fragment() {
                     Style.LIGHT
                 }
             getMapboxMap().loadStyleUri(style)
-            //TODO: set initial location
         }
     }
 
@@ -130,6 +171,12 @@ class PetrolFragment : Fragment() {
         val idProvince = PreferenceManager.getDefaultSharedPreferences(requireContext())
             .getString(PREFERENCES_PETROL_PROVINCE, PREFERENCES_PETROL_ID_PROVINCE_DEFAULT)
             .toString()
-        petrolViewModel.updateData(idProvince)
+        idSelectedProduct = PreferenceManager.getDefaultSharedPreferences(requireContext())
+            .getString(PREFERENCES_PETROL_PRODUCT_TYPE, PREFERENCES_PETROL_ID_PRODUCT_TYPE_DEFAULT)
+            .toString()
+        idMunicipality = PreferenceManager.getDefaultSharedPreferences(requireContext())
+            .getString(PREFERENCES_PETROL_MUNICIPALITY, PREFERENCES_PETROL_ID_MUNICIPALITY_DEFAULT)
+            .toString()
+        petrolViewModel.updateData(idProvince, idSelectedProduct)
     }
 }

@@ -2,6 +2,7 @@ package com.master.iot.luzi.data.mtpetrol
 
 import com.master.iot.luzi.PREFERENCES_PETROL_ID_CCAA_DEFAULT
 import com.master.iot.luzi.PREFERENCES_PETROL_ID_PROVINCE_DEFAULT
+import com.master.iot.luzi.domain.dto.MTPetrolProductResponse
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -41,5 +42,11 @@ interface MTPetrolAPI {
     fun getPetrolPricesFilterByProvince(
         @Path("idProvince") idProvince: String = PREFERENCES_PETROL_ID_PROVINCE_DEFAULT
     ): Single<MTPetrolPricesResponse>
+
+    /**
+     * Get list of products
+     **/
+    @GET("/ServiciosRESTCarburantes/PreciosCarburantes/Listados/ProductosPetroliferos/")
+    fun getPetrolProducts(): Single<MTPetrolProductResponse>
 
 }

@@ -17,6 +17,7 @@
     <dimen name="margin_regular">16dp</dimen>
     <dimen name="margin_large">24dp</dimen>
     <dimen name="margin_huge">32dp</dimen>
+    <dimen name="icon_large_width">20dp</dimen>
     <dimen name="icon_width">16dp</dimen>
     <dimen name="fab_width">40dp</dimen>
     <dimen name="fab_icon_width">16dp</dimen>

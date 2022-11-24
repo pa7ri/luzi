@@ -29,24 +29,23 @@
     <PreferenceCategory app:title="@string/title_petrol">
         <ListPreference
             app:key="petrol_location_ccaa"
-            app:title="@string/title_ccaa"
-            app:summary="%s" />
+            app:summary="%s"
+            app:title="@string/title_ccaa" />
 
         <ListPreference
             app:key="petrol_location_province"
-            app:title="@string/title_province"
-            app:summary="%s"/>
+            app:summary="%s"
+            app:title="@string/title_province" />
 
         <ListPreference
             app:key="petrol_location_municipality"
-            app:title="@string/title_municipality"
-            app:summary="%s" />
+            app:summary="%s"
+            app:title="@string/title_municipality" />
 
         <ListPreference
             app:key="petrol_product_type"
-            app:title="@string/title_petrol_type"
-            app:useSimpleSummaryProvider="true"
-            app:isPreferenceVisible="false"/>
+            app:summary="%s"
+            app:title="@string/title_petrol_type" />
     </PreferenceCategory>
 
 </PreferenceScreen>

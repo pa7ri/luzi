@@ -1,4 +1,4 @@
-package com.master.iot.luzi.domain.mapper
+package com.master.iot.luzi.data.mtpetrol.mapper
 
 import com.master.iot.luzi.data.ree.EMPPerHourResponse
 import com.master.iot.luzi.data.ree.Value

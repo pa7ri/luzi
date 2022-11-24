@@ -6,6 +6,7 @@ import com.master.iot.luzi.PREFERENCES_PETROL_ID_CCAA_DEFAULT
 import com.master.iot.luzi.PREFERENCES_PETROL_ID_PROVINCE_DEFAULT
 import com.master.iot.luzi.domain.MTPetrolRepository
 import com.master.iot.luzi.domain.dto.MTPetrolLocationItem
+import com.master.iot.luzi.domain.dto.MTPetrolProductItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -26,6 +27,10 @@ class SettingsViewModel @Inject constructor(
     }
 
     val municipalitiesData = MutableLiveData<List<MTPetrolLocationItem>>().apply {
+        value = emptyList()
+    }
+
+    val productsData = MutableLiveData<List<MTPetrolProductItem>>().apply {
         value = emptyList()
     }
 
@@ -61,6 +66,17 @@ class SettingsViewModel @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ municipalitiesData.value = it.data },
                     { municipalitiesData.value = emptyList() }
+                )
+        )
+    }
+
+    fun getProductsPreferences() {
+        compositeDisposable.add(
+            repository.getPetrolProducts()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ productsData.value = it },
+                    { productsData.value = emptyList() }
                 )
         )
     }

@@ -23,10 +23,11 @@ class PetrolViewModel @Inject constructor(
 
     fun clearDisposables() = compositeDisposable.clear()
 
-    fun updateData(idProvince: String) {
+    fun updateData(idProvince: String, idProduct: String) {
         petrolPrices.value = MTPetrolPricesLoading()
         compositeDisposable.add(
-            repository.getPetrolPricesByProvince(idProvince).subscribeOn(Schedulers.newThread())
+            repository.getPetrolPricesByProvince(idProvince, idProduct)
+                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ petrolPrices.value = it },
                     { petrolPrices.value = MTPetrolPricesError(it.localizedMessage ?: "") }

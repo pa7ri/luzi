@@ -1,4 +1,4 @@
-package com.master.iot.luzi.domain.mapper
+package com.master.iot.luzi.data.mtpetrol.mapper
 
 import com.mapbox.geojson.Point
 import com.master.iot.luzi.*
@@ -57,10 +57,12 @@ class MTPetrolMapper {
                 MTPetrolStationData(
                     petrolStationName = it.rotulo,
                     petrolStationId = it.iDEESS,
+                    idMunicipality = it.iDMunicipio,
                     point = Point.fromLngLat(
                         DOUBLE_FORMAT.parse(it.longitud)?.toDouble() ?: 0.0,
                         DOUBLE_FORMAT.parse(it.latitud)?.toDouble() ?: 0.0
                     ),
+                    hours = it.horario,
                     products = products
                 )
             }.apply {
