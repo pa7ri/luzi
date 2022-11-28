@@ -2,10 +2,12 @@ package com.master.iot.luzi.ui.settings
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
+import androidx.preference.SwitchPreferenceCompat
 import com.master.iot.luzi.*
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,6 +17,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private val settingsViewModel: SettingsViewModel by viewModels()
 
     lateinit var preferences: SharedPreferences
+
+    lateinit var geoPreference: ListPreference
+    lateinit var feePreference: ListPreference
+    lateinit var notificationsPreference: SwitchPreferenceCompat
+
     lateinit var ccaaPreference: ListPreference
     lateinit var provincesPreference: ListPreference
     lateinit var municipalitiesPreference: ListPreference
@@ -39,6 +46,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private fun initPreferences() {
         preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+
+        geoPreference = findPreference<ListPreference>(PREFERENCES_LOCATION_KEY) as ListPreference
+        feePreference = findPreference<ListPreference>(PREFERENCES_FEE_KEY) as ListPreference
+        notificationsPreference =
+            findPreference<SwitchPreferenceCompat>(PREFERENCES_NOTIFICATION_KEY) as SwitchPreferenceCompat
+
         ccaaPreference = findPreference<ListPreference>(PREFERENCES_PETROL_CCAA) as ListPreference
         provincesPreference =
             findPreference<ListPreference>(PREFERENCES_PETROL_PROVINCE) as ListPreference
@@ -49,29 +62,50 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun setUpListeners() {
+        geoPreference.setOnPreferenceChangeListener { _, _ ->
+            showFeedback()
+            true
+        }
+        feePreference.setOnPreferenceChangeListener { _, _ ->
+            showFeedback()
+            true
+        }
+        notificationsPreference.setOnPreferenceChangeListener { _, _ ->
+            showFeedback()
+            true
+        }
         ccaaPreference.setOnPreferenceChangeListener { preference, newValue ->
             ccaaPreference.value = newValue.toString()
             preference.summary = ccaaPreference.entry
             settingsViewModel.getProvincePreferences(idCCAA = newValue.toString())
             settingsViewModel.getMunicipalityPreferences(idProvince = newValue.toString())
+            showFeedback()
             false
         }
         provincesPreference.setOnPreferenceChangeListener { preference, newValue ->
             provincesPreference.value = newValue.toString()
             preference.summary = provincesPreference.entry
             settingsViewModel.getMunicipalityPreferences(idProvince = newValue.toString())
+            showFeedback()
             false
         }
         municipalitiesPreference.setOnPreferenceChangeListener { preference, newValue ->
             municipalitiesPreference.value = newValue.toString()
             preference.summary = municipalitiesPreference.entry
+            showFeedback()
             false
         }
         productsPreference.setOnPreferenceChangeListener { preference, newValue ->
             productsPreference.value = newValue.toString()
             preference.summary = productsPreference.entry
+            showFeedback()
             false
         }
+    }
+
+    private fun showFeedback() {
+        Toast.makeText(requireContext(), getString(R.string.preferences_saved), Toast.LENGTH_LONG)
+            .show()
     }
 
     private fun setUpObservers() {

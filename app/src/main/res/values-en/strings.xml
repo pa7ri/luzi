@@ -37,4 +37,5 @@
     <string name="title_municipality">Municipality</string>
     <string name="title_petrol_type">Product type</string>
     <string name="title_hours">Hours</string>
+    <string name="preferences_saved">Preferences successfully updated</string>
 </resources>
