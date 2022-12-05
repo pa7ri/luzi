@@ -1,8 +1,6 @@
 package com.master.iot.luzi.domain.utils
 
-import java.lang.String.format
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class DateFormatterUtils {

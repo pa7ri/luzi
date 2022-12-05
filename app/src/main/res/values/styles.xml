@@ -15,7 +15,7 @@
         <item name="android:textSize">12sp</item>
         <item name="android:letterSpacing">0.001</item>
         <item name="android:background">@drawable/bg_round</item>
-        <item name="android:textColor">@color/orange_400</item>
+        <item name="android:textColor">?attr/colorOnTertiary</item>
         <item name="android:paddingStart">@dimen/margin_small</item>
         <item name="android:paddingEnd">@dimen/margin_small</item>
         <item name="android:paddingTop">@dimen/margin_tiny</item>

@@ -102,12 +102,11 @@ class PetrolFragment : Fragment() {
     }
 
     private fun addAnnotationsLayer(prices: List<MTPetrolStationData>) {
-        binding.mvPetrol.annotations.cleanup()
+        binding.mvPetrol.clearAnimation()
         binding.mvPetrol.visibility = View.VISIBLE
 
         // render annotations with gas station
-        pointAnnotationManager =
-            binding.mvPetrol.annotations.createCircleAnnotationManager(binding.mvPetrol)
+        pointAnnotationManager = binding.mvPetrol.annotations.createCircleAnnotationManager()
 
         prices.forEach { item ->
             val pointAnnotationOptions: CircleAnnotationOptions = CircleAnnotationOptions()
@@ -145,11 +144,11 @@ class PetrolFragment : Fragment() {
             ).show()
         } else {
             binding.mvPetrol.getMapboxMap().flyTo(cameraOptions {
-                zoom(12.0)
+                zoom(PREFERENCES_LOCATION_DEFAULT_ZOOM)
                 center(desiredGasStation.point)
-                bearing(10.0)
+                bearing(PREFERENCES_LOCATION_DEFAULT_BEARING)
             }, mapAnimationOptions {
-                duration(7000)
+                duration(PREFERENCES_LOCATION_DEFAULT_ANIMATION)
             })
         }
     }
