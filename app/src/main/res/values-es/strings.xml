@@ -16,6 +16,7 @@
     <string name="price_empty">-.-</string>
 
     <string name="loading_data_title">Cargando datos…</string>
+    <string name="loading_data_description">Puede que tome unos minutos</string>
     <string name="loading_petrol_data_title">Buscando gasolineras…</string>
     <string name="hour_empty">A las —:—</string>
     <string name="hour_format">A las %s</string>

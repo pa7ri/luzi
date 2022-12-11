@@ -1,0 +1,62 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.Luzi.AppWidget.Container"
+    android:layout_width="100dp"
+    android:layout_height="wrap_content"
+    android:theme="@style/Theme.Luzi.AppWidgetContainer">
+
+    <ImageView
+        android:id="@+id/ivIndicator"
+        android:layout_width="6dp"
+        android:layout_height="6dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/margin_tiny"
+        android:background="@drawable/bg_round"
+        android:backgroundTint="@color/green_400" />
+
+    <TextView
+        android:id="@+id/tvMinPriceLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/ivIndicator"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="@dimen/margin_tiny"
+        android:layout_marginStart="@dimen/margin_tiny"
+        android:gravity="center"
+        android:text="@string/price_minimum"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/tvMinPriceValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvMinPriceLabel"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginBottom="@dimen/margin_tiny"
+        android:text="0.203"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvMinPriceMagnitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvMinPriceValue"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="1dp"
+        android:layout_toEndOf="@+id/tvMinPriceValue"
+        android:text="@string/price_magnitude"
+        android:textSize="6sp" />
+
+    <TextView
+        android:id="@+id/tvMinPriceHour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvMinPriceValue"
+        android:layout_alignStart="@+id/tvMinPriceValue"
+        android:layout_alignEnd="@+id/tvMinPriceMagnitude"
+        android:gravity="center"
+        android:text="At 02:00"
+        android:textSize="9sp" />
+</RelativeLayout>

@@ -24,6 +24,7 @@
     <string name="price_maximum">Max price</string>
     <string name="price_average">Average price</string>
     <string name="loading_data_title">Loading data…</string>
+    <string name="loading_data_description">It might take some minutes</string>
     <string name="loading_petrol_data_title">Searching petrol stations…</string>
     <string name="title_fee">Fee</string>
     <string name="rewards_progress_empty">0/0</string>

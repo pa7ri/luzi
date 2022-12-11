@@ -1,51 +1,30 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/Widget.Luzi.AppWidget.Container"
+    android:id="@+id/ltWidget"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     android:theme="@style/Theme.Luzi.AppWidgetContainer">
 
-    <TextView
-        android:id="@+id/tvMinPriceLabel"
+    <include
+        android:id="@+id/ltLoading"
+        layout="@layout/electricity_widget_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_tiny"
-        android:layout_above="@+id/tvMinPriceValue"
-        android:layout_alignStart="@+id/tvMinPriceValue"
-        android:layout_alignEnd="@+id/tvMinPriceMagnitude"
-        android:text="@string/price_minimum"
-        android:textSize="10sp" />
+        android:visibility="gone"
+        android:layout_marginStart="@dimen/margin_tiny"  />
 
-    <TextView
-        android:id="@+id/tvMinPriceValue"
+    <include
+        android:id="@+id/ltPriceMin"
+        layout="@layout/electricity_widget_min_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="@dimen/margin_small"
-        android:layout_marginBottom="@dimen/margin_tiny"
-        android:text="0.203"
-        android:textSize="12sp"
-        android:textStyle="bold" />
+        android:layout_marginStart="@dimen/margin_tiny"  />
 
-    <TextView
-        android:id="@+id/tvMinPriceMagnitude"
+    <include
+        android:id="@+id/ltPriceMax"
+        layout="@layout/electricity_widget_max_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/tvMinPriceValue"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="1dp"
-        android:layout_toEndOf="@+id/tvMinPriceValue"
-        android:text="@string/price_magnitude"
-        android:textSize="6sp" />
-
-    <TextView
-        android:id="@+id/tvMinPriceHour"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvMinPriceValue"
-        android:layout_alignStart="@+id/tvMinPriceValue"
-        android:layout_alignEnd="@+id/tvMinPriceMagnitude"
-        android:text="At 01:00"
-        android:textSize="9sp"
-        android:gravity="center" />
-</RelativeLayout>
+        android:layout_marginStart="@dimen/margin_regular"  />
+</LinearLayout>
