@@ -46,6 +46,13 @@
             android:name=".ui.rewards.VerifierActivity"
             android:exported="false"
             android:label="@string/title_rewards" />
-    </application>
 
+        <service
+            android:name=".data.FirebaseNotificationsService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+    </application>
 </manifest>

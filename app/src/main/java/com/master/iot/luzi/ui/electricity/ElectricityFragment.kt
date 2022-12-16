@@ -110,10 +110,29 @@ class ElectricityFragment : Fragment() {
         materialDatePicker.addOnPositiveButtonClickListener {
             binding.toolbar.tvTitle.text = materialDatePicker.headerText
             materialDatePicker.selection?.let {
-                selectedDate.value = Calendar.getInstance().apply { timeInMillis = it }
+                resetVisibilityItems()
+                val selected = Calendar.getInstance().apply { timeInMillis = it }
+                when (isSelectedDateAvailable(selected)) {
+                    DateType.FUTURE -> renderError(
+                        EMPPricesError(
+                            getString(R.string.error_electricity_not_available_title),
+                            getString(R.string.error_electricity_not_available_decription)
+                        )
+                    )
+                    DateType.PAST -> selectedDate.value = selected
+                }
             }
         }
         materialDatePicker.show(parentFragmentManager, TAG)
+    }
+
+    private fun isSelectedDateAvailable(selectedDate: Calendar): DateType {
+        val currentDate = Calendar.getInstance().apply { time = Date() }
+        return if (currentDate < selectedDate) {
+            DateType.FUTURE
+        } else {
+            DateType.PAST
+        }
     }
 
     private fun setUpObservers() {
@@ -175,6 +194,7 @@ class ElectricityFragment : Fragment() {
     private fun renderError(error: EMPPricesError) {
         binding.ltError.group.visibility = View.VISIBLE
         binding.ltError.tvError.text = error.title
+        binding.ltError.tvErrorDescription.text = error.description
     }
 
     private fun renderLoading(loading: EMPPricesLoading) {
@@ -190,4 +210,5 @@ class ElectricityFragment : Fragment() {
         binding.ltLoading.group.visibility = View.GONE
         binding.ltError.group.visibility = View.GONE
     }
+
 }

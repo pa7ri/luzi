@@ -6,9 +6,9 @@
     android:minWidth="200dp"
     android:minHeight="30dp"
     android:previewLayout="@layout/electricity_widget"
+    android:resizeMode="none"
     android:targetCellWidth="3"
     android:targetCellHeight="1"
-    android:previewImage="@drawable/preview_electricity_widget"
-    android:resizeMode="none"
-    android:updatePeriodMillis="1800000"
+    android:updatePeriodMillis="21600000"
     android:widgetCategory="home_screen" />
+    <!--  21600000 millis -> 6h  -->

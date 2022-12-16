@@ -24,6 +24,12 @@
             app:summaryOn="@string/summary_on_notifications"
             app:title="@string/title_notifications" />
 
+<!--        <Preference-->
+<!--            app:key="notificationHour"-->
+<!--            app:summary="@string/hour_empty"-->
+<!--            app:dependency="notifications"-->
+<!--            app:title="@string/title_notifications_hour" />-->
+
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/title_petrol">

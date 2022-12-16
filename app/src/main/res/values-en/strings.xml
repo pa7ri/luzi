@@ -18,6 +18,7 @@
     <string name="signature_title">Your signature</string>
     <string name="title_geolocation">Location</string>
     <string name="title_notifications">Send notifications</string>
+    <string name="title_notifications_hour">Hour to get the notification</string>
     <string name="summary_off_notifications">Notifications disable</string>
     <string name="summary_on_notifications">One daily notification with the minimum price for electricity will be sent</string>
     <string name="price_minimum">Min price</string>
@@ -39,4 +40,11 @@
     <string name="title_petrol_type">Product type</string>
     <string name="title_hours">Hours</string>
     <string name="preferences_saved">Preferences successfully updated</string>
+
+    <!-- Errors -->
+    <string name="error_error_server_title">Server error</string>
+    <string name="error_error_server_description">Try it again in a few minutes</string>
+    <string name="error_electricity_not_available_title">Electricity prices are not available</string>
+    <string name="error_electricity_not_available_decription">Data will be available at 8pm on previous selected day</string>
+
 </resources>

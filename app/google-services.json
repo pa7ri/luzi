@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "313649310611",
+    "project_id": "luzi-5c3f9",
+    "storage_bucket": "luzi-5c3f9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:313649310611:android:95136d7a5cf0f4a9b25666",
+        "android_client_info": {
+          "package_name": "com.master.iot.luzi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "313649310611-nhql8tgc9jd7c1giacmvrvqu03c1f8r9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.master.iot.luzi",
+            "certificate_hash": "6e544231843f5b6760e5046f5dd0acf77b609ded"
+          }
+        },
+        {
+          "client_id": "313649310611-rqotfp7mlqh3orpdtf3k7jfl9a3tb5dt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnCnDxSntEwb2agSEIQsLdxKZzVv_Hqzs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "313649310611-rqotfp7mlqh3orpdtf3k7jfl9a3tb5dt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

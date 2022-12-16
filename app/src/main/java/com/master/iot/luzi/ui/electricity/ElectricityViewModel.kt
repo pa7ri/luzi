@@ -48,8 +48,7 @@ class ElectricityViewModel @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ dataPrices.value = it },
                     {
-                        dataPrices.value =
-                            EMPPricesError(it.message ?: "", it.localizedMessage ?: "")
+                        dataPrices.value = EMPPricesError(it.localizedMessage ?: "", "")
                     }
                 )
         )

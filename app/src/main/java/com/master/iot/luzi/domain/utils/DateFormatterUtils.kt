@@ -23,5 +23,5 @@ class DateFormatterUtils {
 }
 
 enum class DateType {
-    TODAY, TOMORROW, OTHER
+    PAST, FUTURE
 }

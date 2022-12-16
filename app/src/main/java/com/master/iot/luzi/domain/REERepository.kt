@@ -29,10 +29,7 @@ class REERepository {
             .observeOn(AndroidSchedulers.mainThread())
             .map { response -> EMPPricesReady(data = response.toEMPData(preferences.feeType)) as EMPPrices }
             .onErrorReturn {
-                EMPPricesError(
-                    it.message ?: "Network issue",
-                    it.localizedMessage ?: ""
-                )
+                EMPPricesError(it.localizedMessage ?: "Network issue", "")
             }
     }
 

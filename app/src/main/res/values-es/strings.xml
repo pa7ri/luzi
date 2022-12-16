@@ -29,6 +29,7 @@
     <string name="signature_title">Your signature</string>
     <string name="title_geolocation">Localizacion</string>
     <string name="title_notifications">Enviar notificaciones</string>
+    <string name="title_notifications_hour">Hora para recibir la notificacion</string>
     <string name="summary_off_notifications">No recibiras notificaciones</string>
     <string name="summary_on_notifications">Recibiras una notificacion diaria el precio mínimo de la luz</string>
     <string name="title_fee">Tarifa</string>
@@ -46,4 +47,11 @@
     <string name="app_widget_description">This is an app widget description</string>
     <string name="title_hours">Horario</string>
     <string name="preferences_saved">Preferencias actualizadas</string>
+
+    <!-- Errors -->
+    <string name="error_error_server_title">Error en el servidor</string>
+    <string name="error_error_server_description">Intentelo mas tarde</string>
+    <string name="error_electricity_not_available_title">Precio de la luz no disponible</string>
+    <string name="error_electricity_not_available_decription">Los datos apareceran a partir de las 20:00 del día anterior consultado</string>
+
 </resources>

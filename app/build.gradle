@@ -3,6 +3,7 @@ plugins {
     id "org.jetbrains.kotlin.android"
     id "kotlin-kapt"
     id "com.google.dagger.hilt.android"
+    id "com.google.gms.google-services"
 }
 
 kapt {
@@ -73,6 +74,10 @@ dependencies {
 
     /* Mapbox SDK */
     implementation "com.mapbox.maps:android:10.9.1"
+
+    /* Push notifications - Firebase */
+    implementation "com.google.firebase:firebase-bom:31.1.1"
+    implementation "com.google.firebase:firebase-messaging:23.1.1"
 
     /* ML kit */
     implementation 'com.google.mlkit:object-detection:17.0.0'
