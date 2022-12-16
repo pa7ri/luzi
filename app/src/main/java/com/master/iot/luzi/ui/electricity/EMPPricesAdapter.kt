@@ -2,16 +2,15 @@ package com.master.iot.luzi.ui.electricity
 
 import android.content.ContentValues
 import android.content.Context
-import android.net.Uri
 import android.provider.CalendarContract
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.master.iot.luzi.databinding.EmpPriceItemBinding
 import com.master.iot.luzi.domain.dto.EMPItem
 import com.master.iot.luzi.domain.utils.DateFormatterUtils.Companion.getHourFromDate
+import com.master.iot.luzi.domain.utils.DateFormatterUtils.Companion.getRangeHourFromDate
 import com.master.iot.luzi.domain.utils.PriceIndicatorUtils
 import com.master.iot.luzi.domain.utils.toPriceString
 import java.util.*
@@ -33,7 +32,7 @@ class EMPPricesAdapter(private var pricesList: List<EMPItem>) :
         with(holder) {
             with(pricesList[position]) {
                 binding.root.setOnClickListener { addAlertToCalendar(this) }
-                binding.tvHour.text = dateTime.getHourFromDate()
+                binding.tvHour.text = dateTime.getRangeHourFromDate()
                 binding.tvPriceValue.text = value.toPriceString()
                 binding.vIndicator.setBackgroundColor(
                     ContextCompat.getColor(
@@ -52,7 +51,7 @@ class EMPPricesAdapter(private var pricesList: List<EMPItem>) :
         notifyDataSetChanged()
     }
 
-    private fun addAlertToCalendar(item : EMPItem) {
+    private fun addAlertToCalendar(item: EMPItem) {
         //Toast.makeText(context, "Adding Event To Your Calendar...", Toast.LENGTH_SHORT).show()
 
         /* Create calendar event */

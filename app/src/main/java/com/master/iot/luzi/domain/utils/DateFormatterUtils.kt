@@ -19,6 +19,10 @@ class DateFormatterUtils {
 
         fun Date.getHourFromDate(): String = formatterHour.format(this)
 
+        fun Date.getRangeHourFromDate(): String {
+            val copyDate = this
+            return getHourFromDate() + " - " + copyDate.apply { hours += 1 }.getHourFromDate()
+        }
     }
 }
 
