@@ -54,8 +54,7 @@ class EMPPricesAdapter(private var pricesList: List<EMPItem>) :
         val item = pricesList[position]
         val startDate: Calendar = Calendar.getInstance().apply { time = item.dateTime }
         val endDate: Calendar = Calendar.getInstance().apply {
-            val endTime = Date().apply { item.dateTime.time += 6000L }
-            time = endTime
+            time = Date().apply { time = item.dateTime.time + 3600000L }
         }
         return Intent(Intent.ACTION_INSERT).setData(CalendarContract.Events.CONTENT_URI)
             .putExtra(
@@ -68,8 +67,8 @@ class EMPPricesAdapter(private var pricesList: List<EMPItem>) :
             )
             .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false)
             .putExtra(CalendarContract.Events.HAS_ALARM, true)
-            .putExtra(CalendarContract.Events.DTSTART, startDate.timeInMillis)
-            .putExtra(CalendarContract.Events.DTEND, endDate.timeInMillis)
+            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startDate.timeInMillis)
+            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endDate.timeInMillis)
             .putExtra(CalendarContract.Events.ACCESS_LEVEL, CalendarContract.Events.ACCESS_PRIVATE)
             .putExtra(
                 CalendarContract.Events.AVAILABILITY,
