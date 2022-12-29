@@ -1,18 +1,27 @@
 package com.master.iot.luzi.ui.electricity
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.components.XAxis.XAxisPosition
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.master.iot.luzi.PERMISSION_CALENDAR_REQUEST_CODE
 import com.master.iot.luzi.R
 import com.master.iot.luzi.TAG
 import com.master.iot.luzi.data.mtpetrol.mapper.REEChartMapper.Companion.toBarData
@@ -32,9 +41,27 @@ class ElectricityFragment : Fragment() {
 
     private lateinit var binding: FragmentElectricityBinding
     private lateinit var adapter: EMPPricesAdapter
+    private lateinit var preferences: ElectricityPreferences
 
     private val selectedDate = MutableLiveData<Calendar>()
-    private lateinit var preferences: ElectricityPreferences
+    private val calendarPermissionResult =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            permissions.entries.forEach {
+                val isGranted = it.value
+                if (isGranted) {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.calendar_alert_created),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    MaterialAlertDialogBuilder(requireContext())
+                        .setTitle(getString(R.string.calendar_permission_error_title))
+                        .setMessage(getString(R.string.calendar_permission_error_description))
+                        .show()
+                }
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,6 +82,41 @@ class ElectricityFragment : Fragment() {
         setUpObservers()
     }
 
+    override fun onStop() {
+        electricityViewModel.clearDisposables()
+        super.onStop()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.READ_CALENDAR
+            ) == PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.WRITE_CALENDAR
+            ) == PackageManager.PERMISSION_GRANTED
+        )
+            calendarPermissionResult.launch(
+                arrayOf(
+                    Manifest.permission.READ_CALENDAR,
+                    Manifest.permission.WRITE_CALENDAR
+                )
+            )
+        else {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(getString(R.string.calendar_permission_error_title))
+                .setMessage(getString(R.string.calendar_permission_error_description))
+                .setPositiveButton("Ok", null)
+                .show()
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
     private fun initPreferences() {
         preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
             .getElectricityPreferences()
@@ -68,7 +130,15 @@ class ElectricityFragment : Fragment() {
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(requireContext())
         binding.rvPrices.layoutManager = layoutManager
         adapter = EMPPricesAdapter(emptyList())
+        // Set up swipe
+        val swipeHelper = ItemTouchHelper(object : SwipeCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                adapter.notifyItemChanged(viewHolder.adapterPosition)
+                startActivity(adapter.addCalendarEvent(viewHolder.adapterPosition))
+            }
+        })
         binding.rvPrices.adapter = adapter
+        swipeHelper.attachToRecyclerView(binding.rvPrices)
     }
 
     private fun setUpChart() {
@@ -82,11 +152,6 @@ class ElectricityFragment : Fragment() {
             setDrawGridLines(false)
         }
         binding.chartPrices.axisLeft.setDrawGridLines(false)
-    }
-
-    override fun onStop() {
-        electricityViewModel.clearDisposables()
-        super.onStop()
     }
 
     private fun setUpListeners() {
@@ -209,6 +274,31 @@ class ElectricityFragment : Fragment() {
         binding.rvPrices.visibility = View.GONE
         binding.ltLoading.group.visibility = View.GONE
         binding.ltError.group.visibility = View.GONE
+    }
+
+    private fun requestCalendarPermissions() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.READ_CALENDAR
+            ) == PackageManager.PERMISSION_DENIED ||
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.WRITE_CALENDAR
+            ) == PackageManager.PERMISSION_DENIED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR),
+                PERMISSION_CALENDAR_REQUEST_CODE
+            )
+        } else {
+            calendarPermissionResult.launch(
+                arrayOf(
+                    Manifest.permission.READ_CALENDAR,
+                    Manifest.permission.WRITE_CALENDAR
+                )
+            )
+        }
     }
 
 }

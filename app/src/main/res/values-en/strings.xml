@@ -40,6 +40,12 @@
     <string name="title_petrol_type">Product type</string>
     <string name="title_hours">Hours</string>
     <string name="preferences_saved">Preferences successfully updated</string>
+    <string name="calendar_permission_error_title">Create alert error</string>
+    <string name="calendar_permission_error_description">Go to device settings and grant calendar permissions</string>
+    <string name="calendar_alert_created">Alert created</string>
+    <string name="calendar_alert_created_error">Error creating alerts</string>
+    <string name="calendar_alert_title">Electricity price</string>
+    <string name="calendar_alert_description">Price %s is about to start</string>
 
     <!-- Errors -->
     <string name="error_error_server_title">Server error</string>

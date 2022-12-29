@@ -38,7 +38,12 @@
     <string name="title_province">Provincia</string>
     <string name="title_municipality">Municipio</string>
     <string name="title_petrol_type">Tipo de producto</string>
-
+    <string name="calendar_permission_error_title">Error al crear alerta</string>
+    <string name="calendar_permission_error_description">Accede a los ajustes y habilita los permisos para acceder al calendario</string>
+    <string name="calendar_alert_created">Alerta creada</string>
+    <string name="calendar_alert_created_error">Error al crear alerta</string>
+    <string name="calendar_alert_title">Precio de la luz</string>
+    <string name="calendar_alert_description">Comienza la hora a %s</string>
     <!-- Sync Preferences -->
     <string name="title_fee">Tarifa</string>
     <string name="rewards_progress_empty">0/0</string>

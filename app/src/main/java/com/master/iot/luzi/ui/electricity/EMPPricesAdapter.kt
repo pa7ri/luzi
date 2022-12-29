@@ -1,15 +1,15 @@
 package com.master.iot.luzi.ui.electricity
 
-import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.provider.CalendarContract
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.master.iot.luzi.R
 import com.master.iot.luzi.databinding.EmpPriceItemBinding
 import com.master.iot.luzi.domain.dto.EMPItem
-import com.master.iot.luzi.domain.utils.DateFormatterUtils.Companion.getHourFromDate
 import com.master.iot.luzi.domain.utils.DateFormatterUtils.Companion.getRangeHourFromDate
 import com.master.iot.luzi.domain.utils.PriceIndicatorUtils
 import com.master.iot.luzi.domain.utils.toPriceString
@@ -31,7 +31,6 @@ class EMPPricesAdapter(private var pricesList: List<EMPItem>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
             with(pricesList[position]) {
-                binding.root.setOnClickListener { addAlertToCalendar(this) }
                 binding.tvHour.text = dateTime.getRangeHourFromDate()
                 binding.tvPriceValue.text = value.toPriceString()
                 binding.vIndicator.setBackgroundColor(
@@ -51,39 +50,36 @@ class EMPPricesAdapter(private var pricesList: List<EMPItem>) :
         notifyDataSetChanged()
     }
 
-    private fun addAlertToCalendar(item: EMPItem) {
-        //Toast.makeText(context, "Adding Event To Your Calendar...", Toast.LENGTH_SHORT).show()
-
-        /* Create calendar event */
-        val event = ContentValues()
+    fun addCalendarEvent(position: Int): Intent {
+        val item = pricesList[position]
         val startDate: Calendar = Calendar.getInstance().apply { time = item.dateTime }
         val endDate: Calendar = Calendar.getInstance().apply {
-            val endTime = Date().apply { item.dateTime.time + 60000L }
+            val endTime = Date().apply { item.dateTime.time += 6000L }
             time = endTime
         }
-        event.put(CalendarContract.Events.CALENDAR_ID, 1)
-        event.put(CalendarContract.Events.TITLE, "Precio de la luz")
-        event.put(CalendarContract.Events.DESCRIPTION, "La alarma que configurada")
-        //event.put(CalendarContract.Events.EVENT_LOCATION, EventLocation)
-        event.put(CalendarContract.Events.DTSTART, startDate.timeInMillis)
-        event.put(CalendarContract.Events.DTEND, endDate.timeInMillis)
-        event.put(CalendarContract.Events.ALL_DAY, false)
-        event.put(CalendarContract.Events.HAS_ALARM, true)
-        event.put(CalendarContract.Events.RRULE, "ONCE")
-        event.put(CalendarContract.Events.EVENT_TIMEZONE, "GMT-05:00")
-
-        /* Add reminder */
-        val url = context.contentResolver.insert(CalendarContract.Events.CONTENT_URI, event)
-        val eventId: Long = url?.lastPathSegment?.toLong() ?: 0L
-        val reminder = ContentValues()
-        reminder.put(CalendarContract.Reminders.EVENT_ID, eventId)
-        reminder.put(CalendarContract.Reminders.MINUTES, 10)
-        reminder.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT)
-        context.contentResolver.insert(CalendarContract.Reminders.CONTENT_URI, reminder)
-
-        //Toast.makeText(this, "Event Added To Your Calendar!", Toast.LENGTH_SHORT).show()
+        return Intent(Intent.ACTION_INSERT).setData(CalendarContract.Events.CONTENT_URI)
+            .putExtra(
+                CalendarContract.Events.TITLE,
+                context.resources.getString(R.string.calendar_alert_title)
+            )
+            .putExtra(
+                CalendarContract.Events.DESCRIPTION,
+                context.resources.getString(R.string.calendar_alert_description)
+            )
+            .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false)
+            .putExtra(CalendarContract.Events.HAS_ALARM, true)
+            .putExtra(CalendarContract.Events.DTSTART, startDate.timeInMillis)
+            .putExtra(CalendarContract.Events.DTEND, endDate.timeInMillis)
+            .putExtra(CalendarContract.Events.ACCESS_LEVEL, CalendarContract.Events.ACCESS_PRIVATE)
+            .putExtra(
+                CalendarContract.Events.AVAILABILITY,
+                CalendarContract.Events.AVAILABILITY_FREE
+            )
     }
 
-    inner class ViewHolder(val binding: EmpPriceItemBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(val binding: EmpPriceItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+    }
 
 }
