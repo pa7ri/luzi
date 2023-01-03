@@ -134,7 +134,13 @@ class ElectricityFragment : Fragment() {
         val swipeHelper = ItemTouchHelper(object : SwipeCallback(requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 adapter.notifyItemChanged(viewHolder.adapterPosition)
-                startActivity(adapter.addCalendarEvent(viewHolder.adapterPosition))
+                startActivity(
+                    adapter.addCalendarEvent(
+                        viewHolder.adapterPosition,
+                        resources.getString(R.string.calendar_alert_title),
+                        resources.getString(R.string.calendar_alert_description)
+                    )
+                )
             }
         })
         binding.rvPrices.adapter = adapter
@@ -146,7 +152,6 @@ class ElectricityFragment : Fragment() {
         binding.chartPrices.setPinchZoom(false)
         binding.chartPrices.setDrawBarShadow(false)
         binding.chartPrices.setDrawGridBackground(false)
-
         binding.chartPrices.xAxis.apply {
             position = XAxisPosition.BOTTOM
             setDrawGridLines(false)

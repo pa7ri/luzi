@@ -7,6 +7,7 @@ const val PREFERENCES_FEE_DEFAULT = "pvpc"
 const val PREFERENCES_LOCATION_KEY = "geolocation"
 const val PREFERENCES_LOCATION_DEFAULT = "peninsula"
 const val PREFERENCES_NOTIFICATION_KEY = "notifications"
+const val PREFERENCES_NOTIFICATION_FIREBASE_TOPIC = "notifications-electricity"
 
 const val PREFERENCES_PETROL_CCAA = "petrol_location_ccaa"
 const val PREFERENCES_PETROL_CCAA_DEFAULT = "Madrid"

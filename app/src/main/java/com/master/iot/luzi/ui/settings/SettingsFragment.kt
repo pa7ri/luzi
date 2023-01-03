@@ -8,6 +8,7 @@ import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import androidx.preference.SwitchPreferenceCompat
+import com.google.firebase.messaging.FirebaseMessaging
 import com.master.iot.luzi.*
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -70,10 +71,17 @@ class SettingsFragment : PreferenceFragmentCompat() {
             showFeedback()
             true
         }
-        notificationsPreference.setOnPreferenceChangeListener { _, _ ->
-            showFeedback()
+        notificationsPreference.setOnPreferenceChangeListener { _, newValue ->
+            if (newValue == false) {
+                FirebaseMessaging.getInstance()
+                    .unsubscribeFromTopic(PREFERENCES_NOTIFICATION_FIREBASE_TOPIC)
+            } else {
+                FirebaseMessaging.getInstance()
+                    .subscribeToTopic(PREFERENCES_NOTIFICATION_FIREBASE_TOPIC)
+            }
             true
         }
+
         ccaaPreference.setOnPreferenceChangeListener { preference, newValue ->
             ccaaPreference.value = newValue.toString()
             preference.summary = ccaaPreference.entry
@@ -103,8 +111,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
-    private fun showFeedback() {
-        Toast.makeText(requireContext(), getString(R.string.preferences_saved), Toast.LENGTH_LONG)
+    private fun showFeedback(string: Int = R.string.preferences_saved) {
+        Toast.makeText(requireContext(), getString(string), Toast.LENGTH_LONG)
             .show()
     }
 

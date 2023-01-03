@@ -20,7 +20,7 @@
     <string name="title_notifications">Send notifications</string>
     <string name="title_notifications_hour">Hour to get the notification</string>
     <string name="summary_off_notifications">Notifications disable</string>
-    <string name="summary_on_notifications">One daily notification with the minimum price for electricity will be sent</string>
+    <string name="summary_on_notifications">One daily notification will be sent at 10am to check electricity prices</string>
     <string name="price_minimum">Min price</string>
     <string name="price_maximum">Max price</string>
     <string name="price_average">Average price</string>

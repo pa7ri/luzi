@@ -33,7 +33,7 @@
     <string name="title_notifications">Enviar notificaciones</string>
     <string name="summary_off_notifications">No recibiras notificaciones</string>
     <string name="title_notifications_hour">Hora para recibir la notificacion</string>
-    <string name="summary_on_notifications">Recibiras una notificacion diaria el precio mínimo de la luz</string>
+    <string name="summary_on_notifications">Recibiras una notificacion diaria a las 10:00 para que revises el precio de la luz</string>
     <string name="title_ccaa">Comunidad autonoma</string>
     <string name="title_province">Provincia</string>
     <string name="title_municipality">Municipio</string>
