@@ -24,6 +24,7 @@
     <color name="purple_500">#FF900e51</color>
     <color name="purple_700">#FF680e4b</color>
     <color name="purple_900">#FF42033d</color>
+    <color name="purple_900_40">#6642033d</color>
 
     <color name="green_200">#FFc7f6d4</color>
     <color name="green_400">#FF27DCA3</color>

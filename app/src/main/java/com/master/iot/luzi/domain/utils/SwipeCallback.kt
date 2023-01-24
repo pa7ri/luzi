@@ -17,23 +17,24 @@ import com.master.iot.luzi.R
 
 open class SwipeCallback(context: Context) : Callback() {
 
+    private lateinit var iconDrawable: Drawable
     private var swipeBack: Boolean = false
     private var mClearPaint: Paint
-    private var iconDrawable: Drawable
     private var mBackground: ColorDrawable = ColorDrawable()
     private var backgroundColor = 0
     private var iconWidth = 0
     private var iconHeight = 0
 
     init {
-        backgroundColor = ContextCompat.getColor(context, R.color.blue_charcoal_700)
+        backgroundColor = ContextCompat.getColor(context, R.color.purple_900_40)
         mClearPaint = Paint().apply {
             xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
         }
-        iconDrawable = ContextCompat.getDrawable(context, R.drawable.ic_alert)!!
-        iconWidth = iconDrawable.intrinsicWidth
-        iconHeight = iconDrawable.intrinsicHeight
-
+        ContextCompat.getDrawable(context, R.drawable.ic_alert)?.let {
+            iconDrawable = it
+            iconWidth = it.intrinsicWidth
+            iconHeight = it.intrinsicHeight
+        }
     }
 
     override fun getMovementFlags(
@@ -56,7 +57,7 @@ open class SwipeCallback(context: Context) : Callback() {
     }
 
     override fun onChildDraw(
-        c: Canvas,
+        canvas: Canvas,
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder,
         dX: Float,
@@ -64,19 +65,26 @@ open class SwipeCallback(context: Context) : Callback() {
         actionState: Int,
         isCurrentlyActive: Boolean
     ) {
-        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+        super.onChildDraw(canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
         val itemView: View = viewHolder.itemView
         val itemHeight: Int = itemView.height
         val isCancelled = dX == 0f && !isCurrentlyActive
         if (isCancelled) {
             clearCanvas(
-                c,
-                itemView.right + dX,
+                canvas, itemView.right + dX,
                 itemView.top.toFloat(),
                 itemView.right.toFloat(),
                 itemView.bottom.toFloat()
             )
-            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+            super.onChildDraw(
+                canvas,
+                recyclerView,
+                viewHolder,
+                dX,
+                dY,
+                actionState,
+                false
+            )
             return
         }
         mBackground.color = backgroundColor
@@ -86,15 +94,15 @@ open class SwipeCallback(context: Context) : Callback() {
             itemView.right,
             itemView.bottom
         )
-        mBackground.draw(c)
+        mBackground.draw(canvas)
         val deleteIconTop: Int = itemView.top + (itemHeight - iconHeight) / 2
         val deleteIconMargin: Int = (itemHeight - iconHeight) / 2
         val deleteIconLeft: Int = itemView.right - deleteIconMargin - iconWidth
         val deleteIconRight: Int = itemView.right - deleteIconMargin
         val deleteIconBottom: Int = deleteIconTop + iconHeight
         iconDrawable.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom)
-        iconDrawable.draw(c)
-        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+        iconDrawable.draw(canvas)
+        super.onChildDraw(canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
 
 

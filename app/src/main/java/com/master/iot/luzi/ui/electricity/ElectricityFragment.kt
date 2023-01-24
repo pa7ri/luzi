@@ -92,15 +92,8 @@ class ElectricityFragment : Fragment() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.READ_CALENDAR
-            ) == PackageManager.PERMISSION_GRANTED &&
-            ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.WRITE_CALENDAR
-            ) == PackageManager.PERMISSION_GRANTED
-        )
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED)
             calendarPermissionResult.launch(
                 arrayOf(
                     Manifest.permission.READ_CALENDAR,
@@ -138,7 +131,7 @@ class ElectricityFragment : Fragment() {
                     adapter.addCalendarEvent(
                         viewHolder.adapterPosition,
                         resources.getString(R.string.calendar_alert_title),
-                        resources.getString(R.string.calendar_alert_description)
+                        resources.getString(R.string.calendar_alert_description, adapter.getItemAtPosition(viewHolder.adapterPosition).value.toPriceString())
                     )
                 )
             }

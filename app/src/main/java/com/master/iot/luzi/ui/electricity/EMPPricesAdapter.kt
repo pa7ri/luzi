@@ -40,6 +40,8 @@ class EMPPricesAdapter(private var pricesList: List<EMPItem>) :
 
     override fun getItemCount(): Int = pricesList.size
 
+    fun getItemAtPosition(position: Int): EMPItem = pricesList[position]
+
     fun updateData(updatedPricesList: List<EMPItem>) {
         pricesList = updatedPricesList
         notifyDataSetChanged()
