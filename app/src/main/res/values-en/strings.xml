@@ -29,7 +29,8 @@
     <string name="loading_petrol_data_title">Searching petrol stations…</string>
     <string name="title_fee">Fee</string>
     <string name="rewards_progress_empty">0/0</string>
-    <string name="rewards_level_tag">Nivel 0</string>
+    <string name="rewards_level_tag">Level %d</string>
+    <string name="reward_not_available">Not available til level %d</string>
     <string name="no_gas_station_found">No gas station found on the selected municipality</string>
 
     <string name="add_widget">Add widget</string>
@@ -52,5 +53,6 @@
     <string name="error_error_server_description">Try it again in a few minutes</string>
     <string name="error_electricity_not_available_title">Electricity prices are not available</string>
     <string name="error_electricity_not_available_decription">Data will be available at 8pm on previous selected day</string>
+    <string name="title_reports">History</string>
 
 </resources>

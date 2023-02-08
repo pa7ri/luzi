@@ -13,15 +13,18 @@
     <dimen name="elevation_normal">3dp</dimen>
 
     <dimen name="margin_tiny">4dp</dimen>
+    <dimen name="margin_xsmall">6dp</dimen>
     <dimen name="margin_small">8dp</dimen>
     <dimen name="margin_regular">16dp</dimen>
     <dimen name="margin_large">24dp</dimen>
     <dimen name="margin_xlarge">32dp</dimen>
     <dimen name="margin_xxlarge">48dp</dimen>
     <dimen name="icon_large_width">20dp</dimen>
+    <dimen name="icon_xlarge_width">30dp</dimen>
     <dimen name="icon_width">16dp</dimen>
     <dimen name="fab_width">40dp</dimen>
     <dimen name="fab_icon_width">16dp</dimen>
 
     <dimen name="widget_margin">0dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 </resources>

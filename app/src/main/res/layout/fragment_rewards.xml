@@ -1,62 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.rewards.RewardsFragment">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar_light" />
 
-    <TextView
-        android:id="@+id/tvLevel"
-        style="@style/TextAppearance.HeaderText.Rewards.Tag"
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_large"
-        android:layout_marginBottom="@dimen/margin_regular"
-        android:paddingHorizontal="@dimen/margin_small"
-        android:paddingVertical="@dimen/margin_tiny"
-        android:text="@string/rewards_level_tag"
-        app:layout_constraintBottom_toTopOf="@+id/pbRewards"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:backgroundTint="@color/white"
+        app:toolbarId="@+id/toolbar">
 
-    <TextView
-        android:id="@+id/tvProgressRewards"
-        style="@style/TextAppearance.MaterialComponents.Headline4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_small"
-        android:text="100"
-        app:layout_constraintEnd_toStartOf="@+id/tvProgressRewardsPercentage"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleEnabled="false">
 
-    <TextView
-        android:id="@+id/tvProgressRewardsPercentage"
-        style="@style/TextAppearance.HeaderText.Rewards.Percentage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_large"
-        android:paddingBottom="@dimen/margin_tiny"
-        android:text="%"
-        app:layout_constraintBottom_toBottomOf="@+id/tvProgressRewards"
-        app:layout_constraintEnd_toEndOf="parent" />
 
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/pbRewards"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/rewards_height"
-        android:layout_marginHorizontal="@dimen/margin_large"
-        android:layout_marginTop="@dimen/margin_regular"
-        android:max="100"
-        android:progress="65"
-        app:indicatorColor="?attr/colorSecondary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvProgressRewards"
-        app:trackColor="?attr/colorTertiary" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:id="@+id/tvLevel"
+                    style="@style/TextAppearance.HeaderText.Rewards.Tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_margin="@dimen/margin_xlarge"
+                    android:paddingHorizontal="@dimen/margin_small"
+                    android:paddingVertical="@dimen/margin_tiny"
+                    tools:text="Level 0" />
+
+                <TextView
+                    android:id="@+id/tvProgressRewardsPercentage"
+                    style="@style/TextAppearance.HeaderText.Rewards.Percentage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/margin_xxlarge"
+                    android:layout_marginEnd="@dimen/margin_large"
+                    android:layout_marginBottom="@dimen/margin_large"
+                    android:paddingBottom="@dimen/margin_tiny"
+                    android:text="%" />
+
+                <TextView
+                    android:id="@+id/tvProgressRewards"
+                    style="@style/TextAppearance.MaterialComponents.Headline4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/tvProgressRewardsPercentage"
+                    android:layout_toStartOf="@+id/tvProgressRewardsPercentage"
+                    android:text="100" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/pbRewards"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/rewards_height"
+                    android:layout_below="@+id/tvProgressRewardsPercentage"
+                    android:layout_marginHorizontal="@dimen/margin_large"
+                    android:layout_marginBottom="@dimen/margin_large"
+                    android:max="100"
+                    android:progress="65"
+                    app:indicatorColor="?attr/colorSecondary"
+                    app:trackColor="?attr/colorTertiary" />
+
+            </RelativeLayout>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tLRewards"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/orange_100_40"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:tabIndicatorColor="?attr/colorSecondary" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vpRewards"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAdd"
@@ -65,9 +106,10 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/margin_regular"
         android:src="@drawable/ic_add"
+        app:fabCustomSize="@dimen/fab_width"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:fabCustomSize="@dimen/fab_width"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.FloatingActionButton"
         app:tint="@color/white" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

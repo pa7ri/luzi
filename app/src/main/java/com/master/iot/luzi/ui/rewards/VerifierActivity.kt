@@ -15,9 +15,9 @@ import androidx.core.content.ContextCompat
 import com.google.mlkit.vision.common.InputImage
 import com.master.iot.luzi.PERMISSION_CAMERA_REQUEST_CODE
 import com.master.iot.luzi.R
-import com.master.iot.luzi.domain.ImageVerificationError
-import com.master.iot.luzi.domain.ImageVerificationProcessing
-import com.master.iot.luzi.domain.ImageVerificationSuccess
+import com.master.iot.luzi.data.ImageVerificationError
+import com.master.iot.luzi.data.ImageVerificationProcessing
+import com.master.iot.luzi.data.ImageVerificationSuccess
 
 
 class VerifierActivity : AppCompatActivity() {
@@ -26,15 +26,16 @@ class VerifierActivity : AppCompatActivity() {
 
     private val verifierViewModel: VerifierViewModel by viewModels()
 
-
     private val takePicturePreviewResult =
         registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
             bitmap?.let {
                 Log.e("BITMAP", "Captured picture: $bitmap")
                 imageData = InputImage.fromBitmap(it, 0)
-                verifierViewModel.processImage(imageData)
+                // for text recognition
+                verifierViewModel.processTextImage(imageData)
+                // for object detection
+                verifierViewModel.processObjectImage(imageData)
             }
-
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {

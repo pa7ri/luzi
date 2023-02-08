@@ -1,4 +1,4 @@
-package com.master.iot.luzi.domain
+package com.master.iot.luzi.data
 
 import com.google.mlkit.common.model.LocalModel
 import com.google.mlkit.vision.objects.ObjectDetection

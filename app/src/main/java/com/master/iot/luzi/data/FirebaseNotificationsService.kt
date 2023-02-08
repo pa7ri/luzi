@@ -8,7 +8,6 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.master.iot.luzi.ui.HomeActivity
 
-
 class FirebaseNotificationsService : FirebaseMessagingService()  {
 
     /* Add notifications when app is running */

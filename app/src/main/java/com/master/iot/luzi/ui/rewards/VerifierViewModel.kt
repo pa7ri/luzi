@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.mlkit.vision.common.InputImage
-import com.master.iot.luzi.domain.*
+import com.master.iot.luzi.data.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -15,8 +15,25 @@ class VerifierViewModel @Inject constructor() : ViewModel() {
         value = ImageVerificationProcessing()
     }
 
+    fun processTextImage(imageData: InputImage?) {
+        imageData?.let {
+            TextRecognitionService.textRecognizer.process(it)
+                .addOnSuccessListener {
+                    var text = ""
+                    for (block in it.textBlocks)
+                        text += block.text + "\n"
+                    //TODO: extract data from receipts
+                    // val receipts = receiptsViewModel.getReceipts(text)
+                }
+                .addOnFailureListener { e ->
+                    verificationStatus.value =
+                        ImageVerificationError(title = e.localizedMessage ?: "")
+                }
+        }
+    }
 
-    fun processImage(imageData: InputImage?) {
+
+    fun processObjectImage(imageData: InputImage?) {
         imageData?.let {
             ObjectDetectionService.objectDetector.process(it)
                 .addOnSuccessListener { detectedObjects ->

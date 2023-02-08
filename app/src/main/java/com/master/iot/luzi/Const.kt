@@ -1,13 +1,13 @@
 package com.master.iot.luzi
 
 const val TAG = "common.tag"
-
 const val PREFERENCES_FEE_KEY = "fee"
 const val PREFERENCES_FEE_DEFAULT = "pvpc"
 const val PREFERENCES_LOCATION_KEY = "geolocation"
 const val PREFERENCES_LOCATION_DEFAULT = "peninsula"
 const val PREFERENCES_NOTIFICATION_KEY = "notifications"
 const val PREFERENCES_NOTIFICATION_FIREBASE_TOPIC = "notifications-electricity"
+
 
 const val PREFERENCES_PETROL_CCAA = "petrol_location_ccaa"
 const val PREFERENCES_PETROL_CCAA_DEFAULT = "Madrid"
@@ -23,6 +23,10 @@ const val PREFERENCES_PETROL_ID_PRODUCT_TYPE_DEFAULT = "1"
 const val PREFERENCES_LOCATION_DEFAULT_ZOOM = 12.0
 const val PREFERENCES_LOCATION_DEFAULT_BEARING = 10.0
 const val PREFERENCES_LOCATION_DEFAULT_ANIMATION = 6000L
+
+const val PREFERENCES_REWARD_LEVEL_KEY = "reward-level"
+const val PREFERENCES_REWARD_LEVEL_DEFAULT = 0
+const val PREFERENCES_REWARD_HISTORY_TOTAL_KEY = "reward-history-total"
 
 const val PETROL_BIODIESEL = "Biodiesel"
 const val PETROL_BIOETHANOL = "Bioethanol"

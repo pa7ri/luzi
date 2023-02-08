@@ -3,6 +3,7 @@ package com.master.iot.luzi.domain
 import com.master.iot.luzi.data.NetworkService
 import com.master.iot.luzi.data.mtpetrol.mapper.REEMapper.Companion.toEMPData
 import com.master.iot.luzi.domain.utils.DateFormatterUtils
+import com.master.iot.luzi.domain.utils.DateFormatterUtils.Companion.getStringFromDate
 import com.master.iot.luzi.ui.ElectricityPreferences
 import com.master.iot.luzi.ui.electricity.EMPPrices
 import com.master.iot.luzi.ui.electricity.EMPPricesError
@@ -38,7 +39,7 @@ class REERepository {
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
         }
-        return DateFormatterUtils.getStringFromDate(calendar.time)
+        return calendar.time.getStringFromDate()
     }
 
     private fun getEndDate(calendar: Calendar): String {
@@ -47,6 +48,6 @@ class REERepository {
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
         }
-        return DateFormatterUtils.getStringFromDate(calendar.time)
+        return calendar.time.getStringFromDate()
     }
 }
