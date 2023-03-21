@@ -21,7 +21,7 @@
             app:titleEnabled="false">
 
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -32,46 +32,124 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:layout_margin="@dimen/margin_xlarge"
+                    android:layout_margin="@dimen/margin_large"
                     android:paddingHorizontal="@dimen/margin_small"
                     android:paddingVertical="@dimen/margin_tiny"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="Level 0" />
 
                 <TextView
-                    android:id="@+id/tvProgressRewardsPercentage"
-                    style="@style/TextAppearance.HeaderText.Rewards.Percentage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="@dimen/margin_xxlarge"
-                    android:layout_marginEnd="@dimen/margin_large"
-                    android:layout_marginBottom="@dimen/margin_large"
-                    android:paddingBottom="@dimen/margin_tiny"
-                    android:text="%" />
-
-                <TextView
-                    android:id="@+id/tvProgressRewards"
+                    android:id="@+id/tvPoints"
                     style="@style/TextAppearance.MaterialComponents.Headline4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/tvProgressRewardsPercentage"
-                    android:layout_toStartOf="@+id/tvProgressRewardsPercentage"
-                    android:text="100" />
+                    android:text="47"
+                    app:layout_constraintBottom_toBottomOf="@+id/pbPoints"
+                    app:layout_constraintEnd_toEndOf="@+id/pbPoints"
+                    app:layout_constraintStart_toStartOf="@+id/pbPoints"
+                    app:layout_constraintTop_toTopOf="@+id/pbPoints"
+                    app:layout_constraintVertical_bias="0.4" />
 
-                <com.google.android.material.progressindicator.LinearProgressIndicator
-                    android:id="@+id/pbRewards"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/rewards_height"
-                    android:layout_below="@+id/tvProgressRewardsPercentage"
-                    android:layout_marginHorizontal="@dimen/margin_large"
+                <TextView
+                    android:id="@+id/tvPointsDescription"
+                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-5dp"
+                    android:text="Puntos"
+                    app:layout_constraintEnd_toEndOf="@+id/tvPoints"
+                    app:layout_constraintStart_toStartOf="@+id/tvPoints"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPoints" />
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/pbPoints"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_xxxlarge"
+                    android:layout_marginTop="@dimen/margin_regular"
                     android:layout_marginBottom="@dimen/margin_large"
                     android:max="100"
                     android:progress="65"
                     app:indicatorColor="?attr/colorSecondary"
-                    app:trackColor="?attr/colorTertiary" />
+                    app:indicatorSize="@dimen/circular_progress_height"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLevel"
+                    app:showAnimationBehavior="outward"
+                    app:trackColor="?attr/colorTertiary"
+                    app:trackThickness="@dimen/margin_small" />
 
-            </RelativeLayout>
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="@dimen/margin_small"
+                    android:background="@drawable/bg_round_white"
+                    android:foreground="@drawable/ic_info"
+                    android:foregroundTint="?attr/colorSecondary"
+                    app:layout_constraintEnd_toEndOf="@+id/pbPoints"
+                    app:layout_constraintTop_toTopOf="@+id/pbPoints" />
+
+                <TextView
+                    android:id="@+id/tvProgressSavedAmount"
+                    style="@style/TextAppearance.HeaderText.Price.Value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10,6"
+                    app:layout_constraintBottom_toBottomOf="@+id/pbSavedMoney"
+                    app:layout_constraintEnd_toEndOf="@+id/pbSavedMoney"
+                    app:layout_constraintHorizontal_bias="0.45"
+                    app:layout_constraintStart_toStartOf="@+id/pbSavedMoney"
+                    app:layout_constraintTop_toTopOf="@+id/pbPoints"
+                    app:layout_constraintVertical_bias="0.42" />
+
+                <TextView
+                    android:id="@+id/tvProgressSavedAmountCurrency"
+                    style="@style/TextAppearance.HeaderText.Rewards.Percentage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/margin_tiny"
+                    android:text="€"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvProgressSavedAmount"
+                    app:layout_constraintStart_toEndOf="@+id/tvProgressSavedAmount" />
+
+                <TextView
+                    android:id="@+id/tvProgressSavedAmountDescription"
+                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-5dp"
+                    android:text="Ahorrados"
+                    app:layout_constraintEnd_toEndOf="@+id/tvProgressSavedAmountCurrency"
+                    app:layout_constraintStart_toStartOf="@+id/tvProgressSavedAmount"
+                    app:layout_constraintTop_toBottomOf="@+id/tvProgressSavedAmount" />
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/pbSavedMoney"
+                    android:layout_width="400dp"
+                    android:layout_height="400dp"
+                    android:layout_marginHorizontal="@dimen/margin_xxxlarge"
+                    android:max="100"
+                    android:progress="100"
+                    app:indicatorColor="?attr/colorSecondary"
+                    app:indicatorSize="@dimen/circular_progress_height"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/pbPoints"
+                    app:showAnimationBehavior="outward"
+                    app:trackColor="?attr/colorTertiary"
+                    app:trackThickness="@dimen/margin_small" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="@dimen/margin_small"
+                    android:background="@drawable/bg_round_white"
+                    android:foreground="@drawable/ic_info"
+                    android:foregroundTint="?attr/colorSecondary"
+                    app:layout_constraintEnd_toEndOf="@+id/pbSavedMoney"
+                    app:layout_constraintTop_toTopOf="@+id/pbSavedMoney" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -107,8 +185,36 @@
         android:layout_margin="@dimen/margin_regular"
         android:src="@drawable/ic_add"
         app:fabCustomSize="@dimen/fab_width"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.FloatingActionButton"
+        app:tint="@color/white" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabExpenseManual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="@dimen/margin_normal"
+        android:layout_marginBottom="@dimen/margin_fab_first"
+        android:src="@drawable/ic_edit_manual"
+        android:visibility="invisible"
+        app:fabCustomSize="@dimen/icon_xlarge_width"
+        app:maxImageSize="@dimen/icon_width"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.FloatingActionButton"
+        app:tint="@color/white" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabExpenseReceipt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="@dimen/margin_normal"
+        android:layout_marginBottom="@dimen/margin_fab_second"
+        android:src="@drawable/ic_receipt"
+        android:visibility="invisible"
+        app:fabCustomSize="@dimen/icon_xlarge_width"
+        app:maxImageSize="@dimen/icon_width"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.FloatingActionButton"
         app:tint="@color/white" />
 

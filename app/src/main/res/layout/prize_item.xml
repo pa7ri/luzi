@@ -7,19 +7,31 @@
     android:paddingHorizontal="@dimen/margin_large"
     android:paddingVertical="@dimen/margin_small">
 
+    <ImageView
+        android:id="@+id/ivIcon"
+        android:layout_width="@dimen/icon_xlarge_width"
+        android:layout_height="@dimen/icon_xlarge_width"
+        android:background="@drawable/background_rounded"
+        android:padding="@dimen/margin_xsmall"
+        android:src="@mipmap/star_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/tvTitle"
         style="@style/TextAppearance.MaterialComponents.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_regular"
+        android:layout_toEndOf="@+id/ivIcon"
         android:gravity="center"
         android:textFontWeight="700"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivIcon"
+        app:layout_constraintTop_toTopOf="@+id/ivIcon"
         tools:text="Titulo" />
 
     <TextView
-        android:id="@+id/tvTimestamp"
+        android:id="@+id/tvDescription"
         style="@style/TextAppearance.MaterialComponents.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,27 +44,15 @@
         tools:text="description" />
 
     <TextView
-        android:id="@+id/tvPoints"
+        android:id="@+id/tvFooter"
         style="@style/TextAppearance.MaterialComponents.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/margin_small"
-        android:gravity="end"
-        android:textColor="@color/white"
-        android:background="@drawable/bg_round"
-        android:backgroundTint="?attr/colorOnTertiary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="description" />
-
-    <TextView
-        android:id="@+id/tvAmount"
-        style="@style/TextAppearance.MaterialComponents.Overline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="end"
         android:layout_marginTop="@dimen/margin_tiny"
+        android:gravity="start"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPoints"
-        tools:text="1.05$" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tvTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvDescription"
+        tools:text="description" />
 </androidx.constraintlayout.widget.ConstraintLayout>

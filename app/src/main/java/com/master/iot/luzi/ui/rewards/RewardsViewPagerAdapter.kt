@@ -6,14 +6,19 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class RewardsViewPagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
 
+    private lateinit var reportsFragment: ListFragment
+
     override fun getItemCount(): Int = 2
 
     override fun createFragment(position: Int): Fragment {
-        return ReportsFragment.newInstance(
-            when (position) {
-                0 -> ReportsFragment.Companion.ItemType.PRICE
-                else -> ReportsFragment.Companion.ItemType.REPORT
-            }
-        )
+        reportsFragment = ListFragment.newInstance(ListFragment.Companion.ItemType.REPORT)
+        return when (position) {
+            0 -> ListFragment.newInstance(ListFragment.Companion.ItemType.PRICE)
+            else -> reportsFragment
+        }
+    }
+
+    fun updateReports() {
+//        reportsFragment.
     }
 }

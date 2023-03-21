@@ -7,5 +7,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".ui.rewards.ReportsFragment"
+    tools:context=".ui.rewards.ListFragment"
     tools:listitem="@layout/report_item" />

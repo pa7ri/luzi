@@ -1,4 +1,4 @@
-package com.master.iot.luzi.domain.utils
+package com.master.iot.luzi.ui.utils
 
 import android.content.Context
 import android.graphics.Canvas

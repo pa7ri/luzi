@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.master.iot.luzi.R
-import com.master.iot.luzi.databinding.ReportItemBinding
+import com.master.iot.luzi.databinding.PrizeItemBinding
 
-class PrizesAdapter(private var currentLevel: Int, private var prizes: List<ReportItem>) :
+class PrizesAdapter(private var currentLevel: Int, private var prizes: List<PrizeItem>) :
     RecyclerView.Adapter<PrizesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ReportItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = PrizeItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -27,7 +27,8 @@ class PrizesAdapter(private var currentLevel: Int, private var prizes: List<Repo
                 binding.tvDescription.text =
                     holder.binding.root.context.getString(R.string.reward_not_available, item.level)
                 binding.tvDescription.setTextColor(color)
-                binding.ivIcon.backgroundTintList = ColorStateList.valueOf(binding.root.context.getColor(R.color.purple_100_40))
+                binding.ivIcon.backgroundTintList =
+                    ColorStateList.valueOf(binding.root.context.getColor(R.color.purple_100_40))
                 ContextCompat.getDrawable(holder.binding.root.context, item.resourceId)?.let {
                     it.setTint(Color.WHITE)
                     binding.ivIcon.setImageDrawable(it)
@@ -35,7 +36,8 @@ class PrizesAdapter(private var currentLevel: Int, private var prizes: List<Repo
             } else {
                 binding.tvTitle.text = item.title
                 binding.tvDescription.text = item.description
-                binding.ivIcon.backgroundTintList = ColorStateList.valueOf(binding.root.context.getColor(R.color.purple_300))
+                binding.ivIcon.backgroundTintList =
+                    ColorStateList.valueOf(binding.root.context.getColor(R.color.purple_300))
                 ContextCompat.getDrawable(holder.binding.root.context, item.resourceId)?.let {
                     it.setTint(Color.WHITE)
                     binding.ivIcon.setImageDrawable(it)
@@ -47,12 +49,12 @@ class PrizesAdapter(private var currentLevel: Int, private var prizes: List<Repo
     override fun getItemCount(): Int = prizes.size
 
 
-    fun updatePrizes(newLevel: Int, newPrizes: List<ReportItem>) {
+    fun updatePrizes(newLevel: Int, newPrizes: List<PrizeItem>) {
         currentLevel = newLevel
         prizes = newPrizes
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(val binding: ReportItemBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(val binding: PrizeItemBinding) : RecyclerView.ViewHolder(binding.root)
 
 }

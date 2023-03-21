@@ -6,6 +6,8 @@
     <string name="title_petrol_station">Petrol station</string>
     <string name="title_rewards">Rewards</string>
     <string name="title_city">City</string>
+
+    <string name="price_amount">%s €</string>
     <string name="price_magnitude">€/kWh</string>
     <string name="price_petrol_magnitude">€/l</string>
     <string name="price_empty">-.-</string>
@@ -48,11 +50,23 @@
     <string name="calendar_alert_title">Electricity price</string>
     <string name="calendar_alert_description">Price %s is about to start</string>
 
+    <!-- Object types -->
+    <string name="title_points">%d points</string>
+    <string name="type_washing_machine">Washing machine</string>
+    <string name="type_oven">Oven</string>
+    <string name="type_other">Other</string>
+
     <!-- Errors -->
     <string name="error_error_server_title">Server error</string>
     <string name="error_error_server_description">Try it again in a few minutes</string>
     <string name="error_electricity_not_available_title">Electricity prices are not available</string>
     <string name="error_electricity_not_available_decription">Data will be available at 8pm on previous selected day</string>
     <string name="title_reports">History</string>
+    <string name="ok">OK</string>
+    <string name="dialog_points">Points</string>
+    <string name="dialog_points_message">You have %d points. Get only %d more to reach the next level. \n \n Be aware that points will reset on the first of each month</string>
+    <string name="dialog_points_message_max">You have %d points. Congratulations you have reached the max level this month. \n \n Be aware that points will reset on the first of each month</string>
+    <string name="dialog_money">Ahorro</string>
+    <string name="dialog_money_message">You have saved %s€ this month. \n \n Be aware that this amount this amount is approximate as it depends on the specific consumption of your appliance</string>
 
 </resources>

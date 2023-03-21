@@ -1,9 +1,12 @@
 package com.master.iot.luzi.ui.rewards
 
 class ReportItem(
-    val title: String,
-    val description: String,
-    val resourceId: Int,
-    val timestamp: String = "",
-    val level: Int = 0
+    val type: ObjectType,
+    val timestamp: String,
+    val points: Int,
+    val amount: Double = 0.0
 )
+
+enum class ObjectType() {
+    WASHING_MACHINE, DISHWASHER, OVEN, OTHER
+}

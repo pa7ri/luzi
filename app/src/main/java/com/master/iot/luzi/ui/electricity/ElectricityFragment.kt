@@ -30,6 +30,7 @@ import com.master.iot.luzi.domain.utils.*
 import com.master.iot.luzi.ui.ElectricityPreferences
 import com.master.iot.luzi.ui.getElectricityPreferences
 import com.master.iot.luzi.ui.settings.SettingsActivity
+import com.master.iot.luzi.ui.utils.SwipeCallback
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 

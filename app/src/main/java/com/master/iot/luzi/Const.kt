@@ -8,7 +8,6 @@ const val PREFERENCES_LOCATION_DEFAULT = "peninsula"
 const val PREFERENCES_NOTIFICATION_KEY = "notifications"
 const val PREFERENCES_NOTIFICATION_FIREBASE_TOPIC = "notifications-electricity"
 
-
 const val PREFERENCES_PETROL_CCAA = "petrol_location_ccaa"
 const val PREFERENCES_PETROL_CCAA_DEFAULT = "Madrid"
 const val PREFERENCES_PETROL_ID_CCAA_DEFAULT = "13"
@@ -27,6 +26,10 @@ const val PREFERENCES_LOCATION_DEFAULT_ANIMATION = 6000L
 const val PREFERENCES_REWARD_LEVEL_KEY = "reward-level"
 const val PREFERENCES_REWARD_LEVEL_DEFAULT = 0
 const val PREFERENCES_REWARD_HISTORY_TOTAL_KEY = "reward-history-total"
+const val PREFERENCES_REWARD_HISTORY_TOTAL_DEFAULT = 0
+const val PREFERENCES_SAVE_MONEY_DEFAULT = 0
+const val PREFERENCES_SAVE_MONEY_TOTAL = "save-money-total"
+const val PREFERENCES_REWARD_HISTORY_ITEM_KEY = "reward-history-item"
 
 const val PETROL_BIODIESEL = "Biodiesel"
 const val PETROL_BIOETHANOL = "Bioethanol"

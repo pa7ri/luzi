@@ -14,8 +14,7 @@ import com.master.iot.luzi.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ReportsFragment : Fragment() {
-
+class ListFragment : Fragment() {
     companion object {
         const val ARG_ITEM_TYPE = "ITEM_TYPE"
 
@@ -25,7 +24,7 @@ class ReportsFragment : Fragment() {
 
         @JvmStatic
         fun newInstance(itemType: ItemType) =
-            ReportsFragment().apply {
+            ListFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_ITEM_TYPE, itemType.value)
                 }
@@ -33,13 +32,13 @@ class ReportsFragment : Fragment() {
     }
 
     private var itemType = ItemType.REPORT
-    private val viewModel: ReportsViewModel by viewModels()
+    private val viewModel: ListViewModel by viewModels()
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            itemType = ItemType.values().first { type -> type.value == it.getInt(ARG_ITEM_TYPE) }
+            itemType = ItemType.values().first { type -> type.value==it.getInt(ARG_ITEM_TYPE) }
         }
     }
 
@@ -56,8 +55,16 @@ class ReportsFragment : Fragment() {
         return view
     }
 
+    fun initData() {
+        if (itemType==ItemType.REPORT) {
+            viewModel.getReports(requireActivity().getPreferences(Context.MODE_PRIVATE))
+        } else {
+            viewModel.getPrizes()
+        }
+    }
+
     private fun setUpObservables() {
-        if (itemType == ItemType.REPORT) {
+        if (itemType==ItemType.REPORT) {
             viewModel.reports.observe(viewLifecycleOwner) { reports ->
                 recyclerView.adapter = ReportsAdapter(reports)
             }
@@ -65,17 +72,9 @@ class ReportsFragment : Fragment() {
             viewModel.prizes.observe(viewLifecycleOwner) { prizes ->
                 val currentLevel = requireActivity().getPreferences(Context.MODE_PRIVATE)
                     ?.getInt(PREFERENCES_REWARD_LEVEL_KEY, 2)
-                    ?: 2
+                    ?: PREFERENCES_REWARD_LEVEL_DEFAULT
                 recyclerView.adapter = PrizesAdapter(currentLevel, prizes)
             }
-        }
-    }
-
-    private fun initData() {
-        if (itemType == ItemType.REPORT) {
-            viewModel.getReports(requireActivity().getPreferences(Context.MODE_PRIVATE))
-        } else {
-            viewModel.getPrizes()
         }
     }
 }

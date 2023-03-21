@@ -1,6 +1,9 @@
 package com.master.iot.luzi.domain.utils
 
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.*
 
 class DateFormatterUtils {
@@ -12,6 +15,8 @@ class DateFormatterUtils {
             SimpleDateFormat("E, dd MMM yyyy HH:mm:ss", Locale.US)
         private val formatterHour: SimpleDateFormat = SimpleDateFormat("HH:mm", Locale.US)
 
+        var formatterReport: DateTimeFormatter =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")
 
         fun getDateFromString(date: String): Date {
             val shortDate = date.split('+')[0]
@@ -28,6 +33,9 @@ class DateFormatterUtils {
             val copyDate = this
             return getHourFromDate() + " - " + copyDate.apply { hours += 1 }.getHourFromDate()
         }
+
+        fun LocalDateTime.getReportDateTime(): String =
+            DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).format(this)
     }
 }
 

@@ -8,6 +8,7 @@
     <string name="title_settings">Ajustes</string>
     <string name="title_city">Ciudad</string>
 
+    <string name="price_amount">%s €</string>
     <string name="price_petrol_magnitude">€/l</string>
     <string name="price_magnitude">€/kWh</string>
     <string name="price_minimum">Precio mínimo</string>
@@ -55,11 +56,23 @@
     <string name="title_hours">Horario</string>
     <string name="preferences_saved">Preferencias actualizadas</string>
 
+    <!-- Object types -->
+    <string name="title_points">%d puntos</string>
+    <string name="type_washing_machine">Lavadora</string>
+    <string name="type_oven">Horno</string>
+    <string name="type_other">Otro</string>
+
     <!-- Errors -->
     <string name="error_error_server_title">Error en el servidor</string>
     <string name="error_error_server_description">Intentelo mas tarde</string>
     <string name="error_electricity_not_available_title">Precio de la luz no disponible</string>
     <string name="error_electricity_not_available_decription">Los datos apareceran a partir de las 20:00 del día anterior consultado</string>
     <string name="title_reports">Registros</string>
+    <string name="ok">OK</string>
+    <string name="dialog_points">Puntos</string>
+    <string name="dialog_points_message">Tienes %d puntos. Solo necesitas %d mas para alcanzar el siguiente nivel. \n \n Recuerda que los puntos comenzaran a contar el día 1 de cada mes</string>
+    <string name="dialog_points_message_max">Tienes %d puntos. Enhorabuena, has alcanzado el máximo nivel. \n \n Recuerda que los puntos comenzaran a contar el día 1 de cada mes</string>
+    <string name="dialog_money">Ahorro</string>
+    <string name="dialog_money_message">Tu ahorro mensual es de %s€. \n \n Ten en cuenta que es una cifra aproximada ya que dependera del consumo particular de tu electrodomestico. </string>
 
 </resources>
