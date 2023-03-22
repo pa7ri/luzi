@@ -53,7 +53,13 @@
     <!-- Object types -->
     <string name="title_points">%d points</string>
     <string name="type_washing_machine">Washing machine</string>
+    <string name="type_dishwasher">Dishwasher</string>
+    <string name="type_kettle">Kettle</string>
     <string name="type_oven">Oven</string>
+    <string name="type_tv">TV</string>
+    <string name="type_immersion_heater">Immersion heater</string>
+    <string name="type_fridge">Frigde</string>
+    <string name="type_freezer">Freezer</string>
     <string name="type_other">Other</string>
 
     <!-- Errors -->
@@ -63,10 +69,14 @@
     <string name="error_electricity_not_available_decription">Data will be available at 8pm on previous selected day</string>
     <string name="title_reports">History</string>
     <string name="ok">OK</string>
+
+    <!-- Dialogs -->
     <string name="dialog_points">Points</string>
     <string name="dialog_points_message">You have %d points. Get only %d more to reach the next level. \n \n Be aware that points will reset on the first of each month</string>
     <string name="dialog_points_message_max">You have %d points. Congratulations you have reached the max level this month. \n \n Be aware that points will reset on the first of each month</string>
     <string name="dialog_money">Ahorro</string>
     <string name="dialog_money_message">You have saved %s€ this month. \n \n Be aware that this amount this amount is approximate as it depends on the specific consumption of your appliance</string>
+
+    <string name="dialog_select_appliance">Select appliance</string>
 
 </resources>

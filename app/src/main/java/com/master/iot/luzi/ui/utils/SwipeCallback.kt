@@ -15,8 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.master.iot.luzi.R
 
 
-open class SwipeCallback(context: Context) : Callback() {
-
+open class SwipeCallback(context: Context, swipeType: SwipeType = SwipeType.NOTIFICATIONS) : Callback() {
     private lateinit var iconDrawable: Drawable
     private var swipeBack: Boolean = false
     private var mClearPaint: Paint
@@ -26,11 +25,11 @@ open class SwipeCallback(context: Context) : Callback() {
     private var iconHeight = 0
 
     init {
-        backgroundColor = ContextCompat.getColor(context, R.color.purple_900_40)
+        backgroundColor = ContextCompat.getColor(context, swipeType.backgroundColor)
         mClearPaint = Paint().apply {
             xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
         }
-        ContextCompat.getDrawable(context, R.drawable.ic_alert)?.let {
+        ContextCompat.getDrawable(context, swipeType.drawable)?.let {
             iconDrawable = it
             iconWidth = it.intrinsicWidth
             iconHeight = it.intrinsicHeight
@@ -68,7 +67,7 @@ open class SwipeCallback(context: Context) : Callback() {
         super.onChildDraw(canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
         val itemView: View = viewHolder.itemView
         val itemHeight: Int = itemView.height
-        val isCancelled = dX == 0f && !isCurrentlyActive
+        val isCancelled = dX==0f && !isCurrentlyActive
         if (isCancelled) {
             clearCanvas(
                 canvas, itemView.right + dX,
@@ -116,4 +115,9 @@ open class SwipeCallback(context: Context) : Callback() {
     private fun clearCanvas(c: Canvas, left: Float, top: Float, right: Float, bottom: Float) {
         c.drawRect(left, top, right, bottom, mClearPaint)
     }
+}
+
+enum class SwipeType(val drawable: Int, val backgroundColor: Int) {
+    NOTIFICATIONS(R.drawable.ic_alert, R.color.purple_900_40),
+    DELETE(R.drawable.ic_delete, R.color.purple_300_40)
 }

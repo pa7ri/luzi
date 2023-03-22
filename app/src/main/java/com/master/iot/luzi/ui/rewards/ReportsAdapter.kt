@@ -1,6 +1,5 @@
 package com.master.iot.luzi.ui.rewards
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +21,7 @@ class ReportsAdapter(private var reports: List<ReportItem>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = reports[position]
         with(holder) {
-            binding.tvTitle.text = getObjectType(item.type, holder.binding.root.context)
+            binding.tvTitle.text = holder.binding.root.context.getString(item.type.nameId)
             binding.tvTimestamp.text = getFormattedDateTime(item.timestamp)
             binding.tvPoints.text =
                 holder.binding.root.context.getString(R.string.title_points, item.points)
@@ -43,13 +42,5 @@ class ReportsAdapter(private var reports: List<ReportItem>) :
     private fun getFormattedDateTime(date: String): String =
         LocalDateTime.parse(date, DateFormatterUtils.formatterReport).getReportDateTime()
 
-    private fun getObjectType(type: ObjectType, context: Context): String =
-        when (type) {
-            ObjectType.WASHING_MACHINE -> context.getString(R.string.type_washing_machine)
-            ObjectType.OVEN -> context.getString(R.string.type_oven)
-            else -> context.getString(R.string.type_other)
-        }
-
     inner class ViewHolder(val binding: ReportItemBinding) : RecyclerView.ViewHolder(binding.root)
-
 }

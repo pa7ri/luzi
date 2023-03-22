@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -124,24 +125,16 @@ class RewardsFragment : Fragment() {
             fabAdd.setOnClickListener { handleFabStatus() }
             fabExpenseManual.setOnClickListener {
                 handleFabStatus()
-                // TODO: guardar un registro nuevo
-                val testReport = ReportItem(
-                    ObjectType.WASHING_MACHINE,
-                    LocalDateTime.now().toString(),
-                    10,
-                    0.12
-                )
+                val items = ObjectType.values().toList()
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(getString(R.string.dialog_select_appliance))
+                    .setItems(items.map { resources.getString(it.nameId) }.toTypedArray()) { dialog, selected ->
+                        // Add confirmation dialog
+                        registerAppliance(items[selected])
+                        dialog.dismiss()
+                    }.show()
 
-                val total = preferences.getInt(
-                    PREFERENCES_REWARD_HISTORY_TOTAL_KEY,
-                    PREFERENCES_REWARD_HISTORY_TOTAL_DEFAULT
-                )
 
-                val json = Gson().toJson(testReport)
-                preferences.edit().apply {
-                    putString(PREFERENCES_REWARD_HISTORY_ITEM_KEY + total, json)
-                    putInt(PREFERENCES_REWARD_HISTORY_TOTAL_KEY, total + 1)
-                }.apply()
             }
             fabExpenseReceipt.setOnClickListener {
                 handleFabStatus()
@@ -181,5 +174,28 @@ class RewardsFragment : Fragment() {
                 else getString(R.string.title_reports)
             }.attach()
         }
+    }
+
+    private fun registerAppliance(appliance: ObjectType) {
+        val applianceReport = ReportItem(
+            appliance,
+            LocalDateTime.now().toString(),
+            appliance.points,
+            appliance.consumption // Fix consumption with current price*consumption
+        )
+
+        val total = preferences.getInt(
+            PREFERENCES_REWARD_HISTORY_TOTAL_KEY,
+            PREFERENCES_REWARD_HISTORY_TOTAL_DEFAULT
+        )
+
+        val json = Gson().toJson(applianceReport)
+        preferences.edit().apply {
+            putString(PREFERENCES_REWARD_HISTORY_ITEM_KEY + total, json)
+            putInt(PREFERENCES_REWARD_HISTORY_TOTAL_KEY, total + 1)
+        }.apply()
+
+        renderHeader()
+        (binding.vpRewards.adapter as RewardsViewPagerAdapter).updateReports()
     }
 }

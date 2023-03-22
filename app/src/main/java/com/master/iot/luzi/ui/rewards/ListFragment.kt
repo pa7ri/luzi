@@ -50,12 +50,12 @@ class ListFragment : Fragment() {
         if (view is RecyclerView) {
             recyclerView = view
             setUpObservables()
-            initData()
+            updateData()
         }
         return view
     }
 
-    fun initData() {
+    fun updateData() {
         if (itemType==ItemType.REPORT) {
             viewModel.getReports(requireActivity().getPreferences(Context.MODE_PRIVATE))
         } else {

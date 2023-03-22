@@ -19,6 +19,6 @@ class RewardsViewPagerAdapter(activity: FragmentActivity) : FragmentStateAdapter
     }
 
     fun updateReports() {
-//        reportsFragment.
+        reportsFragment.updateData()
     }
 }

@@ -22,6 +22,7 @@
 
     <color name="purple_100_40">#FFb487a5</color>
     <color name="purple_300">#FFB80D57</color>
+    <color name="purple_300_40">#66B80D57</color>
     <color name="purple_500">#FF900e51</color>
     <color name="purple_700">#FF680e4b</color>
     <color name="purple_900">#FF42033d</color>

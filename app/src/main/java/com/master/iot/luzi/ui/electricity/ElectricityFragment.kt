@@ -31,6 +31,7 @@ import com.master.iot.luzi.ui.ElectricityPreferences
 import com.master.iot.luzi.ui.getElectricityPreferences
 import com.master.iot.luzi.ui.settings.SettingsActivity
 import com.master.iot.luzi.ui.utils.SwipeCallback
+import com.master.iot.luzi.ui.utils.SwipeType
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -93,8 +94,9 @@ class ElectricityFragment : Fragment() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED &&
-            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED)
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CALENDAR)==PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_CALENDAR)==PackageManager.PERMISSION_GRANTED
+        )
             calendarPermissionResult.launch(
                 arrayOf(
                     Manifest.permission.READ_CALENDAR,
@@ -125,7 +127,7 @@ class ElectricityFragment : Fragment() {
         binding.rvPrices.layoutManager = layoutManager
         adapter = EMPPricesAdapter(emptyList())
         // Set up swipe
-        val swipeHelper = ItemTouchHelper(object : SwipeCallback(requireContext()) {
+        val swipeHelper = ItemTouchHelper(object : SwipeCallback(requireContext(), SwipeType.NOTIFICATIONS) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 adapter.notifyItemChanged(viewHolder.adapterPosition)
                 startActivity(
@@ -279,11 +281,11 @@ class ElectricityFragment : Fragment() {
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.READ_CALENDAR
-            ) == PackageManager.PERMISSION_DENIED ||
+            )==PackageManager.PERMISSION_DENIED ||
             ContextCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.WRITE_CALENDAR
-            ) == PackageManager.PERMISSION_DENIED
+            )==PackageManager.PERMISSION_DENIED
         ) {
             ActivityCompat.requestPermissions(
                 requireActivity(),
