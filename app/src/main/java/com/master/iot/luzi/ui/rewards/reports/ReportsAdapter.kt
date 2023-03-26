@@ -1,4 +1,4 @@
-package com.master.iot.luzi.ui.rewards
+package com.master.iot.luzi.ui.rewards.reports
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

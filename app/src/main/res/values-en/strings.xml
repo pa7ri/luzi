@@ -58,8 +58,7 @@
     <string name="type_oven">Oven</string>
     <string name="type_tv">TV</string>
     <string name="type_immersion_heater">Immersion heater</string>
-    <string name="type_fridge">Frigde</string>
-    <string name="type_freezer">Freezer</string>
+    <string name="type_computer">Computer or laptop</string>
     <string name="type_other">Other</string>
 
     <!-- Errors -->
@@ -74,7 +73,8 @@
     <string name="dialog_points">Points</string>
     <string name="dialog_points_message">You have %d points. Get only %d more to reach the next level. \n \n Be aware that points will reset on the first of each month</string>
     <string name="dialog_points_message_max">You have %d points. Congratulations you have reached the max level this month. \n \n Be aware that points will reset on the first of each month</string>
-    <string name="dialog_money">Ahorro</string>
+    <string name="dialog_money">Saved money</string>
+    <string name="dialog_money_description">Saved</string>
     <string name="dialog_money_message">You have saved %s€ this month. \n \n Be aware that this amount this amount is approximate as it depends on the specific consumption of your appliance</string>
 
     <string name="dialog_select_appliance">Select appliance</string>

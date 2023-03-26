@@ -1,4 +1,4 @@
-package com.master.iot.luzi.ui.rewards
+package com.master.iot.luzi.ui.rewards.prizes
 
 import com.master.iot.luzi.R
 

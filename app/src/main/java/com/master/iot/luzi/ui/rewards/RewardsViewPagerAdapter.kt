@@ -3,6 +3,7 @@ package com.master.iot.luzi.ui.rewards
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.master.iot.luzi.ui.rewards.reports.ListFragment
 
 class RewardsViewPagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
 

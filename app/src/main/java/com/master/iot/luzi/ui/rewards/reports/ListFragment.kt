@@ -1,4 +1,4 @@
-package com.master.iot.luzi.ui.rewards
+package com.master.iot.luzi.ui.rewards.reports
 
 import android.content.Context
 import android.os.Bundle
@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.master.iot.luzi.PREFERENCES_REWARD_LEVEL_DEFAULT
 import com.master.iot.luzi.PREFERENCES_REWARD_LEVEL_KEY
 import com.master.iot.luzi.R
+import com.master.iot.luzi.ui.rewards.prizes.PrizesAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

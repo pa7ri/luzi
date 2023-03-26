@@ -64,8 +64,7 @@
     <string name="type_oven">Horno</string>
     <string name="type_immersion_heater">Calentador</string>
     <string name="type_tv">TV</string>
-    <string name="type_fridge">Frigorifico</string>
-    <string name="type_freezer">Congelador</string>
+    <string name="type_computer">Ordenador o portatil</string>
     <string name="type_other">Otro</string>
 
     <!-- Errors -->
@@ -81,6 +80,7 @@
     <string name="dialog_points_message">Tienes %d puntos. Solo necesitas %d mas para alcanzar el siguiente nivel. \n \n Recuerda que los puntos comenzaran a contar el día 1 de cada mes</string>
     <string name="dialog_points_message_max">Tienes %d puntos. Enhorabuena, has alcanzado el máximo nivel. \n \n Recuerda que los puntos comenzaran a contar el día 1 de cada mes</string>
     <string name="dialog_money">Ahorro</string>
+    <string name="dialog_money_description">Ahorrados</string>
     <string name="dialog_money_message">Tu ahorro mensual es de %s€. \n \n Ten en cuenta que es una cifra aproximada ya que dependera del consumo particular de tu electrodomestico. </string>
     <string name="dialog_select_appliance">Selecciona un electrodomestico</string>
 

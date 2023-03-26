@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,8 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
@@ -21,6 +22,10 @@ import com.master.iot.luzi.PREFERENCES_REWARD_HISTORY_TOTAL_KEY
 import com.master.iot.luzi.R
 import com.master.iot.luzi.databinding.FragmentRewardsBinding
 import com.master.iot.luzi.domain.utils.toRegularPriceString
+import com.master.iot.luzi.ui.rewards.appliances.AppliancesAdapter
+import com.master.iot.luzi.ui.rewards.reports.ListViewModel
+import com.master.iot.luzi.ui.rewards.reports.ObjectType
+import com.master.iot.luzi.ui.rewards.reports.ReportItem
 import com.master.iot.luzi.ui.utils.getNextLevel
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDateTime
@@ -125,16 +130,21 @@ class RewardsFragment : Fragment() {
             fabAdd.setOnClickListener { handleFabStatus() }
             fabExpenseManual.setOnClickListener {
                 handleFabStatus()
-                val items = ObjectType.values().toList()
-                MaterialAlertDialogBuilder(requireContext())
+                val appliancesView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_select_appliance, null, false)
+                val rvAppliances = appliancesView.findViewById<RecyclerView>(R.id.rvAppliances)
+                rvAppliances.layoutManager = GridLayoutManager(requireContext(), 2)
+                val dialog = MaterialAlertDialogBuilder(requireContext())
+                    .setView(appliancesView)
                     .setTitle(getString(R.string.dialog_select_appliance))
-                    .setItems(items.map { resources.getString(it.nameId) }.toTypedArray()) { dialog, selected ->
-                        // Add confirmation dialog
-                        registerAppliance(items[selected])
+                    .setPositiveButton(resources.getString(com.google.android.material.R.string.mtrl_picker_cancel)) { dialog, _ ->
                         dialog.dismiss()
                     }.show()
 
-
+                val adapter = AppliancesAdapter {
+                    registerAppliance(it)
+                    dialog.dismiss()
+                }
+                rvAppliances.adapter = adapter
             }
             fabExpenseReceipt.setOnClickListener {
                 handleFabStatus()

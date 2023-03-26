@@ -1,4 +1,4 @@
-package com.master.iot.luzi.ui.rewards
+package com.master.iot.luzi.ui.rewards.reports
 
 import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
@@ -8,6 +8,8 @@ import com.master.iot.luzi.PREFERENCES_REWARD_HISTORY_ITEM_KEY
 import com.master.iot.luzi.PREFERENCES_REWARD_HISTORY_TOTAL_DEFAULT
 import com.master.iot.luzi.PREFERENCES_REWARD_HISTORY_TOTAL_KEY
 import com.master.iot.luzi.domain.utils.DateFormatterUtils
+import com.master.iot.luzi.ui.rewards.prizes.PrizeItem
+import com.master.iot.luzi.ui.rewards.prizes.getPrizesList
 import com.master.iot.luzi.ui.utils.Levels
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate

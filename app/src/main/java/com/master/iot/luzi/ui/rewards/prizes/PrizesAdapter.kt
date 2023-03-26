@@ -1,4 +1,4 @@
-package com.master.iot.luzi.ui.rewards
+package com.master.iot.luzi.ui.rewards.prizes
 
 import android.content.res.ColorStateList
 import android.graphics.Color

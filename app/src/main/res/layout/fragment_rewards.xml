@@ -57,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="-5dp"
-                    android:text="Puntos"
+                    android:text="@string/dialog_points"
                     app:layout_constraintEnd_toEndOf="@+id/tvPoints"
                     app:layout_constraintStart_toStartOf="@+id/tvPoints"
                     app:layout_constraintTop_toBottomOf="@+id/tvPoints" />
@@ -119,7 +119,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="-5dp"
-                    android:text="Ahorrados"
+                    android:text="@string/dialog_money_description"
                     app:layout_constraintEnd_toEndOf="@+id/tvProgressSavedAmountCurrency"
                     app:layout_constraintStart_toStartOf="@+id/tvProgressSavedAmount"
                     app:layout_constraintTop_toBottomOf="@+id/tvProgressSavedAmount" />
