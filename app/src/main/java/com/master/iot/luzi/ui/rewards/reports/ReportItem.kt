@@ -17,11 +17,11 @@ class ReportItem(
  */
 enum class ObjectType(val nameId: Int, val drawable: Int, val consumption: Double, val points: Int) {
     DISHWASHER(R.string.type_dishwasher, R.mipmap.ic_dishwasher, 365.13, 4),
-    OVEN(R.string.type_oven,  R.mipmap.ic_oven, 328.79, 4),
-    WASHING_MACHINE(R.string.type_washing_machine,  R.mipmap.ic_washing_machine, 324.14, 4),
-    HEATER(R.string.type_immersion_heater,  R.mipmap.ic_heater, 201.80, 3),
-    KETTLE(R.string.type_kettle,  R.mipmap.ic_electric_kettle, 84.94, 2),
-    TV(R.string.type_tv,  R.mipmap.ic_television, 39.36, 1),
-    COMPUTER(R.string.type_computer,  R.mipmap.ic_laptop, 33.13, 1),
-    OTHER(R.string.type_other,  R.mipmap.ic_unknown, 0.0, 0)
+    OVEN(R.string.type_oven, R.mipmap.ic_oven, 328.79, 4),
+    WASHING_MACHINE(R.string.type_washing_machine, R.mipmap.ic_washing_machine, 324.14, 4),
+    HEATER(R.string.type_immersion_heater, R.mipmap.ic_heater, 201.80, 3),
+    KETTLE(R.string.type_kettle, R.mipmap.ic_electric_kettle, 84.94, 2),
+    TV(R.string.type_tv, R.mipmap.ic_television, 39.36, 1),
+    COMPUTER(R.string.type_computer, R.mipmap.ic_laptop, 33.13, 1),
+    OTHER(R.string.type_other, R.mipmap.ic_unknown, 0.0, 0)
 }

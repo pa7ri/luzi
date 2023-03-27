@@ -22,7 +22,7 @@ class ReportsAdapter(private var reports: List<ReportItem>) :
         val item = reports[position]
         with(holder) {
             binding.tvTitle.text = holder.binding.root.context.getString(item.type.nameId)
-            binding.tvTimestamp.text = getFormattedDateTime(item.timestamp)
+            binding.tvTimestamp.text = getFormattedDateTime(item.timestamp.subSequence(0, 23).toString())
             binding.tvPoints.text =
                 holder.binding.root.context.getString(R.string.title_points, item.points)
             binding.tvAmount.text =

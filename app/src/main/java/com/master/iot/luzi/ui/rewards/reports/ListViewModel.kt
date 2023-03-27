@@ -67,7 +67,7 @@ class ListViewModel @Inject constructor() : ViewModel() {
 
     private fun filterMonthlyReports(reports: List<ReportItem>): List<ReportItem> {
         return reports.filter {
-            val localTime = LocalDate.parse(it.timestamp, DateFormatterUtils.formatterReport)
+            val localTime = LocalDate.parse(it.timestamp.subSequence(0, 23).toString(), DateFormatterUtils.formatterReport)
             localTime.month.value==LocalDate.now().month.value && localTime.year==LocalDate.now().year
         }
     }
