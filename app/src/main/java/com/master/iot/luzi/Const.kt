@@ -27,8 +27,6 @@ const val PREFERENCES_REWARD_LEVEL_KEY = "reward-level"
 const val PREFERENCES_REWARD_LEVEL_DEFAULT = 0
 const val PREFERENCES_REWARD_HISTORY_TOTAL_KEY = "reward-history-total"
 const val PREFERENCES_REWARD_HISTORY_TOTAL_DEFAULT = 0
-const val PREFERENCES_SAVE_MONEY_DEFAULT = 0
-const val PREFERENCES_SAVE_MONEY_TOTAL = "save-money-total"
 const val PREFERENCES_REWARD_HISTORY_ITEM_KEY = "reward-history-item"
 
 const val PETROL_BIODIESEL = "Biodiesel"

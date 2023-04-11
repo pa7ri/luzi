@@ -11,31 +11,46 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
-import com.master.iot.luzi.PREFERENCES_REWARD_HISTORY_ITEM_KEY
-import com.master.iot.luzi.PREFERENCES_REWARD_HISTORY_TOTAL_DEFAULT
-import com.master.iot.luzi.PREFERENCES_REWARD_HISTORY_TOTAL_KEY
-import com.master.iot.luzi.R
+import com.master.iot.luzi.*
 import com.master.iot.luzi.databinding.FragmentRewardsBinding
+import com.master.iot.luzi.domain.dto.EMPItem
+import com.master.iot.luzi.domain.utils.PriceIndicator
 import com.master.iot.luzi.domain.utils.toRegularPriceString
+import com.master.iot.luzi.ui.ElectricityPreferences
+import com.master.iot.luzi.ui.electricity.*
+import com.master.iot.luzi.ui.getElectricityPreferences
 import com.master.iot.luzi.ui.rewards.appliances.AppliancesAdapter
-import com.master.iot.luzi.ui.rewards.reports.ListViewModel
+import com.master.iot.luzi.ui.rewards.prizes.PrizesViewModel
 import com.master.iot.luzi.ui.rewards.reports.ObjectType
 import com.master.iot.luzi.ui.rewards.reports.ReportItem
+import com.master.iot.luzi.ui.rewards.reports.ReportsViewModel
+import com.master.iot.luzi.ui.utils.getCurrentLevel
+import com.master.iot.luzi.ui.utils.getLevel
 import com.master.iot.luzi.ui.utils.getNextLevel
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDateTime
+import java.util.*
 
 
 @AndroidEntryPoint
 class RewardsFragment : Fragment() {
 
     private lateinit var binding: FragmentRewardsBinding
-    private val viewModel: ListViewModel by viewModels()
+    private val reportsViewModel: ReportsViewModel by viewModels()
+    private val prizesViewModel: PrizesViewModel by viewModels()
+    private val electricityViewModel: ElectricityViewModel by viewModels()
+
+    private lateinit var preferences: SharedPreferences
+    private lateinit var electricityPreferences: ElectricityPreferences
+
+    private var objectType: ObjectType = ObjectType.OTHER
+    private var isFabExpanded: Boolean = false
 
     private val openAnim: Animation by lazy {
         AnimationUtils.loadAnimation(
@@ -62,9 +77,6 @@ class RewardsFragment : Fragment() {
         )
     }
 
-    private var isFabExpanded: Boolean = false
-
-    private lateinit var preferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,20 +85,27 @@ class RewardsFragment : Fragment() {
     ): View {
         binding = FragmentRewardsBinding.inflate(inflater, container, false)
         preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        electricityPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+            .getElectricityPreferences()
         setUpToolbar()
+        setUpObservers()
         renderHeader()
         setUpListeners()
         return binding.root
     }
 
-    fun renderHeader() {
-        viewModel.getReports(preferences)
-        viewModel.getPrizes()
+    private fun renderHeader() {
+        reportsViewModel.getReports(preferences)
+        prizesViewModel.getPrizes()
         with(binding) {
-            val points = viewModel.getTotalPoints()
+            val points = reportsViewModel.getTotalPoints()
             tvPoints.text = points.toString()
-            tvProgressSavedAmount.text = viewModel.getTotalSavedAmount().toRegularPriceString()
-            tvLevel.text = getString(R.string.rewards_level_tag, viewModel.getLevel(points).currentLevel)
+            tvProgressSavedAmount.text = reportsViewModel.getTotalSavedAmount().toRegularPriceString()
+            val level = getLevel(points).currentLevel
+            tvLevel.text = getString(R.string.rewards_level_tag, level)
+
+            preferences.edit().putInt(PREFERENCES_REWARD_LEVEL_KEY, level).apply()
+            (binding.vpRewards.adapter as RewardsViewPagerAdapter).updateLevel(level.getCurrentLevel())
         }
     }
 
@@ -141,7 +160,7 @@ class RewardsFragment : Fragment() {
                     }.show()
 
                 val adapter = AppliancesAdapter {
-                    registerAppliance(it)
+                    getElectricityPrices(it)
                     dialog.dismiss()
                 }
                 rvAppliances.adapter = adapter
@@ -151,12 +170,12 @@ class RewardsFragment : Fragment() {
                 startActivity(Intent(requireContext(), VerifierActivity::class.java))
             }
             pbPoints.setOnClickListener {
-                val points = viewModel.getTotalPoints()
-                val nextLevel = viewModel.getLevel(points).getNextLevel()
+                val points = reportsViewModel.getTotalPoints()
+                val nextLevel = getLevel(points).getNextLevel()
                 val message = if (nextLevel==null) {
-                    resources.getString(R.string.dialog_points_message_max, viewModel.getTotalPoints())
+                    resources.getString(R.string.dialog_points_message_max, reportsViewModel.getTotalPoints())
                 } else {
-                    resources.getString(R.string.dialog_points_message, viewModel.getTotalPoints(), nextLevel.rangeVal - points)
+                    resources.getString(R.string.dialog_points_message, reportsViewModel.getTotalPoints(), nextLevel.rangeVal - points)
                 }
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle(getString(R.string.dialog_points))
@@ -168,7 +187,7 @@ class RewardsFragment : Fragment() {
             pbSavedMoney.setOnClickListener {
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle(getString(R.string.dialog_money))
-                    .setMessage(resources.getString(R.string.dialog_money_message, viewModel.getTotalSavedAmount().toString()))
+                    .setMessage(resources.getString(R.string.dialog_money_message, reportsViewModel.getTotalSavedAmount().toString()))
                     .setPositiveButton(resources.getString(R.string.ok)) { dialog, _ ->
                         dialog.dismiss()
                     }.show()
@@ -186,26 +205,70 @@ class RewardsFragment : Fragment() {
         }
     }
 
-    private fun registerAppliance(appliance: ObjectType) {
-        val applianceReport = ReportItem(
-            appliance,
-            LocalDateTime.now().toString(),
-            appliance.points,
-            appliance.consumption // Fix consumption with current price*consumption
-        )
+    private fun setUpObservers() {
+        electricityViewModel.dataPrices.observe(viewLifecycleOwner) {
+            when (it) {
+                is EMPPricesLoading -> renderLoading()
+                is EMPPricesReady -> {
+                    val item = it.data.getCurrentTimeItem()
+                    if (item!=null) {
+                        registerAppliance(item)
+                    } else {
+                        renderError()
+                    }
+                }
+                is EMPPricesError -> renderError()
+            }
+        }
+    }
 
-        val total = preferences.getInt(
-            PREFERENCES_REWARD_HISTORY_TOTAL_KEY,
-            PREFERENCES_REWARD_HISTORY_TOTAL_DEFAULT
-        )
+    private fun renderLoading() {
+        binding.ltLoading.group.visibility = View.VISIBLE
+        binding.ltLoading.tvLoading.text = getString(R.string.loading_data_title)
+    }
 
-        val json = Gson().toJson(applianceReport)
-        preferences.edit().apply {
-            putString(PREFERENCES_REWARD_HISTORY_ITEM_KEY + total, json)
-            putInt(PREFERENCES_REWARD_HISTORY_TOTAL_KEY, total + 1)
-        }.apply()
+    private fun renderError() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.dialog_validation_error))
+            .setMessage(getString(R.string.dialog_validation_error_network))
+            .setPositiveButton(resources.getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
+            .show()
+    }
 
-        renderHeader()
-        (binding.vpRewards.adapter as RewardsViewPagerAdapter).updateReports()
+    private fun registerAppliance(electricityItem: EMPItem) {
+        if (electricityItem.indicator==PriceIndicator.CHEAP) {
+            val applianceReport = ReportItem(
+                objectType,
+                LocalDateTime.now().toString(),
+                objectType.points,
+                objectType.consumption * electricityItem.value / 1000 // Fix consumption with current price*consumption
+            )
+
+            val total = preferences.getInt(
+                PREFERENCES_REWARD_HISTORY_TOTAL_KEY,
+                PREFERENCES_REWARD_HISTORY_TOTAL_DEFAULT
+            )
+
+            val json = Gson().toJson(applianceReport)
+            preferences.edit().apply {
+                putString(PREFERENCES_REWARD_HISTORY_ITEM_KEY + total, json)
+                putInt(PREFERENCES_REWARD_HISTORY_TOTAL_KEY, total + 1)
+            }.apply()
+
+            renderHeader()
+            (binding.vpRewards.adapter as RewardsViewPagerAdapter).updateReports()
+        } else {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(getString(R.string.dialog_validation_error))
+                .setMessage(getString(R.string.dialog_validation_error_description))
+                .setPositiveButton(resources.getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
+                .show()
+        }
+    }
+
+
+    private fun getElectricityPrices(appliance: ObjectType) {
+        objectType = appliance
+        electricityViewModel.updateData(Calendar.getInstance().apply { time = Date() }, electricityPreferences)
     }
 }

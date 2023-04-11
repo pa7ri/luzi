@@ -6,11 +6,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.master.iot.luzi.PREFERENCES_REWARD_LEVEL_DEFAULT
 import com.master.iot.luzi.R
 import com.master.iot.luzi.databinding.PrizeItemBinding
+import com.master.iot.luzi.ui.utils.Levels
 
-class PrizesAdapter(private var currentLevel: Int, private var prizes: List<PrizeItem>) :
+class PrizesAdapter() :
     RecyclerView.Adapter<PrizesAdapter.ViewHolder>() {
+
+    private var currentLevel: Int = PREFERENCES_REWARD_LEVEL_DEFAULT
+    private var prizes: List<PrizeItem> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = PrizeItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -49,9 +54,13 @@ class PrizesAdapter(private var currentLevel: Int, private var prizes: List<Priz
     override fun getItemCount(): Int = prizes.size
 
 
-    fun updatePrizes(newLevel: Int, newPrizes: List<PrizeItem>) {
-        currentLevel = newLevel
+    fun updatePrizes(newPrizes: List<PrizeItem>) {
         prizes = newPrizes
+        notifyDataSetChanged()
+    }
+
+    fun updateLevel(newLevel: Levels) {
+        currentLevel = newLevel.currentLevel
         notifyDataSetChanged()
     }
 

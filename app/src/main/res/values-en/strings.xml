@@ -70,6 +70,9 @@
     <string name="ok">OK</string>
 
     <!-- Dialogs -->
+    <string name="dialog_validation_error">Validation Error</string>
+    <string name="dialog_validation_error_network">Network issue. Unable to get electricity prices. \n Please try it later again</string>
+    <string name="dialog_validation_error_description">This time slot will be expensive to register your appliance</string>
     <string name="dialog_points">Points</string>
     <string name="dialog_points_message">You have %d points. Get only %d more to reach the next level. \n \n Be aware that points will reset on the first of each month</string>
     <string name="dialog_points_message_max">You have %d points. Congratulations you have reached the max level this month. \n \n Be aware that points will reset on the first of each month</string>

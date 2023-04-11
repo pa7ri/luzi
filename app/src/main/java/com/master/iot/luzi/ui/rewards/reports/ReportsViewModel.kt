@@ -17,11 +17,8 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class ListViewModel @Inject constructor() : ViewModel() {
+class ReportsViewModel @Inject constructor() : ViewModel() {
     val reports = MutableLiveData<List<ReportItem>>().apply {
-        value = emptyList()
-    }
-    val prizes = MutableLiveData<List<PrizeItem>>().apply {
         value = emptyList()
     }
 
@@ -55,16 +52,6 @@ class ListViewModel @Inject constructor() : ViewModel() {
         reports.value = filteredValues
     }
 
-    fun getLevel(points: Int): Levels =
-        when (points) {
-            in Levels.LEVEL_0.rangeVal until Levels.LEVEL_1.rangeVal -> Levels.LEVEL_0
-            in Levels.LEVEL_1.rangeVal until Levels.LEVEL_2.rangeVal -> Levels.LEVEL_1
-            in Levels.LEVEL_2.rangeVal until Levels.LEVEL_3.rangeVal -> Levels.LEVEL_2
-            in Levels.LEVEL_3.rangeVal until Levels.LEVEL_4.rangeVal -> Levels.LEVEL_3
-            in Levels.LEVEL_4.rangeVal until Levels.LEVEL_5.rangeVal -> Levels.LEVEL_4
-            else -> Levels.LEVEL_5
-        }
-
     private fun filterMonthlyReports(reports: List<ReportItem>): List<ReportItem> {
         return reports.filter {
             val localTime = LocalDate.parse(it.timestamp.subSequence(0, 23).toString(), DateFormatterUtils.formatterReport)
@@ -80,9 +67,5 @@ class ListViewModel @Inject constructor() : ViewModel() {
                 putString(PREFERENCES_REWARD_HISTORY_ITEM_KEY + index, json)
             }.apply()
         }
-    }
-
-    fun getPrizes() {
-        prizes.value = getPrizesList()
     }
 }
