@@ -70,6 +70,8 @@
     <string name="ok">OK</string>
 
     <!-- Dialogs -->
+    <string name="dialog_validation_success">Appliance registered</string>
+    <string name="dialog_validation_success_description">You will get %d points.</string>
     <string name="dialog_validation_error">Validation Error</string>
     <string name="dialog_validation_error_network">Network issue. Unable to get electricity prices. \n \nPlease try it later again</string>
     <string name="dialog_validation_error_description">This time slot will be expensive to register your appliance</string>

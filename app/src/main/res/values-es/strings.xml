@@ -76,6 +76,8 @@
     <string name="ok">OK</string>
 
     <!-- Dialogs -->
+    <string name="dialog_validation_success">Electrodomestico registrado</string>
+    <string name="dialog_validation_success_description">Recibiras %d puntos.</string>
     <string name="dialog_validation_error">Error de validacion</string>
     <string name="dialog_validation_error_network">Error de conexion. No se pudo obtener el precio actual de la luz. \n \nPor favor intentelo mas tarde</string>
     <string name="dialog_validation_error_description">Parece que estas registrando un electrodomestico en una franja horaria no muy conveniente</string>

@@ -210,7 +210,7 @@ class RewardsFragment : Fragment() {
         electricityViewModel.dataPrices.observe(viewLifecycleOwner) {
             binding.ltLoading.group.visibility = View.GONE
             when (it) {
-                is EMPPricesInitial -> { }
+                is EMPPricesInitial -> {}
                 is EMPPricesLoading -> renderLoading(it.title)
                 is EMPPricesReady -> {
                     val item = it.data.getCurrentTimeItem()
@@ -260,6 +260,11 @@ class RewardsFragment : Fragment() {
 
             renderHeader()
             (binding.vpRewards.adapter as RewardsViewPagerAdapter).updateReports()
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(getString(R.string.dialog_validation_success))
+                .setMessage(getString(R.string.dialog_validation_success_description, objectType.points))
+                .setPositiveButton(resources.getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
+                .show()
         } else {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle(getString(R.string.dialog_validation_error))
