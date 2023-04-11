@@ -23,7 +23,7 @@ class ElectricityViewModel @Inject constructor(
         value = LIST_VIEW
     }
     val dataPrices = MutableLiveData<EMPPrices>().apply {
-        value = EMPPricesLoading()
+        value = EMPPricesInitial
     }
 
     private val compositeDisposable = CompositeDisposable()

@@ -34,6 +34,7 @@
 
     <style name="TextAppearance.Loading" parent="TextAppearance.MaterialComponents.Caption">
         <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:letterSpacing">0.0001</item>
     </style>

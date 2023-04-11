@@ -7,6 +7,7 @@ import java.util.*
 
 sealed class EMPPrices
 
+object EMPPricesInitial : EMPPrices()
 class EMPPricesLoading(val title: Int = R.string.loading_data_title) : EMPPrices()
 class EMPPricesReady(val data: EMPData) : EMPPrices()
 class EMPPricesError(

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.StringRes
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -212,7 +213,8 @@ class ElectricityFragment : Fragment() {
         electricityViewModel.dataPrices.observe(viewLifecycleOwner) {
             resetVisibilityItems()
             when (it) {
-                is EMPPricesLoading -> renderLoading(it)
+                is EMPPricesInitial -> renderLoading(R.string.loading_data_title)
+                is EMPPricesLoading -> renderLoading(it.title)
                 is EMPPricesReady -> renderData(it)
                 is EMPPricesError -> renderError(it)
             }
@@ -263,9 +265,9 @@ class ElectricityFragment : Fragment() {
         binding.ltError.tvErrorDescription.text = error.description
     }
 
-    private fun renderLoading(loading: EMPPricesLoading) {
+    private fun renderLoading(@StringRes loadingId: Int) {
         binding.ltLoading.group.visibility = View.VISIBLE
-        binding.ltLoading.tvLoading.text = getString(loading.title)
+        binding.ltLoading.tvLoading.text = getString(loadingId)
     }
 
     private fun resetVisibilityItems() {

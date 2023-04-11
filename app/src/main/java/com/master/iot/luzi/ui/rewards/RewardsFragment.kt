@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.preference.PreferenceManager
@@ -207,30 +208,32 @@ class RewardsFragment : Fragment() {
 
     private fun setUpObservers() {
         electricityViewModel.dataPrices.observe(viewLifecycleOwner) {
+            binding.ltLoading.group.visibility = View.GONE
             when (it) {
-                is EMPPricesLoading -> renderLoading()
+                is EMPPricesInitial -> { }
+                is EMPPricesLoading -> renderLoading(it.title)
                 is EMPPricesReady -> {
                     val item = it.data.getCurrentTimeItem()
                     if (item!=null) {
                         registerAppliance(item)
                     } else {
-                        renderError()
+                        renderError(R.string.dialog_validation_error_network)
                     }
                 }
-                is EMPPricesError -> renderError()
+                is EMPPricesError -> renderError(R.string.dialog_validation_error_network)
             }
         }
     }
 
-    private fun renderLoading() {
+    private fun renderLoading(@StringRes loadingId: Int) {
         binding.ltLoading.group.visibility = View.VISIBLE
-        binding.ltLoading.tvLoading.text = getString(R.string.loading_data_title)
+        binding.ltLoading.tvLoading.text = getString(loadingId)
     }
 
-    private fun renderError() {
+    private fun renderError(@StringRes errorDescriptionId: Int) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.dialog_validation_error))
-            .setMessage(getString(R.string.dialog_validation_error_network))
+            .setMessage(getString(errorDescriptionId))
             .setPositiveButton(resources.getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
             .show()
     }

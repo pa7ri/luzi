@@ -79,7 +79,7 @@
 
     <!-- Dialogs -->
     <string name="dialog_validation_error">Error de validacion</string>
-    <string name="dialog_validation_error_network">Error de conexion. No se pudo obtener el precio actual de la luz. \n Por favor intentelo mas tarde</string>
+    <string name="dialog_validation_error_network">Error de conexion. No se pudo obtener el precio actual de la luz. \n \nPor favor intentelo mas tarde</string>
     <string name="dialog_validation_error_description">Parece que estas registrando un electrodomestico en una franja horaria no muy conveniente</string>
     <string name="dialog_points">Puntos</string>
     <string name="dialog_points_message">Tienes %d puntos. Solo necesitas %d mas para alcanzar el siguiente nivel. \n \n Recuerda que los puntos comenzaran a contar el día 1 de cada mes</string>
