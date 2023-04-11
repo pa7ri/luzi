@@ -92,9 +92,11 @@
                 <TextView
                     android:id="@+id/tvProgressSavedAmount"
                     style="@style/TextAppearance.HeaderText.Price.Value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="10,6"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:text="10.6"
+                    android:gravity="center"
+                    android:autoSizeTextType="uniform"
                     app:layout_constraintBottom_toBottomOf="@+id/pbSavedMoney"
                     app:layout_constraintEnd_toEndOf="@+id/pbSavedMoney"
                     app:layout_constraintHorizontal_bias="0.45"
@@ -110,7 +112,9 @@
                     android:paddingBottom="@dimen/margin_tiny"
                     android:text="€"
                     app:layout_constraintBottom_toBottomOf="@+id/tvProgressSavedAmount"
-                    app:layout_constraintStart_toEndOf="@+id/tvProgressSavedAmount" />
+                    app:layout_constraintStart_toEndOf="@+id/tvProgressSavedAmount"
+                    app:layout_constraintTop_toTopOf="@+id/tvProgressSavedAmount"
+                    app:layout_constraintVertical_bias="0.7" />
 
                 <TextView
                     android:id="@+id/tvProgressSavedAmountDescription"
