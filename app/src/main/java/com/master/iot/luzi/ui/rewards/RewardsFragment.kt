@@ -22,13 +22,14 @@ import com.master.iot.luzi.*
 import com.master.iot.luzi.databinding.FragmentRewardsBinding
 import com.master.iot.luzi.domain.dto.EMPItem
 import com.master.iot.luzi.domain.utils.PriceIndicator
+import com.master.iot.luzi.domain.utils.getMaxPrice
 import com.master.iot.luzi.domain.utils.toRegularPriceString
 import com.master.iot.luzi.ui.ElectricityPreferences
 import com.master.iot.luzi.ui.electricity.*
 import com.master.iot.luzi.ui.getElectricityPreferences
 import com.master.iot.luzi.ui.rewards.appliances.AppliancesAdapter
 import com.master.iot.luzi.ui.rewards.prizes.PrizesViewModel
-import com.master.iot.luzi.ui.rewards.reports.ObjectType
+import com.master.iot.luzi.ui.rewards.reports.ApplianceType
 import com.master.iot.luzi.ui.rewards.reports.ReportItem
 import com.master.iot.luzi.ui.rewards.reports.ReportsViewModel
 import com.master.iot.luzi.ui.utils.getCurrentLevel
@@ -50,7 +51,7 @@ class RewardsFragment : Fragment() {
     private lateinit var preferences: SharedPreferences
     private lateinit var electricityPreferences: ElectricityPreferences
 
-    private var objectType: ObjectType = ObjectType.OTHER
+    private var objectType: ApplianceType = ApplianceType.OTHER
     private var isFabExpanded: Boolean = false
 
     private val openAnim: Animation by lazy {
@@ -77,7 +78,6 @@ class RewardsFragment : Fragment() {
             R.anim.to_fab_anim
         )
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -188,7 +188,9 @@ class RewardsFragment : Fragment() {
             pbSavedMoney.setOnClickListener {
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle(getString(R.string.dialog_money))
-                    .setMessage(resources.getString(R.string.dialog_money_message, reportsViewModel.getTotalSavedAmount().toString()))
+                    .setMessage(resources.getString(R.string.dialog_money_message,
+                        reportsViewModel.getTotalSavedAmount().toRegularPriceString(),
+                        reportsViewModel.getTotalSpendAmount().toRegularPriceString()))
                     .setPositiveButton(resources.getString(R.string.ok)) { dialog, _ ->
                         dialog.dismiss()
                     }.show()
@@ -215,7 +217,7 @@ class RewardsFragment : Fragment() {
                 is EMPPricesReady -> {
                     val item = it.data.getCurrentTimeItem()
                     if (item!=null) {
-                        registerAppliance(item)
+                        registerAppliance(item, it.data.items.getMaxPrice(), shouldGeneratePoints(item))
                     } else {
                         renderError(R.string.dialog_validation_error_network)
                     }
@@ -238,44 +240,56 @@ class RewardsFragment : Fragment() {
             .show()
     }
 
-    private fun registerAppliance(electricityItem: EMPItem) {
-        if (electricityItem.indicator==PriceIndicator.CHEAP) {
-            val applianceReport = ReportItem(
-                objectType,
-                LocalDateTime.now().toString(),
-                objectType.points,
-                objectType.consumption * electricityItem.value / 1000 // Fix consumption with current price*consumption
-            )
 
-            val total = preferences.getInt(
-                PREFERENCES_REWARD_HISTORY_TOTAL_KEY,
-                PREFERENCES_REWARD_HISTORY_TOTAL_DEFAULT
-            )
+    /**
+     * Check if the item should give points
+     *  1. The time is a cheap slot
+     *  2. Only during that particular time frame can register one appliance
+     *  3. Only once a day that particular appliance
+     */
+    private fun shouldGeneratePoints(item: EMPItem): Boolean =
+         (item.indicator==PriceIndicator.CHEAP
+                 && !reportsViewModel.anyReportRegisterDuringCurrentHour()
+                 && !reportsViewModel.hasSameReportRegisteredToday(objectType))
 
-            val json = Gson().toJson(applianceReport)
-            preferences.edit().apply {
-                putString(PREFERENCES_REWARD_HISTORY_ITEM_KEY + total, json)
-                putInt(PREFERENCES_REWARD_HISTORY_TOTAL_KEY, total + 1)
-            }.apply()
+    private fun registerAppliance(electricityItem: EMPItem, maxPrice: Double, withPoints: Boolean = false) {
+        val spendAmount = objectType.consumption * electricityItem.value / 1000
+        val maxAmount = objectType.consumption * maxPrice / 1000
+        val applianceReport = ReportItem(
+            objectType,
+            LocalDateTime.now().toString(),
+            if (withPoints) objectType.points else 0,
+            amountSaved = maxAmount - spendAmount,
+            amountSpend = spendAmount
+        )
 
-            renderHeader()
-            (binding.vpRewards.adapter as RewardsViewPagerAdapter).updateReports()
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle(getString(R.string.dialog_validation_success))
-                .setMessage(getString(R.string.dialog_validation_success_description, objectType.points))
-                .setPositiveButton(resources.getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
-                .show()
+        val total = preferences.getInt(
+            PREFERENCES_REWARD_HISTORY_TOTAL_KEY,
+            PREFERENCES_REWARD_HISTORY_TOTAL_DEFAULT
+        )
+
+        val json = Gson().toJson(applianceReport)
+        preferences.edit().apply {
+            putString(PREFERENCES_REWARD_HISTORY_ITEM_KEY + total, json)
+            putInt(PREFERENCES_REWARD_HISTORY_TOTAL_KEY, total + 1)
+        }.apply()
+
+        renderHeader()
+        (binding.vpRewards.adapter as RewardsViewPagerAdapter).updateReports()
+
+        val description = if (withPoints) {
+            getString(R.string.dialog_validation_success_description, objectType.points)
         } else {
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle(getString(R.string.dialog_validation_error))
-                .setMessage(getString(R.string.dialog_validation_error_description))
-                .setPositiveButton(resources.getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
-                .show()
+            getString(R.string.dialog_validation_success_description_no_points)
         }
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.dialog_validation_success))
+            .setMessage(description)
+            .setPositiveButton(resources.getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
+            .show()
     }
 
-
-    private fun getElectricityPrices(appliance: ObjectType) {
+    private fun getElectricityPrices(appliance: ApplianceType) {
         objectType = appliance
         electricityViewModel.updateData(Calendar.getInstance().apply { time = Date() }, electricityPreferences)
     }

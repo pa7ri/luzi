@@ -3,12 +3,16 @@
 
     <string name="app_name">luzi</string>
 
+    <string name="action_save">Guardar</string>
+
     <string name="title_electricity">Luz</string>
     <string name="title_petrol">Gasolina</string>
     <string name="title_petrol_station">Gasolinera</string>
     <string name="title_rewards">Recompensas</string>
     <string name="title_settings">Ajustes</string>
     <string name="title_city">Ciudad</string>
+    <string name="title_total_amount">Total en euros:</string>
+    <string name="title_total_litres">Total de litros:</string>
 
     <string name="price_amount">%s €</string>
     <string name="price_petrol_magnitude">€/l</string>
@@ -80,6 +84,7 @@
     <!-- Dialogs -->
     <string name="dialog_validation_success">Electrodomestico registrado</string>
     <string name="dialog_validation_success_description">Recibiras %d puntos.</string>
+    <string name="dialog_validation_success_description_no_points">No recibiras puntos.</string>
     <string name="dialog_validation_error">Error de validacion</string>
     <string name="dialog_validation_error_network">Error de conexion. No se pudo obtener el precio actual de la luz. \n \nPor favor intentelo mas tarde</string>
     <string name="dialog_validation_error_description">Parece que estas registrando un electrodomestico en una franja horaria no muy conveniente</string>
@@ -88,8 +93,7 @@
     <string name="dialog_points_message_max">Tienes %d puntos. Enhorabuena, has alcanzado el máximo nivel. \n \n Recuerda que los puntos comenzaran a contar el día 1 de cada mes</string>
     <string name="dialog_money">Ahorro</string>
     <string name="dialog_money_description">Ahorrados</string>
-    <string name="dialog_money_message">Tu ahorro mensual es de %s€. \n \n Ten en cuenta que es una cifra aproximada ya que dependera del consumo particular de tu electrodomestico. </string>
-
+    <string name="dialog_money_message">Tu ahorro mensual es de %s€. \n \nTu gasto mensual es de %s€. \n \n Ten en cuenta que es una cifra aproximada ya que dependera del consumo particular de tu electrodomestico. </string>
     <string name="dialog_select_appliance">Selecciona un electrodomestico</string>
 
 </resources>

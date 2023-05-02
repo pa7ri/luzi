@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.master.iot.luzi.R
 import com.master.iot.luzi.databinding.ApplianceItemBinding
-import com.master.iot.luzi.ui.rewards.reports.ObjectType
+import com.master.iot.luzi.ui.rewards.reports.ApplianceType
 
-class AppliancesAdapter(private var onClickListener: (expenseItem: ObjectType) -> Unit) :
+class AppliancesAdapter(private var onClickListener: (expenseItem: ApplianceType) -> Unit) :
     RecyclerView.Adapter<AppliancesAdapter.ViewHolder>() {
 
-    private val appliances: List<ObjectType> = ObjectType.values().toList()
+    private val appliances: List<ApplianceType> = ApplianceType.values().toList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ApplianceItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -21,8 +21,8 @@ class AppliancesAdapter(private var onClickListener: (expenseItem: ObjectType) -
         val item = appliances[position]
         with(holder) {
             binding.apply {
-                tvName.text = binding.root.context.getString(item.nameId)
-                tvPoints.text = binding.root.context.getString(R.string.title_points, item.points)
+                tvName.text = root.context.getString(item.nameId)
+                tvPoints.text = root.context.getString(R.string.title_points, item.points)
                 ivIcon.setImageResource(item.drawable)
                 root.setOnClickListener { onClickListener(item) }
             }

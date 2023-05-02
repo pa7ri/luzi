@@ -3,10 +3,11 @@ package com.master.iot.luzi.ui.rewards.reports
 import com.master.iot.luzi.R
 
 class ReportItem(
-    val type: ObjectType,
+    val type: ApplianceType,
     val timestamp: String,
     val points: Int,
-    val amount: Double = 0.0
+    val amountSaved: Double = 0.0,
+    val amountSpend: Double = 0.0
 )
 
 /**
@@ -15,7 +16,7 @@ class ReportItem(
  *
  * Appliances such as fridge or freezer have been discarted since they are turned on the 24/7
  */
-enum class ObjectType(val nameId: Int, val drawable: Int, val consumption: Double, val points: Int) {
+enum class ApplianceType(val nameId: Int, val drawable: Int, val consumption: Double, val points: Int) {
     DISHWASHER(R.string.type_dishwasher, R.mipmap.ic_dishwasher, 365.13, 4),
     OVEN(R.string.type_oven, R.mipmap.ic_oven, 328.79, 4),
     WASHING_MACHINE(R.string.type_washing_machine, R.mipmap.ic_washing_machine, 324.14, 4),

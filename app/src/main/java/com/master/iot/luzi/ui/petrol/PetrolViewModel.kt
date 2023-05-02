@@ -14,7 +14,6 @@ class PetrolViewModel @Inject constructor(
     private val repository: MTPetrolRepository
 ) : ViewModel() {
 
-
     val petrolPrices = MutableLiveData<MTPetrolPrices>().apply {
         value = MTPetrolPricesLoading()
     }

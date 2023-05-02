@@ -32,8 +32,7 @@ class ObjectDetectionService {
 sealed class ImageVerificationStatus
 
 class ImageVerificationProcessing(val title: String = "Processing...") : ImageVerificationStatus()
-class ImageVerificationSuccess(val label: String, val index: Int, val confidence: Float) :
-    ImageVerificationStatus()
+class ImageVerificationSuccess(val totalAmount: Double, val litres: Int) : ImageVerificationStatus()
 
 class ImageVerificationError(
     val title: String = "Error verifying...",

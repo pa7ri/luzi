@@ -1,6 +1,7 @@
 package com.master.iot.luzi.ui.rewards.reports
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.master.iot.luzi.R
@@ -21,14 +22,13 @@ class ReportsAdapter(private var reports: List<ReportItem>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = reports[position]
         with(holder) {
-            binding.tvTitle.text = holder.binding.root.context.getString(item.type.nameId)
-            binding.tvTimestamp.text = getFormattedDateTime(item.timestamp.subSequence(0, 23).toString())
-            binding.tvPoints.text =
-                holder.binding.root.context.getString(R.string.title_points, item.points)
-            binding.tvAmount.text =
-                holder.binding.root.context.getString(
-                    R.string.price_amount, item.amount.toRegularPriceString()
-                )
+            binding.apply {
+                tvTitle.text = holder.binding.root.context.getString(item.type.nameId)
+                tvTimestamp.text = getFormattedDateTime(item.timestamp.subSequence(0, 23).toString())
+                tvAmount.text = root.context.getString(R.string.price_amount, item.amountSaved.toRegularPriceString())
+                tvPoints.visibility = if (item.points > 0) View.VISIBLE else View.GONE
+                tvPoints.text = root.context.getString(R.string.title_points, item.points)
+            }
         }
     }
 
