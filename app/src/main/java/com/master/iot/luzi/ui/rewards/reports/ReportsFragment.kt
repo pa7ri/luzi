@@ -36,7 +36,7 @@ class ReportsFragment(private var updateRequired: (level: Levels) -> Unit) : Fra
     }
 
     fun updateData() {
-        viewModel.getReports(requireActivity().getPreferences(Context.MODE_PRIVATE))
+        viewModel.getReports(requireActivity().getSharedPreferences(getString(R.string.preference_reports_file), Context.MODE_PRIVATE))
     }
 
     private fun setUpObservables() {

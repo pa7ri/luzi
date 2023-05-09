@@ -3,6 +3,8 @@
     <string name="app_name">luzi</string>
 
     <string name="action_save">Save</string>
+    <string name="action_retry">Retry</string>
+    <string name="action_cancel">Cancel</string>
 
     <string name="title_electricity">Electricity</string>
     <string name="title_petrol">Petrol</string>
@@ -39,6 +41,7 @@
     <string name="rewards_level_tag">Level %d</string>
     <string name="reward_not_available">Not available til level %d</string>
     <string name="no_gas_station_found">No gas station found on the selected municipality</string>
+    <string name="preference_reports_file">preference-reports-file</string>
 
     <string name="add_widget">Add widget</string>
     <string name="app_widget_description">This is an app widget description</string>
@@ -80,7 +83,8 @@
     <string name="dialog_validation_success_description_no_points">You will get no points.</string>
     <string name="dialog_validation_error">Validation Error</string>
     <string name="dialog_validation_error_network">Network issue. Unable to get electricity prices. \n \nPlease try it later again</string>
-    <string name="dialog_validation_error_description">This time slot will be expensive to register your appliance</string>
+    <string name="dialog_validation_error_appliance_description">This time slot will be expensive to register your appliance</string>
+    <string name="dialog_validation_error_receipt_description">This receipt is not valid.\n \nPlease be aware that the ticket must be expended today and by a petrol station in the country.</string>
     <string name="dialog_points">Points</string>
     <string name="dialog_points_message">You have %d points. Get only %d more to reach the next level. \n \n Be aware that points will reset on the first of each month</string>
     <string name="dialog_points_message_max">You have %d points. Congratulations you have reached the max level this month. \n \n Be aware that points will reset on the first of each month</string>

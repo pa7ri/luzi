@@ -25,9 +25,11 @@ const val PREFERENCES_LOCATION_DEFAULT_ANIMATION = 6000L
 
 const val PREFERENCES_REWARD_LEVEL_KEY = "reward-level"
 const val PREFERENCES_REWARD_LEVEL_DEFAULT = 0
-const val PREFERENCES_REWARD_HISTORY_TOTAL_KEY = "reward-history-total"
+const val PREFERENCES_REWARD_HISTORY_APPLIANCE_TOTAL_KEY = "reward-history-appliance-total"
+const val PREFERENCES_REWARD_HISTORY_APPLIANCE_ITEM_KEY = "reward-history-appliance-item"
+const val PREFERENCES_REWARD_HISTORY_RECEIPT_TOTAL_KEY = "reward-history-receipt-total"
+const val PREFERENCES_REWARD_HISTORY_RECEIPT_ITEM_KEY = "reward-history-receipt-item"
 const val PREFERENCES_REWARD_HISTORY_TOTAL_DEFAULT = 0
-const val PREFERENCES_REWARD_HISTORY_ITEM_KEY = "reward-history-item"
 
 const val PETROL_BIODIESEL = "Biodiesel"
 const val PETROL_BIOETHANOL = "Bioethanol"

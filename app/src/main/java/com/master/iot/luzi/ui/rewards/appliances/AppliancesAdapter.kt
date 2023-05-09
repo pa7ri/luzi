@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.master.iot.luzi.R
 import com.master.iot.luzi.databinding.ApplianceItemBinding
-import com.master.iot.luzi.ui.rewards.reports.ApplianceType
 
 class AppliancesAdapter(private var onClickListener: (expenseItem: ApplianceType) -> Unit) :
     RecyclerView.Adapter<AppliancesAdapter.ViewHolder>() {

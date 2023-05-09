@@ -4,10 +4,11 @@ import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
-import com.master.iot.luzi.PREFERENCES_REWARD_HISTORY_ITEM_KEY
-import com.master.iot.luzi.PREFERENCES_REWARD_HISTORY_TOTAL_DEFAULT
-import com.master.iot.luzi.PREFERENCES_REWARD_HISTORY_TOTAL_KEY
+import com.master.iot.luzi.*
 import com.master.iot.luzi.domain.utils.DateFormatterUtils
+import com.master.iot.luzi.ui.rewards.appliances.ApplianceItem
+import com.master.iot.luzi.ui.rewards.appliances.ApplianceType
+import com.master.iot.luzi.ui.rewards.receipts.ReceiptItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -34,30 +35,70 @@ class ReportsViewModel @Inject constructor() : ViewModel() {
 
     fun getReports(preferences: SharedPreferences) {
         val localReports = mutableListOf<ReportItem>()
+
+        getApplianceReports(preferences).let {
+            if (it.isNotEmpty()) {
+                localReports.add(HeaderItem("Appliances"))
+                localReports.addAll(it)
+            }
+        }
+
+        getReceiptReports(preferences).let {
+            if (it.isNotEmpty()) {
+                localReports.add(HeaderItem("Receipts"))
+                localReports.addAll(it)
+            }
+        }
+
+        reports.value = localReports
+    }
+
+    private fun getApplianceReports(preferences: SharedPreferences): List<ApplianceItem> {
+        val appliances = mutableListOf<ApplianceItem>()
         val gson = Gson()
         val total = preferences.getInt(
-            PREFERENCES_REWARD_HISTORY_TOTAL_KEY,
+            PREFERENCES_REWARD_HISTORY_APPLIANCE_TOTAL_KEY,
             PREFERENCES_REWARD_HISTORY_TOTAL_DEFAULT
         )
 
         for (i in 0..total) {
-            val json = preferences.getString(PREFERENCES_REWARD_HISTORY_ITEM_KEY + i, "")
-            if (json?.isNotEmpty()==true) {
-                val report = gson.fromJson(json, ReportItem::class.java)
-                localReports.add(report)
+            val json = preferences.getString(PREFERENCES_REWARD_HISTORY_APPLIANCE_ITEM_KEY + i, "")
+            if (json?.isNotEmpty() == true) {
+                appliances.add(gson.fromJson(json, ApplianceItem::class.java))
             }
         }
 
-        val filteredValues = filterMonthlyReports(localReports)
-        writeLocalReports(preferences, filteredValues)
-        reports.value = filteredValues
+        val filteredValues = filterMonthlyReports(appliances) as List<ApplianceItem>
+        writeLocalReports(preferences, filteredValues, PREFERENCES_REWARD_HISTORY_APPLIANCE_TOTAL_KEY, PREFERENCES_REWARD_HISTORY_APPLIANCE_ITEM_KEY)
+        return filteredValues
+    }
+
+    private fun getReceiptReports(preferences: SharedPreferences): List<ReceiptItem> {
+        val receipts = mutableListOf<ReceiptItem>()
+        val gson = Gson()
+        val total = preferences.getInt(
+            PREFERENCES_REWARD_HISTORY_RECEIPT_TOTAL_KEY,
+            PREFERENCES_REWARD_HISTORY_TOTAL_DEFAULT
+        )
+
+        for (i in 0..total) {
+            val json = preferences.getString(PREFERENCES_REWARD_HISTORY_RECEIPT_ITEM_KEY + i, "")
+            if (json?.isNotEmpty() == true) {
+                val report = gson.fromJson(json, ReceiptItem::class.java)
+                receipts.add(report)
+            }
+        }
+
+        val filteredValues = filterMonthlyReports(receipts) as List<ReceiptItem>
+        writeLocalReports(preferences, filteredValues, PREFERENCES_REWARD_HISTORY_RECEIPT_TOTAL_KEY, PREFERENCES_REWARD_HISTORY_RECEIPT_ITEM_KEY)
+        return filteredValues
     }
 
     fun anyReportRegisterDuringCurrentHour(): Boolean {
         val currentTime = LocalDateTime.now()
         return reports.value?.any {
             val localTime = LocalDateTime.parse(it.timestamp.subSequence(0, 23).toString(), DateFormatterUtils.formatterReport)
-            localTime.year==currentTime.year && localTime.dayOfYear==currentTime.dayOfYear && localTime.hour==currentTime.hour
+            DateFormatterUtils.areSameDay(localTime, currentTime) && localTime.hour == currentTime.hour
         } ?: false
     }
 
@@ -65,23 +106,23 @@ class ReportsViewModel @Inject constructor() : ViewModel() {
         val currentTime = LocalDateTime.now()
         return reports.value?.any {
             val localTime = LocalDateTime.parse(it.timestamp.subSequence(0, 23).toString(), DateFormatterUtils.formatterReport)
-            localTime.year==currentTime.year && localTime.dayOfYear==currentTime.dayOfYear && objectType==it.type
+            DateFormatterUtils.areSameDay(localTime, currentTime) && (if (it is ApplianceItem) objectType == it.type else true)
         } ?: false
     }
 
     private fun filterMonthlyReports(reports: List<ReportItem>): List<ReportItem> {
         return reports.filter {
             val localTime = LocalDate.parse(it.timestamp.subSequence(0, 23).toString(), DateFormatterUtils.formatterReport)
-            localTime.month.value==LocalDate.now().month.value && localTime.year==LocalDate.now().year
+            localTime.month.value == LocalDate.now().month.value && localTime.year == LocalDate.now().year
         }
     }
 
-    private fun writeLocalReports(preferences: SharedPreferences, reports: List<ReportItem>) {
-        preferences.edit().putInt(PREFERENCES_REWARD_HISTORY_TOTAL_KEY, reports.size).apply()
-        reports.forEachIndexed { index, reportItem ->
+    private fun writeLocalReports(preferences: SharedPreferences, localReports: List<ReportItem>, totalKey: String, prefixKey: String) {
+        preferences.edit().putInt(totalKey, localReports.size).apply()
+        localReports.forEachIndexed { index, reportItem ->
             val json = Gson().toJson(reportItem)
             preferences.edit().apply {
-                putString(PREFERENCES_REWARD_HISTORY_ITEM_KEY + index, json)
+                putString(prefixKey + index, json)
             }.apply()
         }
     }

@@ -27,7 +27,7 @@ class PrizesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        preferences = requireActivity().getSharedPreferences(getString(R.string.preference_reports_file), Context.MODE_PRIVATE)
         val view = inflater.inflate(R.layout.fragment_reports, container, false)
         if (view is RecyclerView) {
             recyclerView = view

@@ -2,6 +2,8 @@
     <string name="app_name">luzi</string>
 
     <string name="action_save">Guardar</string>
+    <string name="action_retry">Reintentar</string>
+    <string name="action_cancel">Cancelar</string>
 
     <string name="title_electricity">Luz</string>
     <string name="title_petrol">Gasolina</string>
@@ -53,6 +55,7 @@
     <string name="rewards_progress_empty">0/0</string>
     <string name="rewards_level_tag">Nivel %d</string>
     <string name="reward_not_available">No disponible hasta nivel %d</string>
+    <string name="preference_reports_file">preference-reports-file</string>
 
     <!-- Widget -->
     <string name="add_widget">Add widget</string>
@@ -85,7 +88,8 @@
     <string name="dialog_validation_success_description_no_points">No recibiras puntos.</string>
     <string name="dialog_validation_error">Error de validacion</string>
     <string name="dialog_validation_error_network">Error de conexion. No se pudo obtener el precio actual de la luz. \n \nPor favor intentelo mas tarde</string>
-    <string name="dialog_validation_error_description">Parece que estas registrando un electrodomestico en una franja horaria no muy conveniente</string>
+    <string name="dialog_validation_error_appliance_description">Parece que estas registrando un electrodomestico en una franja horaria no muy conveniente</string>
+    <string name="dialog_validation_error_receipt_description">Este recibo no es valido.\n \nRecuerda que debe ser tomado con la fecha actual y debe ser expendido por una gasolinera del país.</string>
     <string name="dialog_points">Puntos</string>
     <string name="dialog_points_message">Tienes %d puntos. Solo necesitas %d mas para alcanzar el siguiente nivel. \n \n Recuerda que los puntos comenzaran a contar el día 1 de cada mes</string>
     <string name="dialog_points_message_max">Tienes %d puntos. Enhorabuena, has alcanzado el máximo nivel. \n \n Recuerda que los puntos comenzaran a contar el día 1 de cada mes</string>

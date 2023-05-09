@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.rewards.VerifierActivity">
+    tools:context=".ui.rewards.receipts.VerifierActivity">
 
     <ImageView
         android:id="@+id/ivReceipt"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_normal"
         android:text="@string/title_total_amount"
-        app:layout_constraintBottom_toTopOf="@+id/etLiter"
+        app:layout_constraintBottom_toTopOf="@+id/et_litre"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_normal"
         android:text="0"
-        app:layout_constraintBottom_toTopOf="@+id/etLiter"
+        app:layout_constraintBottom_toTopOf="@+id/et_litre"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
@@ -45,7 +45,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/etLiter"
+        android:id="@+id/et_litre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_normal"
@@ -64,15 +64,33 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btSave"
-        android:layout_width="wrap_content"
+        android:id="@+id/btRetry"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:backgroundTint="@color/orange_600"
+        android:text="@string/action_retry"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btSave"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
         android:backgroundTint="@color/orange_600"
         android:text="@string/action_save"
-        android:layout_margin="@dimen/margin_small"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

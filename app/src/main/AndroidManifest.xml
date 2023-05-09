@@ -5,6 +5,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
@@ -50,7 +52,7 @@
             android:exported="false"
             android:label="@string/title_settings" />
         <activity
-            android:name=".ui.rewards.VerifierActivity"
+            android:name=".ui.rewards.receipts.VerifierActivity"
             android:exported="false"
             android:label="@string/title_rewards" />
 
@@ -62,4 +64,5 @@
             </intent-filter>
         </service>
     </application>
+
 </manifest>

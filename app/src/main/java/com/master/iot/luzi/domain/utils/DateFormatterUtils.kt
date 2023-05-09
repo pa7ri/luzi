@@ -18,6 +18,9 @@ class DateFormatterUtils {
         var formatterReport: DateTimeFormatter =
             DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")
 
+        var formatterReceipt: DateTimeFormatter =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd")
+
         fun getDateFromString(date: String): Date {
             val shortDate = date.split('+')[0]
             return formatterLong.parse(shortDate) ?: Date()
@@ -36,6 +39,9 @@ class DateFormatterUtils {
 
         fun LocalDateTime.getReportDateTime(): String =
             DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).format(this)
+
+        fun areSameDay(firstDate: LocalDateTime, secondDate: LocalDateTime): Boolean =
+            firstDate.year == secondDate.year && firstDate.dayOfYear == secondDate.dayOfYear
     }
 }
 
