@@ -6,14 +6,14 @@ import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.master.iot.luzi.*
 import com.master.iot.luzi.domain.utils.DateFormatterUtils
+import com.master.iot.luzi.domain.utils.DateFormatterUtils.Companion.filterMonthlyAppliances
+import com.master.iot.luzi.domain.utils.DateFormatterUtils.Companion.filterMonthlyReceipts
 import com.master.iot.luzi.ui.rewards.appliances.ApplianceItem
 import com.master.iot.luzi.ui.rewards.appliances.ApplianceType
 import com.master.iot.luzi.ui.rewards.receipts.ReceiptItem
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
-
 
 @HiltViewModel
 class ReportsViewModel @Inject constructor() : ViewModel() {
@@ -68,7 +68,7 @@ class ReportsViewModel @Inject constructor() : ViewModel() {
             }
         }
 
-        val filteredValues = filterMonthlyReports(appliances) as List<ApplianceItem>
+        val filteredValues = filterMonthlyAppliances(appliances)
         writeLocalReports(preferences, filteredValues, PREFERENCES_REWARD_HISTORY_APPLIANCE_TOTAL_KEY, PREFERENCES_REWARD_HISTORY_APPLIANCE_ITEM_KEY)
         return filteredValues
     }
@@ -89,14 +89,14 @@ class ReportsViewModel @Inject constructor() : ViewModel() {
             }
         }
 
-        val filteredValues = filterMonthlyReports(receipts) as List<ReceiptItem>
+        val filteredValues = filterMonthlyReceipts(receipts)
         writeLocalReports(preferences, filteredValues, PREFERENCES_REWARD_HISTORY_RECEIPT_TOTAL_KEY, PREFERENCES_REWARD_HISTORY_RECEIPT_ITEM_KEY)
         return filteredValues
     }
 
     fun anyReportRegisterDuringCurrentHour(): Boolean {
         val currentTime = LocalDateTime.now()
-        return reports.value?.any {
+        return reports.value?.filterIsInstance<ApplianceItem>()?.any {
             val localTime = LocalDateTime.parse(it.timestamp.subSequence(0, 23).toString(), DateFormatterUtils.formatterReport)
             DateFormatterUtils.areSameDay(localTime, currentTime) && localTime.hour == currentTime.hour
         } ?: false
@@ -104,17 +104,10 @@ class ReportsViewModel @Inject constructor() : ViewModel() {
 
     fun hasSameReportRegisteredToday(objectType: ApplianceType): Boolean {
         val currentTime = LocalDateTime.now()
-        return reports.value?.any {
+        return reports.value?.filterIsInstance<ApplianceItem>()?.any {
             val localTime = LocalDateTime.parse(it.timestamp.subSequence(0, 23).toString(), DateFormatterUtils.formatterReport)
-            DateFormatterUtils.areSameDay(localTime, currentTime) && (if (it is ApplianceItem) objectType == it.type else true)
+            DateFormatterUtils.areSameDay(localTime, currentTime) && objectType == it.type
         } ?: false
-    }
-
-    private fun filterMonthlyReports(reports: List<ReportItem>): List<ReportItem> {
-        return reports.filter {
-            val localTime = LocalDate.parse(it.timestamp.subSequence(0, 23).toString(), DateFormatterUtils.formatterReport)
-            localTime.month.value == LocalDate.now().month.value && localTime.year == LocalDate.now().year
-        }
     }
 
     private fun writeLocalReports(preferences: SharedPreferences, localReports: List<ReportItem>, totalKey: String, prefixKey: String) {

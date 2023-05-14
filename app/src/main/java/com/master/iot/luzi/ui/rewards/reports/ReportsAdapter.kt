@@ -11,6 +11,7 @@ import com.master.iot.luzi.domain.utils.DateFormatterUtils.Companion.getReportDa
 import com.master.iot.luzi.domain.utils.toRegularPriceString
 import com.master.iot.luzi.ui.rewards.appliances.ApplianceItem
 import com.master.iot.luzi.ui.rewards.receipts.ReceiptItem
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 class ReportsAdapter(private var reports: List<ReportItem>) :
@@ -49,9 +50,9 @@ class ReportsAdapter(private var reports: List<ReportItem>) :
                 CategoryType.RECEIPT_TYPE.ordinal -> {
                     val item = reports[position] as ReceiptItem
                     binding.apply {
-                        tvTitle.text = "Gasolinera 1"
-                        tvTimestamp.text = getFormattedDateTime(item.timestamp.subSequence(0, 23).toString())
-                        tvAmount.text = item.amountSpend.toRegularPriceString()
+                        tvTitle.text = item.name
+                        tvTimestamp.text = getFormattedDate(item.timestamp)
+                        tvAmount.text = root.context.getString(R.string.price_amount, item.amountSpend.toRegularPriceString())
                         tvPoints.visibility = View.GONE
                     }
                 }
@@ -79,6 +80,9 @@ class ReportsAdapter(private var reports: List<ReportItem>) :
 
     private fun getFormattedDateTime(date: String): String =
         LocalDateTime.parse(date, DateFormatterUtils.formatterReport).getReportDateTime()
+
+    private fun getFormattedDate(date: String): String =
+        LocalDate.parse(date, DateFormatterUtils.formatterReceipt).getReportDateTime()
 
     inner class ViewHolder(val binding: ReportItemBinding) : RecyclerView.ViewHolder(binding.root)
 }

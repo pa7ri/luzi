@@ -13,27 +13,25 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.gson.Gson
 import com.master.iot.luzi.*
 import com.master.iot.luzi.data.ImageVerificationError
 import com.master.iot.luzi.data.ImageVerificationProcessing
 import com.master.iot.luzi.data.ImageVerificationSuccess
 import com.master.iot.luzi.databinding.ActivityVerifierBinding
+import com.master.iot.luzi.domain.utils.DateFormatterUtils.Companion.formatterReceipt
+import com.master.iot.luzi.domain.utils.toRegularPriceString
 import com.master.iot.luzi.ui.utils.DialogUtils.Companion.showDialogWithOneButton
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.Instant
 import java.time.LocalDate
-import java.time.LocalDateTime
-
+import java.time.ZoneId
 
 @AndroidEntryPoint
 class VerifierActivity : AppCompatActivity() {
     companion object {
-        private const val RESULT_IMAGE_CAPTURE = 1001
         const val IMAGE_CAPTURE_CODE = 1000
-
-        enum class StartFlow {
-            NEW_RECEIPT, LOAD_RECEIPT
-        }
     }
 
     private val verifierViewModel: VerifierViewModel by viewModels()
@@ -90,22 +88,41 @@ class VerifierActivity : AppCompatActivity() {
     }
 
     private fun setUpListeners() {
+        binding.tlDate.setEndIconOnClickListener {
+            showCalendar()
+        }
         binding.btSave.setOnClickListener {
-            val amount = binding.tvTotalAmount.text.toString().toDouble()
+            val name = binding.etName.text.toString()
+            val amount = binding.etTotalAmount.text.toString().replace("€", "").toDouble()
             val litres = binding.etLitre.text.toString().toInt()
-            val date = LocalDateTime.now()
-            registerReceipt(amount, litres, date)
+            val date = binding.etDate.text.toString()
+            registerReceipt(name, amount, litres, LocalDate.parse(date, formatterReceipt))
         }
         binding.btRetry.setOnClickListener {
             requestCameraPermissions()
         }
     }
 
-    private fun registerReceipt(amount: Double, litres: Int, date: LocalDateTime) {
+    private fun showCalendar() {
+        val materialDatePicker = MaterialDatePicker.Builder.datePicker().apply {
+            setTitleText(getString(R.string.date_selection))
+        }.build()
+        materialDatePicker.addOnPositiveButtonClickListener {
+            materialDatePicker.selection?.let { selectedDate ->
+                Instant.ofEpochMilli(selectedDate).atZone(ZoneId.systemDefault()).toLocalDate()?.let {
+                    binding.etDate.setText(it.format(formatterReceipt))
+                }
+            }
+        }
+        materialDatePicker.show(supportFragmentManager, TAG)
+    }
+
+    private fun registerReceipt(name: String, amount: Double, litres: Int, date: LocalDate) {
         if (verifierViewModel.checkReceiptValidity(amount, litres, date)) {
             val preferences = getSharedPreferences(getString(R.string.preference_reports_file), Context.MODE_PRIVATE)
             val receiptReport = ReceiptItem(
-                timestamp = date.toString(),
+                name,
+                timestamp = date.format(formatterReceipt),
                 amountSpend = amount,
                 amountSaved = 0.0,
                 litres
@@ -137,8 +154,9 @@ class VerifierActivity : AppCompatActivity() {
                 is ImageVerificationProcessing -> {}
                 is ImageVerificationError -> {}
                 is ImageVerificationSuccess -> {
-                    binding.tvTotalAmount.text = it.totalAmount.toString()
+                    binding.etTotalAmount.setText(getString(R.string.price_amount, it.totalAmount.toRegularPriceString()))
                     binding.etLitre.setText(it.litres.toString())
+                    binding.etDate.setText(formatterReceipt.format(it.date))
                 }
             }
         }

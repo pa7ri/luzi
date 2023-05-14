@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName
 import com.master.iot.luzi.ui.rewards.reports.ReportItem
 
 class ReceiptItem(
+    @SerializedName("receiptName")
+    val name: String,
     @SerializedName("receiptTimestamp")
     override val timestamp: String,
     @SerializedName("receiptSpend")

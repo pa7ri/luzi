@@ -11,8 +11,10 @@
     <string name="title_petrol_station">Petrol station</string>
     <string name="title_rewards">Rewards</string>
     <string name="title_city">City</string>
-    <string name="title_total_amount">Total in euros:</string>
-    <string name="title_total_litres">Total litres:</string>
+    <string name="title_total_amount">Total in euros</string>
+    <string name="title_total_litres">Total litres</string>
+    <string name="title_date">Date</string>
+    <string name="title_receipt">Receipt</string>
 
     <string name="price_amount">%s €</string>
     <string name="price_magnitude">€/kWh</string>

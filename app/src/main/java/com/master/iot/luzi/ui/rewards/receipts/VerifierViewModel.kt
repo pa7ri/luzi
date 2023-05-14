@@ -18,9 +18,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.time.LocalDate
-import java.time.LocalDateTime
-import java.util.regex.Matcher
-import java.util.regex.Pattern
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 
@@ -53,11 +51,11 @@ class VerifierViewModel @Inject constructor(
         )
     }
 
-    fun checkReceiptValidity(amount: Double, litres: Int, date: LocalDateTime): Boolean {
+    fun checkReceiptValidity(amount: Double, litres: Int, date: LocalDate): Boolean {
         // TODO: check receipt validity
         // compute value
         val pricePerLitre = amount / litres
-        val currentDate = LocalDateTime.now()
+        val currentDate = LocalDate.now()
         return DateFormatterUtils.areSameDay(date, currentDate)
     }
 
@@ -66,20 +64,19 @@ class VerifierViewModel @Inject constructor(
             ocr.init(context)
             ocr.processImageToText(it).let { result ->
                 val totalAmount = getMaxAmount(result)
-                verificationStatus.postValue(ImageVerificationSuccess(totalAmount, 5))
+                val date = getDate(result)
+                verificationStatus.postValue(ImageVerificationSuccess(totalAmount, 5, date))
             }
         }
     }
 
     private fun getMaxAmount(text: String): Double {
-        val patternDot = "(\\d{1,3}(\\.|,)\\d{3}(\\.|,)\\d{2})|(\\d+(\\.|,)\\d{2})".toRegex() //"\\d+[,.]?\\d*".toRegex()
+        val patternDot = """(\d{1,3}(,\d{3})*|\d+)(\.|\,)\d{1,2}""".toRegex()
         var maxAmount = 0.0
         var amount: Double
 
         patternDot.findAll(text).forEach {
-            var amountString = it.value
-            amountString = amountString.replace(".", "").replace(",", ".") // Replace any commas with periods
-            amount = amountString.toDouble()
+            amount = it.value.replace(",", ".").toDouble()
             if (amount > maxAmount) {
                 maxAmount = amount
             }
@@ -87,15 +84,16 @@ class VerifierViewModel @Inject constructor(
         return maxAmount
     }
 
-    private fun getDate(text: List<String>): String {
-        val totalAmountPattern: Pattern = Pattern.compile("\\d{2}/\\d{2}/\\d{4}"); // Regex pattern for dates in MM/dd/yyyy format
-        val dates = mutableListOf<String>()
-        text.map {
-            val matcher: Matcher = totalAmountPattern.matcher(it)
-            if (matcher.find()) {
-                dates.add(matcher.group())
-            }
+    private fun getDate(text: String): LocalDate {
+        val patternDate = """\b((\d{1,2}[-/.]\d{1,2}[-/.]\d{4})|(\d{4}[-/.]\d{1,2}[-/.]\d{1,2})|(\d{1,2}[-/.]\d{4}[-/.]\d{1,2}))\b""".toRegex()
+        val dateResult = patternDate.find(text)
+
+        var detectedDate = LocalDate.now()
+        dateResult?.value?.let {
+            val dateFormatter = DateTimeFormatter.ofPattern("[dd/MM/yyyy][dd-MM-yyyy][dd.MM.yyyy][yyyy/MM/dd][yyyy-MM-dd][yyyy.MM.dd][dd/MM/yyyy][dd-MM-yyyy][dd.MM.yyyy][MM/dd/yyyy][MM-dd-yyyy][MM.dd.yyyy]" +
+                    "[d/M/yyyy][d-M-yyyy][d.M.yyyy][yyyy/M/d][yyyy-M-d][yyyy.MM.d][d/M/yyyy][d-M-yyyy][d.M.yyyy][M/d/yyyy][M-d-yyyy][MM.d.yyyy]")
+            detectedDate = LocalDate.parse(it, dateFormatter)
         }
-        return dates.firstOrNull() ?: ""
+        return detectedDate
     }
 }

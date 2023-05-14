@@ -54,7 +54,7 @@
         <activity
             android:name=".ui.rewards.receipts.VerifierActivity"
             android:exported="false"
-            android:label="@string/title_rewards" />
+            android:label="@string/title_receipt" />
 
         <service
             android:name=".data.FirebaseNotificationsService"
