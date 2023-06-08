@@ -8,8 +8,18 @@ import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import androidx.preference.SwitchPreferenceCompat
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.master.iot.luzi.*
+import com.master.iot.luzi.ui.utils.EventGenerator
+import com.master.iot.luzi.ui.utils.EventGenerator.Companion.ACTION_ELECTRICITY_CHANGE_FEE
+import com.master.iot.luzi.ui.utils.EventGenerator.Companion.ACTION_ELECTRICITY_CHANGE_LOCATION
+import com.master.iot.luzi.ui.utils.EventGenerator.Companion.ACTION_ELECTRICITY_DISABLE_PUSH_NOTIFICATION
+import com.master.iot.luzi.ui.utils.EventGenerator.Companion.ACTION_ELECTRICITY_ENABLE_PUSH_NOTIFICATION
+import com.master.iot.luzi.ui.utils.EventGenerator.Companion.ACTION_PETROL_CHANGE_LOCATION
+import com.master.iot.luzi.ui.utils.EventGenerator.Companion.ACTION_PETROL_CHANGE_PRODUCT
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,18 +27,20 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private val settingsViewModel: SettingsViewModel by viewModels()
 
-    lateinit var preferences: SharedPreferences
+    private lateinit var preferences: SharedPreferences
 
-    lateinit var geoPreference: ListPreference
-    lateinit var feePreference: ListPreference
-    lateinit var notificationsPreference: SwitchPreferenceCompat
+    private lateinit var geoPreference: ListPreference
+    private lateinit var feePreference: ListPreference
+    private lateinit var notificationsPreference: SwitchPreferenceCompat
 
-    lateinit var ccaaPreference: ListPreference
-    lateinit var provincesPreference: ListPreference
-    lateinit var municipalitiesPreference: ListPreference
-    lateinit var productsPreference: ListPreference
+    private lateinit var ccaaPreference: ListPreference
+    private lateinit var provincesPreference: ListPreference
+    private lateinit var municipalitiesPreference: ListPreference
+    private lateinit var productsPreference: ListPreference
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        firebaseAnalytics = Firebase.analytics
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
     }
 
@@ -64,18 +76,22 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private fun setUpListeners() {
         geoPreference.setOnPreferenceChangeListener { _, _ ->
+            EventGenerator.sendActionEvent(firebaseAnalytics, ACTION_ELECTRICITY_CHANGE_LOCATION)
             showFeedback()
             true
         }
         feePreference.setOnPreferenceChangeListener { _, _ ->
+            EventGenerator.sendActionEvent(firebaseAnalytics, ACTION_ELECTRICITY_CHANGE_FEE)
             showFeedback()
             true
         }
         notificationsPreference.setOnPreferenceChangeListener { _, newValue ->
             if (newValue == false) {
+                EventGenerator.sendActionEvent(firebaseAnalytics, ACTION_ELECTRICITY_DISABLE_PUSH_NOTIFICATION)
                 FirebaseMessaging.getInstance()
                     .unsubscribeFromTopic(PREFERENCES_NOTIFICATION_FIREBASE_TOPIC)
             } else {
+                EventGenerator.sendActionEvent(firebaseAnalytics, ACTION_ELECTRICITY_ENABLE_PUSH_NOTIFICATION)
                 FirebaseMessaging.getInstance()
                     .subscribeToTopic(PREFERENCES_NOTIFICATION_FIREBASE_TOPIC)
             }
@@ -87,6 +103,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             preference.summary = ccaaPreference.entry
             settingsViewModel.getProvincePreferences(idCCAA = newValue.toString())
             settingsViewModel.getMunicipalityPreferences(idProvince = newValue.toString())
+            EventGenerator.sendActionEvent(firebaseAnalytics, ACTION_PETROL_CHANGE_LOCATION)
             showFeedback()
             false
         }
@@ -94,26 +111,28 @@ class SettingsFragment : PreferenceFragmentCompat() {
             provincesPreference.value = newValue.toString()
             preference.summary = provincesPreference.entry
             settingsViewModel.getMunicipalityPreferences(idProvince = newValue.toString())
+            EventGenerator.sendActionEvent(firebaseAnalytics, ACTION_PETROL_CHANGE_LOCATION)
             showFeedback()
             false
         }
         municipalitiesPreference.setOnPreferenceChangeListener { preference, newValue ->
             municipalitiesPreference.value = newValue.toString()
             preference.summary = municipalitiesPreference.entry
+            EventGenerator.sendActionEvent(firebaseAnalytics, ACTION_PETROL_CHANGE_LOCATION)
             showFeedback()
             false
         }
         productsPreference.setOnPreferenceChangeListener { preference, newValue ->
             productsPreference.value = newValue.toString()
             preference.summary = productsPreference.entry
+            EventGenerator.sendActionEvent(firebaseAnalytics, ACTION_PETROL_CHANGE_PRODUCT)
             showFeedback()
             false
         }
     }
 
     private fun showFeedback(string: Int = R.string.preferences_saved) {
-        Toast.makeText(requireContext(), getString(string), Toast.LENGTH_LONG)
-            .show()
+        Toast.makeText(requireContext(), getString(string), Toast.LENGTH_LONG).show()
     }
 
     private fun setUpObservers() {

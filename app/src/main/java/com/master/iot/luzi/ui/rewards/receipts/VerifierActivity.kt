@@ -14,6 +14,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.master.iot.luzi.*
 import com.master.iot.luzi.data.ImageVerificationError
@@ -23,6 +26,7 @@ import com.master.iot.luzi.databinding.ActivityVerifierBinding
 import com.master.iot.luzi.domain.utils.DateFormatterUtils.Companion.formatterReceipt
 import com.master.iot.luzi.domain.utils.toRegularPriceString
 import com.master.iot.luzi.ui.utils.DialogUtils.Companion.showDialogWithOneButton
+import com.master.iot.luzi.ui.utils.EventGenerator
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.Instant
 import java.time.LocalDate
@@ -35,11 +39,15 @@ class VerifierActivity : AppCompatActivity() {
     }
 
     private val verifierViewModel: VerifierViewModel by viewModels()
+
     private lateinit var binding: ActivityVerifierBinding
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
     private var uri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        firebaseAnalytics = Firebase.analytics
         binding = ActivityVerifierBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -96,6 +104,7 @@ class VerifierActivity : AppCompatActivity() {
             val amount = binding.etTotalAmount.text.toString().replace("€", "").toDouble()
             val litres = binding.etLitre.text.toString().toInt()
             val date = binding.etDate.text.toString()
+            EventGenerator.sendActionEvent(firebaseAnalytics, EventGenerator.ACTION_REWARDS_CREATE_RECEIPT_REPORT)
             registerReceipt(name, amount, litres, LocalDate.parse(date, formatterReceipt))
         }
         binding.btRetry.setOnClickListener {

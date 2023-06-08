@@ -10,6 +10,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.preference.PreferenceManager
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.mapbox.maps.Style
 import com.mapbox.maps.dsl.cameraOptions
@@ -27,6 +30,8 @@ import com.master.iot.luzi.domain.utils.PriceIndicatorUtils
 import com.master.iot.luzi.domain.utils.getCheapestGasStation
 import com.master.iot.luzi.domain.utils.getGasStationsByMunicipality
 import com.master.iot.luzi.ui.settings.SettingsActivity
+import com.master.iot.luzi.ui.utils.EventGenerator
+import com.master.iot.luzi.ui.utils.EventGenerator.Companion.SCREEN_VIEW_SETTINGS
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -36,6 +41,7 @@ class PetrolFragment : Fragment() {
 
     private lateinit var binding: FragmentPetrolBinding
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var pointAnnotationManager: CircleAnnotationManager
     private var idSelectedProduct: String = PREFERENCES_PETROL_ID_PRODUCT_TYPE_DEFAULT
     private var idMunicipality: String = PREFERENCES_PETROL_ID_MUNICIPALITY_DEFAULT
@@ -45,6 +51,7 @@ class PetrolFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        firebaseAnalytics = Firebase.analytics
         binding = FragmentPetrolBinding.inflate(inflater, container, false)
 
         setUpListeners()
@@ -65,6 +72,7 @@ class PetrolFragment : Fragment() {
 
     private fun setUpListeners() {
         binding.fabSettings.setOnClickListener {
+            EventGenerator.sendScreenViewEvent(firebaseAnalytics, SCREEN_VIEW_SETTINGS)
             startActivity(Intent(requireContext(), SettingsActivity::class.java))
         }
     }

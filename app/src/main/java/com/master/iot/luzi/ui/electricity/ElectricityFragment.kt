@@ -22,6 +22,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.components.XAxis.XAxisPosition
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.master.iot.luzi.PERMISSION_CALENDAR_REQUEST_CODE
 import com.master.iot.luzi.R
 import com.master.iot.luzi.TAG
@@ -31,6 +34,11 @@ import com.master.iot.luzi.domain.utils.*
 import com.master.iot.luzi.ui.ElectricityPreferences
 import com.master.iot.luzi.ui.getElectricityPreferences
 import com.master.iot.luzi.ui.settings.SettingsActivity
+import com.master.iot.luzi.ui.utils.EventGenerator
+import com.master.iot.luzi.ui.utils.EventGenerator.Companion.ACTION_ELECTRICITY_CHANGE_DATE
+import com.master.iot.luzi.ui.utils.EventGenerator.Companion.ACTION_ELECTRICITY_SHOW_CHART
+import com.master.iot.luzi.ui.utils.EventGenerator.Companion.ACTION_ELECTRICITY_SHOW_LIST
+import com.master.iot.luzi.ui.utils.EventGenerator.Companion.SCREEN_VIEW_SETTINGS
 import com.master.iot.luzi.ui.utils.SwipeCallback
 import com.master.iot.luzi.ui.utils.SwipeType
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,6 +53,7 @@ class ElectricityFragment : Fragment() {
     private lateinit var binding: FragmentElectricityBinding
     private lateinit var adapter: EMPPricesAdapter
     private lateinit var preferences: ElectricityPreferences
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     private val selectedDate = MutableLiveData<Calendar>()
     private val calendarPermissionResult =
@@ -71,6 +80,7 @@ class ElectricityFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        firebaseAnalytics = Firebase.analytics
         binding = FragmentElectricityBinding.inflate(inflater, container, false)
         setUpAdapter()
         setUpChart()
@@ -99,10 +109,7 @@ class ElectricityFragment : Fragment() {
             ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_CALENDAR)==PackageManager.PERMISSION_GRANTED
         )
             calendarPermissionResult.launch(
-                arrayOf(
-                    Manifest.permission.READ_CALENDAR,
-                    Manifest.permission.WRITE_CALENDAR
-                )
+                arrayOf(Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR)
             )
         else {
             MaterialAlertDialogBuilder(requireContext())
@@ -160,6 +167,7 @@ class ElectricityFragment : Fragment() {
         binding.fab.setOnClickListener { electricityViewModel.switchRenderData() }
         binding.tvLocation.text = getString(R.string.location_at, preferences.location)
         binding.toolbar.ivMore.setOnClickListener {
+            EventGenerator.sendScreenViewEvent(firebaseAnalytics, SCREEN_VIEW_SETTINGS)
             startActivity(Intent(requireContext(), SettingsActivity::class.java))
         }
         binding.toolbar.ivCalendar.setOnClickListener {
@@ -171,12 +179,14 @@ class ElectricityFragment : Fragment() {
     }
 
     private fun showCalendar() {
+
         val materialDatePicker = MaterialDatePicker.Builder.datePicker().apply {
             setTitleText(getString(R.string.date_selection))
         }.build()
         materialDatePicker.addOnPositiveButtonClickListener {
             binding.toolbar.tvTitle.text = materialDatePicker.headerText
             materialDatePicker.selection?.let {
+                EventGenerator.sendActionEvent(firebaseAnalytics, ACTION_ELECTRICITY_CHANGE_DATE)
                 resetVisibilityItems()
                 val selected = Calendar.getInstance().apply { timeInMillis = it }
                 when (isSelectedDateAvailable(selected)) {
@@ -226,11 +236,13 @@ class ElectricityFragment : Fragment() {
             ElectricityViewMode.LIST_VIEW -> {
                 binding.rvPrices.visibility = View.VISIBLE
                 binding.chartPrices.visibility = View.GONE
+                EventGenerator.sendActionEvent(firebaseAnalytics, ACTION_ELECTRICITY_SHOW_LIST)
             }
             else -> {
                 binding.rvPrices.visibility = View.GONE
                 binding.chartPrices.visibility = View.VISIBLE
                 binding.chartPrices.animateY(1500)
+                EventGenerator.sendActionEvent(firebaseAnalytics, ACTION_ELECTRICITY_SHOW_CHART)
             }
         }
     }
