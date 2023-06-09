@@ -19,7 +19,7 @@ jobs:
       run: chmod +x ./gradlew
     - name: Build Release APK
       env:
-          MAPBOX_DOWNLOADS_TOKEN: ${{ secrets.MAPBOX_DOWNLOADS_TOKEN }}
+       MAPBOX_DOWNLOADS_TOKEN: ${{ secrets.MAPBOX_DOWNLOADS_TOKEN }}
       run: ./gradlew assembleRelease
     - name: Releasing using Hub
       uses: kyze8439690/action-release-releaseapk@master
