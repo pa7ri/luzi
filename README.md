@@ -16,11 +16,11 @@ The objective of Luz.i is to help improve the energy and petrol consumption for 
 
 ## Screenshots
 
-<img src="https://github.com/pa7ri/luzi/assets/32872814/34fa129e-a02e-4901-b4a6-ff5fc440c7b4" width="280" height="550" />
+<img src="https://github.com/pa7ri/luzi/assets/32872814/34fa129e-a02e-4901-b4a6-ff5fc440c7b4" width="240" height="480" />
 
-<img src="https://github.com/pa7ri/luzi/assets/32872814/631bbf28-03d8-4941-8289-6cbc0a42f3cc" width="280" height="550" />
+<img src="https://github.com/pa7ri/luzi/assets/32872814/631bbf28-03d8-4941-8289-6cbc0a42f3cc" width="240" height="480" />
 
-<img src="https://github.com/pa7ri/luzi/assets/32872814/be7f930b-b60b-4338-9d4a-7d8596a55b83" width="280" height="550" />
+<img src="https://github.com/pa7ri/luzi/assets/32872814/be7f930b-b60b-4338-9d4a-7d8596a55b83" width="240" height="480" />
 
 
 ## Requirements
