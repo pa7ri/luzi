@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.RecyclerView
 import com.master.iot.luzi.R
+import com.master.iot.luzi.databinding.FragmentReportsBinding
 import com.master.iot.luzi.ui.utils.Levels
 import com.master.iot.luzi.ui.utils.getLevel
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,18 +16,16 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ReportsFragment(private var updateRequired: (level: Levels) -> Unit) : Fragment() {
     private val viewModel: ReportsViewModel by viewModels()
-    private lateinit var recyclerView: RecyclerView
+
+    private lateinit var binding: FragmentReportsBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_reports, container, false)
-        if (view is RecyclerView) {
-            recyclerView = view
-            setUpObservables()
-        }
-        return view
+    ): View {
+        binding = FragmentReportsBinding.inflate(inflater, container, false)
+        setUpObservables()
+        return binding.root
     }
 
     override fun onResume() {
@@ -41,7 +39,7 @@ class ReportsFragment(private var updateRequired: (level: Levels) -> Unit) : Fra
 
     private fun setUpObservables() {
         viewModel.reports.observe(viewLifecycleOwner) { reports ->
-            recyclerView.adapter = ReportsAdapter(reports)
+            binding.list.adapter = ReportsAdapter(reports)
             updateRequired(getLevel(viewModel.getTotalPoints()))
         }
     }

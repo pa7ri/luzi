@@ -16,6 +16,9 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.master.iot.luzi.*
 import com.master.iot.luzi.databinding.FragmentRewardsBinding
@@ -34,6 +37,11 @@ import com.master.iot.luzi.ui.rewards.receipts.VerifierActivity
 import com.master.iot.luzi.ui.rewards.reports.ReportsViewModel
 import com.master.iot.luzi.ui.utils.DialogUtils.Companion.showCustomDialogWithOneButton
 import com.master.iot.luzi.ui.utils.DialogUtils.Companion.showDialogWithOneButton
+import com.master.iot.luzi.ui.utils.EventGenerator
+import com.master.iot.luzi.ui.utils.EventGenerator.Companion.ACTION_REWARDS_CHECK_POINTS
+import com.master.iot.luzi.ui.utils.EventGenerator.Companion.ACTION_REWARDS_CHECK_SAVING
+import com.master.iot.luzi.ui.utils.EventGenerator.Companion.ACTION_REWARDS_CREATE_APPLIANCE_REPORT
+import com.master.iot.luzi.ui.utils.EventGenerator.Companion.SCREEN_VIEW_VERIFIER
 import com.master.iot.luzi.ui.utils.getCurrentLevel
 import com.master.iot.luzi.ui.utils.getLevel
 import com.master.iot.luzi.ui.utils.getNextLevel
@@ -51,6 +59,7 @@ class RewardsFragment : Fragment() {
 
     private lateinit var preferences: SharedPreferences
     private lateinit var electricityPreferences: ElectricityPreferences
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     private var objectType: ApplianceType = ApplianceType.OTHER
     private var isFabExpanded: Boolean = false
@@ -85,6 +94,7 @@ class RewardsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        firebaseAnalytics = Firebase.analytics
         binding = FragmentRewardsBinding.inflate(inflater, container, false)
         preferences = requireActivity().getSharedPreferences(getString(R.string.preference_reports_file), Context.MODE_PRIVATE)
         electricityPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
@@ -155,15 +165,16 @@ class RewardsFragment : Fragment() {
                 val rvAppliances = appliancesView.findViewById<RecyclerView>(R.id.rvAppliances)
                 rvAppliances.layoutManager = GridLayoutManager(requireContext(), 2)
                 val dialog = showCustomDialogWithOneButton(requireContext(), appliancesView, R.string.dialog_select_appliance)
-
                 val adapter = AppliancesAdapter {
                     getElectricityPrices(it)
                     dialog.dismiss()
                 }
                 rvAppliances.adapter = adapter
+                EventGenerator.sendActionEvent(firebaseAnalytics, ACTION_REWARDS_CREATE_APPLIANCE_REPORT)
             }
             fabExpenseReceipt.setOnClickListener {
                 handleFabStatus()
+                EventGenerator.sendScreenViewEvent(firebaseAnalytics, SCREEN_VIEW_VERIFIER)
                 startActivity(Intent(requireContext(), VerifierActivity::class.java))
             }
             pbPoints.setOnClickListener {
@@ -174,9 +185,11 @@ class RewardsFragment : Fragment() {
                 } else {
                     resources.getString(R.string.dialog_points_message, reportsViewModel.getTotalPoints(), nextLevel.rangeVal - points)
                 }
+                EventGenerator.sendActionEvent(firebaseAnalytics, ACTION_REWARDS_CHECK_POINTS)
                 showDialogWithOneButton(requireContext(), getString(R.string.dialog_points), message)
             }
             pbSavedMoney.setOnClickListener {
+                EventGenerator.sendActionEvent(firebaseAnalytics, ACTION_REWARDS_CHECK_SAVING)
                 showDialogWithOneButton(requireContext(), getString(R.string.dialog_money),
                     getString(R.string.dialog_money_message,
                         reportsViewModel.getTotalSavedAmount().toRegularPriceString(),
@@ -264,7 +277,7 @@ class RewardsFragment : Fragment() {
         } else {
             getString(R.string.dialog_validation_success_description_no_points)
         }
-        showDialogWithOneButton(requireContext(), getString(R.string.dialog_validation_success), description)
+        showDialogWithOneButton(requireContext(), getString(R.string.dialog_validation_appliance_success), description)
     }
 
     private fun getElectricityPrices(appliance: ApplianceType) {

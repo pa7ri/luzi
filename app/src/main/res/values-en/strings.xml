@@ -80,13 +80,15 @@
     <string name="ok">OK</string>
 
     <!-- Dialogs -->
-    <string name="dialog_validation_success">Appliance registered</string>
+    <string name="dialog_validation_appliance_success">Appliance registered</string>
     <string name="dialog_validation_success_description">You will get %d points.</string>
     <string name="dialog_validation_success_description_no_points">You will get no points.</string>
+    <string name="dialog_validation_receipt_success">Receipt registered</string>
+    <string name="dialog_validation_receipt_success_description">You will get 2 points.</string>
+    <string name="dialog_validation_receipt_success_description_no_points">No recibiras puntos.\n \nPlease be aware that the ticket must be expended today, by a petrol station in the country and the entered values must be real.</string>
     <string name="dialog_validation_error">Validation Error</string>
     <string name="dialog_validation_error_network">Network issue. Unable to get electricity prices. \n \nPlease try it later again</string>
     <string name="dialog_validation_error_appliance_description">This time slot will be expensive to register your appliance</string>
-    <string name="dialog_validation_error_receipt_description">This receipt is not valid.\n \nPlease be aware that the ticket must be expended today and by a petrol station in the country.</string>
     <string name="dialog_points">Points</string>
     <string name="dialog_points_message">You have %d points. Get only %d more to reach the next level. \n \n Be aware that points will reset on the first of each month</string>
     <string name="dialog_points_message_max">You have %d points. Congratulations you have reached the max level this month. \n \n Be aware that points will reset on the first of each month</string>

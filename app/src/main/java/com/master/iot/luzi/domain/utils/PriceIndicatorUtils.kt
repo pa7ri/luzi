@@ -7,7 +7,6 @@ import com.master.iot.luzi.R
 enum class PriceIndicator {
     CHEAP, NORMAL, EXPENSIVE, UNKNOWN
 }
-
 class PriceIndicatorUtils {
     companion object {
         /**

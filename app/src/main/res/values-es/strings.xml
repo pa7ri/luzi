@@ -84,13 +84,15 @@
     <string name="ok">OK</string>
 
     <!-- Dialogs -->
-    <string name="dialog_validation_success">Electrodomestico registrado</string>
+    <string name="dialog_validation_appliance_success">Electrodomestico registrado</string>
     <string name="dialog_validation_success_description">Recibiras %d puntos.</string>
     <string name="dialog_validation_success_description_no_points">No recibiras puntos.</string>
+    <string name="dialog_validation_receipt_success">Recibo registrado</string>
+    <string name="dialog_validation_receipt_success_description">Recibiras 2 puntos.</string>
+    <string name="dialog_validation_receipt_success_description_no_points">No recibiras puntos.\n \nRecuerda que debe ser tomado con la fecha actual, debe ser expendido por una gasolinera del país y los valores introducidos deben ser reales.</string>
     <string name="dialog_validation_error">Error de validacion</string>
     <string name="dialog_validation_error_network">Error de conexion. No se pudo obtener el precio actual de la luz. \n \nPor favor intentelo mas tarde</string>
     <string name="dialog_validation_error_appliance_description">Parece que estas registrando un electrodomestico en una franja horaria no muy conveniente</string>
-    <string name="dialog_validation_error_receipt_description">Este recibo no es valido.\n \nRecuerda que debe ser tomado con la fecha actual y debe ser expendido por una gasolinera del país.</string>
     <string name="dialog_points">Puntos</string>
     <string name="dialog_points_message">Tienes %d puntos. Solo necesitas %d mas para alcanzar el siguiente nivel. \n \n Recuerda que los puntos comenzaran a contar el día 1 de cada mes</string>
     <string name="dialog_points_message_max">Tienes %d puntos. Enhorabuena, has alcanzado el máximo nivel. \n \n Recuerda que los puntos comenzaran a contar el día 1 de cada mes</string>

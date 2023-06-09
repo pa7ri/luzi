@@ -4,6 +4,7 @@ plugins {
     id "kotlin-kapt"
     id "com.google.dagger.hilt.android"
     id "com.google.gms.google-services"
+    id 'com.google.firebase.crashlytics'
 }
 
 kapt {
@@ -29,9 +30,6 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
     }
-    aaptOptions {
-        noCompress "tflite"
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -42,14 +40,18 @@ android {
     buildFeatures {
         viewBinding true
     }
+    namespace 'com.master.iot.luzi'
+    androidResources {
+        noCompress 'tflite'
+    }
 }
 
 dependencies {
     /* Android X & lifecycle */
-    implementation 'androidx.core:core-ktx:1.10.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.compose.material3:material3:1.1.0-rc01'
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'com.google.android.material:material:1.9.0'
 
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
@@ -73,14 +75,17 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
 
     /* Mapbox SDK */
     implementation 'com.mapbox.maps:android:10.9.1'
 
     /* Push notifications - Firebase */
-    implementation 'com.google.firebase:firebase-bom:31.1.1'
-    implementation 'com.google.firebase:firebase-messaging:23.1.1'
+    implementation platform('com.google.firebase:firebase-bom:32.1.0')
+    implementation 'com.google.firebase:firebase-messaging:23.1.2'
+
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
     /* ML kit */
     implementation 'com.google.mlkit:object-detection:17.0.0'
