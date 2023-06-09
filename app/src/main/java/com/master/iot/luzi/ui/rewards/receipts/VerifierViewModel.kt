@@ -10,9 +10,13 @@ import com.master.iot.luzi.data.ImageVerificationSuccess
 import com.master.iot.luzi.domain.MTPetrolRepository
 import com.master.iot.luzi.domain.TesseractRepository
 import com.master.iot.luzi.domain.utils.DateFormatterUtils
+import com.master.iot.luzi.domain.utils.PriceIndicator
+import com.master.iot.luzi.domain.utils.PriceIndicatorUtils
+import com.master.iot.luzi.domain.utils.getAveragePrice
 import com.master.iot.luzi.ui.petrol.MTPetrolPrices
 import com.master.iot.luzi.ui.petrol.MTPetrolPricesError
 import com.master.iot.luzi.ui.petrol.MTPetrolPricesLoading
+import com.master.iot.luzi.ui.petrol.MTPetrolPricesReady
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -32,31 +36,41 @@ class VerifierViewModel @Inject constructor(
         value = ImageVerificationProcessing()
     }
 
-    val petrolPrices = MutableLiveData<MTPetrolPrices>().apply {
-        value = MTPetrolPricesLoading()
-    }
+    val validationStatus = MutableLiveData<ReceiptValidationStatus>()
 
     private val compositeDisposable = CompositeDisposable()
 
     fun clearDisposables() = compositeDisposable.clear()
 
-    fun getPetrolPrices(idProvince: String, idProduct: String) {
+    fun checkReceiptValidity(idProvince: String, idProduct: String, amount: Double, litres: Double, date: LocalDate) {
+        val pricePerLitre = amount / litres
+        if (pricePerLitre <= 1) {
+            validationStatus.value = ReceiptValidationInvalid
+            return
+        }
+        val currentDate = LocalDate.now()
         compositeDisposable.add(
             repository.getPetrolPricesByProvince(idProvince, idProduct)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ petrolPrices.value = it },
-                    { petrolPrices.value = MTPetrolPricesError(it.localizedMessage ?: "") }
+                .subscribe({
+                    validationStatus.value = when (it) {
+                        is MTPetrolPricesReady -> {
+                            val averageValue = it.prices.getAveragePrice(idProduct)
+                            val indicator = PriceIndicatorUtils.getPetrolIndicator(pricePerLitre, averageValue)
+                            if(indicator == PriceIndicator.CHEAP && DateFormatterUtils.areSameDay(date, currentDate)) {
+                                ReceiptValidationSuccess(amount, date)
+                            }
+                            else {
+                                ReceiptValidationInvalid
+                            }
+                        }
+                        else -> ReceiptValidationError()
+                    }
+                },
+                    { validationStatus.value = ReceiptValidationError() }
                 )
         )
-    }
-
-    fun checkReceiptValidity(amount: Double, litres: Int, date: LocalDate): Boolean {
-        // TODO: check receipt validity
-        // compute value
-        val pricePerLitre = amount / litres
-        val currentDate = LocalDate.now()
-        return DateFormatterUtils.areSameDay(date, currentDate)
     }
 
     fun processTextImageTesseract(imageData: Bitmap?, context: Context) {
@@ -65,7 +79,7 @@ class VerifierViewModel @Inject constructor(
             ocr.processImageToText(it).let { result ->
                 val totalAmount = getMaxAmount(result)
                 val date = getDate(result)
-                verificationStatus.postValue(ImageVerificationSuccess(totalAmount, 5, date))
+                verificationStatus.postValue(ImageVerificationSuccess(totalAmount, date))
             }
         }
     }

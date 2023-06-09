@@ -1,6 +1,7 @@
 package com.master.iot.luzi.ui.utils
 
 import android.content.Context
+import android.content.DialogInterface
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
@@ -22,6 +23,14 @@ class DialogUtils {
                 .setTitle(title)
                 .setMessage(description)
                 .setPositiveButton(context.getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
+                .show()
+        }
+
+        fun showDialogWithOneButtonAndAction(context: Context, @StringRes title: Int, @StringRes description: Int, listener: DialogInterface.OnClickListener) {
+            MaterialAlertDialogBuilder(context)
+                .setTitle(context.getString(title))
+                .setMessage(context.getString(description))
+                .setPositiveButton(context.getString(R.string.ok), listener)
                 .show()
         }
 

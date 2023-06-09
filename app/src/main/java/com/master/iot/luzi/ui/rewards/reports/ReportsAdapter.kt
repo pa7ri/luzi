@@ -53,7 +53,8 @@ class ReportsAdapter(private var reports: List<ReportItem>) :
                         tvTitle.text = item.name
                         tvTimestamp.text = getFormattedDate(item.timestamp)
                         tvAmount.text = root.context.getString(R.string.price_amount, item.amountSpend.toRegularPriceString())
-                        tvPoints.visibility = View.GONE
+                        tvPoints.visibility = if (item.points > 0) View.VISIBLE else View.GONE
+                        tvPoints.text = root.context.getString(R.string.title_points, item.points)
                     }
                 }
                 CategoryType.HEADER_TYPE.ordinal -> {
@@ -72,11 +73,6 @@ class ReportsAdapter(private var reports: List<ReportItem>) :
     }
 
     override fun getItemCount(): Int = reports.size
-
-    fun updateReports(newReports: List<ApplianceItem>) {
-        reports = newReports
-        notifyDataSetChanged()
-    }
 
     private fun getFormattedDateTime(date: String): String =
         LocalDateTime.parse(date, DateFormatterUtils.formatterReport).getReportDateTime()

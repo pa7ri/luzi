@@ -277,7 +277,7 @@ class RewardsFragment : Fragment() {
         } else {
             getString(R.string.dialog_validation_success_description_no_points)
         }
-        showDialogWithOneButton(requireContext(), getString(R.string.dialog_validation_success), description)
+        showDialogWithOneButton(requireContext(), getString(R.string.dialog_validation_appliance_success), description)
     }
 
     private fun getElectricityPrices(appliance: ApplianceType) {
