@@ -22,6 +22,9 @@ The objective of Luz.i is to help improve the energy and petrol consumption for 
 
 <img src="https://github.com/pa7ri/luzi/assets/32872814/be7f930b-b60b-4338-9d4a-7d8596a55b83" width="240" height="480" />
 
+## Presentation
+
+[Presentacion LUZI - TFM.pdf](https://github.com/pa7ri/luzi/files/12039459/Presentacion.LUZI.-.TFM.pdf)
 
 ## Requirements
 
